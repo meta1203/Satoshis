@@ -1,0 +1,8 @@
+author: meta1203
+database: true
+generator: http://dinnerbone.com/minecraft/tools/pluginator/
+main: me.meta1203.plugins.satoshis.Satoshis
+name: Satoshis
+startup: postworld
+url: http://www.metaserve.net/
+version: '1.0'
