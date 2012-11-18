@@ -2,7 +2,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>me.meta1203.plugins.satoshis</groupId>
     <artifactId>Satoshis</artifactId>
-    <version>1.0</version>
+    <version>0.1</version>
     <name>Satoshis</name>
     <url>http://www.metaserve.net/</url>
     <repositories>
@@ -11,8 +11,13 @@
             <url>http://repo.bukkit.org/content/groups/public</url>
         </repository>
         <repository>
-	    <id>vault-repo</id>
-	    <url>http://ci.herocraftonline.com/plugin/repository/everything</url>
+	        <id>vault-repo</id>
+	        <url>http://ci.herocraftonline.com/plugin/repository/everything</url>
+        </repository>
+        <repository>
+            <id>bitcoinj-release</id>
+            <releases/>
+            <url>http://nexus.bitcoinj.org/content/repositories/releases</url>
         </repository>
     </repositories>
     <build>
@@ -41,6 +46,12 @@
             <artifactId>bukkit</artifactId>
             <version>1.4.4-R0.1</version>
             <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google</groupId>
+            <artifactId>bitcoinj</artifactId>
+            <version>0.5.2</version>
             <scope>compile</scope>
         </dependency>
         <dependency>

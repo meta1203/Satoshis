@@ -4,7 +4,7 @@ main: me.meta1203.plugins.satoshis.Satoshis
 name: Satoshis
 startup: postworld
 url: http://www.metaserve.net/
-version: '1.0'
+version: '0.1'
 commands:
   sat:
     description: 'Alias for /satoshis'

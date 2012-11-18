@@ -7,19 +7,8 @@ satoshis:
   owner: meta1203
   # Decimal place of Bitcoin (2-8)
   multiplier: 4.0
-bitcoind:
-  # Addresses of your bitcoin wallet (5+ recommended)
-  addresses:
-  - 1GgoXyKCMUr8VfbSmKRKiXjst7uCCarE8r
-  - 1GgoXyKCMUr8VfbSmKRKiXjst7uCCarE8r
-  - 1GgoXyKCMUr8VfbSmKRKiXjst7uCCarE8r
-  - 1GgoXyKCMUr8VfbSmKRKiXjst7uCCarE8r
-  - 1GgoXyKCMUr8VfbSmKRKiXjst7uCCarE8r
-  # IP of bitcoind
-  ip: 127.0.0.1
-  # Port of bitcoind
-  port: 8332
-  # Username of bitcoind
-  username: user
-  # Password of bitcoind
-  password: pass
+bitcoin:
+  # Where to store all Bitcoin info
+  wallet-file: 'plugins/Satoshis/wallet.wallet'
+  # How long is a purchase request valid for?
+  valid-for: 60
