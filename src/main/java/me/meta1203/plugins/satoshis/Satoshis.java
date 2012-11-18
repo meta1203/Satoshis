@@ -1,6 +1,9 @@
 package me.meta1203.plugins.satoshis;
 
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.PersistenceException;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -23,10 +26,10 @@ public class Satoshis extends JavaPlugin implements Listener {
 	public boolean buyerorseller = false;
 	
     public void onDisable() {
-        // TODO: Place any custom disable code here.
     }
 
     public void onEnable() {
+    	setupDatabase();
     	FileConfiguration config = getConfig();
     	config.options().copyDefaults(true);
     	saveConfig();
@@ -48,15 +51,24 @@ public class Satoshis extends JavaPlugin implements Listener {
 
 	@Override
 	public List<Class<?>> getDatabaseClasses() {
-		// TODO Auto-generated method stub
-		return super.getDatabaseClasses();
+		List<Class<?>> list = new ArrayList<Class<?>>();
+		list.add(AccountEntry.class);
+		return list;
 	}
 
 	@Override
 	public boolean onCommand(CommandSender sender, Command command,
 			String label, String[] args) {
-		// TODO Auto-generated method stub
-		return super.onCommand(sender, command, label, args);
+		return true;
 	}
+	
+	private void setupDatabase() {
+        try {
+            getDatabase().find(AccountEntry.class).findRowCount();
+        } catch (PersistenceException ex) {
+            System.out.println("Installing database for " + getDescription().getName() + " due to first time usage");
+            installDDL();
+        }
+    }
 }
 
