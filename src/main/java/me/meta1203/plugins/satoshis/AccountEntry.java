@@ -17,12 +17,16 @@ public class AccountEntry {
 	@Column
 	private double amount; 
 	
+	// ID
+	
 	public void setId(int id) {
 		this.id = id;
 	}
 	public int getId() {
 		return id;
 	}
+	
+	// Player Name
 	
 	public void setPlayerName(String name) {
 		playerName = name;

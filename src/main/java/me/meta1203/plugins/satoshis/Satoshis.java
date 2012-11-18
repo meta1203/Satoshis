@@ -24,6 +24,7 @@ public class Satoshis extends JavaPlugin implements Listener {
 	public String owner = "";
 	public double tax = 0.0;
 	public boolean buyerorseller = false;
+	public double mult = 0;
 	
     public void onDisable() {
     }
@@ -41,6 +42,8 @@ public class Satoshis extends JavaPlugin implements Listener {
     	owner = config.getString("satoshis.owner");
     	tax = config.getDouble("satoshis.tax");
     	buyerorseller = config.getBoolean("satoshis.is-buyer-responsible");
+    	mult = config.getDouble("satoshis.multiplier");
+    	
         getServer().getPluginManager().registerEvents(this, this);
     }
 
@@ -70,5 +73,13 @@ public class Satoshis extends JavaPlugin implements Listener {
             installDDL();
         }
     }
+	
+	public AccountEntry getAccount(String name) {
+		return getDatabase().find(AccountEntry.class).where().ieq("playerName", name).findUnique();
+	}
+	
+	public void saveAccount(AccountEntry ae) {
+		getDatabase().save(ae);
+	}
 }
 

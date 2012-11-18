@@ -6,7 +6,7 @@ satoshis:
   # Username of the owner (All taxes go to this player)
   owner: meta1203
   # Decimal place of Bitcoin (2-8)
-  decimal: 4
+  multiplier: 4.0
 bitcoind:
   # Addresses of your bitcoin wallet (5+ recommended)
   addresses:
