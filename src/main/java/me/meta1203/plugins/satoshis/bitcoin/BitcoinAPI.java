@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.IOException;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import me.meta1203.plugins.satoshis.Satoshis;
@@ -27,6 +29,7 @@ public class BitcoinAPI {
 	BlockChain chain;
 	final PeerGroup peerGroup;
 	public static Map<Address, String> allocatedAddresses = new HashMap<Address, String>();
+	public static List<Address> unallocatedAddresses = new ArrayList<Address>();
 	
 	public BitcoinAPI() {
 		final File walletFile = new File(Satoshis.walletFile);
@@ -57,6 +60,9 @@ public class BitcoinAPI {
 			e.printStackTrace();
 		}
 		peerGroup.start();
+		for (ECKey current : wallet.getKeys()) {
+			unallocatedAddresses.add(current.toAddress(NetworkParameters.prodNet()));
+		}
 	}
 	
 	private void addAddressesToWallet(int num) {
@@ -65,8 +71,14 @@ public class BitcoinAPI {
 		}
 	}
 	
-	public void allocateAddress() {
-		
+	public void allocate(Address a, String name) {
+		allocatedAddresses.put(a, name);
+		unallocatedAddresses.remove(a);
+	}
+	
+	public void deallocate(Address a) {
+		allocatedAddresses.remove(a);
+		unallocatedAddresses.add(a);
 	}
 	
 }
