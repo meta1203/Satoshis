@@ -5,6 +5,8 @@ import java.util.List;
 
 import javax.persistence.PersistenceException;
 
+import me.meta1203.plugins.satoshis.bitcoin.BitcoinAPI;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
@@ -21,6 +23,7 @@ public class Satoshis extends JavaPlugin implements Listener {
 	public double tax = 0.0;
 	public boolean buyerorseller = false;
 	public static double mult = 0;
+	public static BitcoinAPI bapi = null;
 	
     public void onDisable() {
     }
@@ -35,6 +38,7 @@ public class Satoshis extends JavaPlugin implements Listener {
     	tax = config.getDouble("satoshis.tax");
     	buyerorseller = config.getBoolean("satoshis.is-buyer-responsible");
     	mult = config.getDouble("satoshis.multiplier");
+    	bapi = new BitcoinAPI();
     	
         getServer().getPluginManager().registerEvents(this, this);
     }
