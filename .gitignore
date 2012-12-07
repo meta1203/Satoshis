@@ -4,3 +4,12 @@
 *.jar
 *.war
 *.ear
+
+/runtime
+/bin
+/dist
+/lib
+/.idea
+/target
+Satoshis.iml
+

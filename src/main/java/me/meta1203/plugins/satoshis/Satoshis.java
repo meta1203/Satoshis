@@ -33,13 +33,12 @@ public class Satoshis extends JavaPlugin implements Listener {
     	FileConfiguration config = getConfig();
     	config.options().copyDefaults(true);
     	saveConfig();
-    	walletFile = config.getString("wallet-file");
+    	walletFile = config.getString("bitcoin.wallet-file");
     	owner = config.getString("satoshis.owner");
     	tax = config.getDouble("satoshis.tax");
     	buyerorseller = config.getBoolean("satoshis.is-buyer-responsible");
     	mult = config.getDouble("satoshis.multiplier");
     	bapi = new BitcoinAPI();
-    	
         getServer().getPluginManager().registerEvents(this, this);
     }
 

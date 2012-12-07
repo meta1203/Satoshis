@@ -46,7 +46,7 @@ public class BitcoinAPI {
 			}
 		}
 		try {
-			block = new BoundedOverheadBlockStore(NetworkParameters.prodNet(), new File("plugins/Satishis/block.blockchain"));
+			block = new BoundedOverheadBlockStore(NetworkParameters.prodNet(), new File("plugins/Satoshis/block.blockchain"));
 			chain = new BlockChain(NetworkParameters.prodNet(), wallet, block);
 		} catch (BlockStoreException e) {
 			e.printStackTrace();
