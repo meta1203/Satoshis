@@ -17,18 +17,7 @@ public class CoinListener extends AbstractWalletEventListener {
 	@Override
 	public void onCoinsReceived(Wallet wallet, Transaction tx,
 			BigInteger prevBalance, BigInteger newBalance) {
-		Address to = null;
-		try {
-			to = tx.getOutputs().get(0).getScriptPubKey().getToAddress();
-		} catch (ScriptException e) {
-			e.printStackTrace();
-			return;
-		}
-		if (BitcoinAPI.allocatedAddresses.containsKey(to)) {
-			int data = tx.getValueSentToMe(wallet).intValue();
-			AccountEntry entry = Util.loadAccount(BitcoinAPI.allocatedAddresses.get(to));
-			entry.setAmount(entry.getAmount() + (data*Satoshis.mult));
-		}
+		Satoshis.checker.addTransaction(tx);
 	}
 
 }

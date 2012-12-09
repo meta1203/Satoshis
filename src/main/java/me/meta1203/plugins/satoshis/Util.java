@@ -5,6 +5,10 @@ import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
+import com.google.bitcoin.core.Address;
+import com.google.bitcoin.core.Transaction;
+import com.google.bitcoin.core.WalletTransaction;
+
 public class Util {
 	
 	public static Satoshis plugin;
@@ -46,6 +50,28 @@ public class Util {
 			plugin = (Satoshis)p;
 		}
 		plugin.saveAccount(ae);
+	}
+	
+	public static void addFunds(String accName, double value) {
+		AccountEntry e = loadAccount(accName);
+		e.setAmount(e.getAmount() + value);
+		saveAccount(e);
+	}
+	
+	public static void subFunds(String accName, double value) {
+		AccountEntry e = loadAccount(accName);
+		double fVal = e.getAmount() - value;
+		if (fVal < 0) {
+			fVal = 0;
+		}
+		saveAccount(e);
+	}
+	
+	public static Address getAddressFromTransaction(Transaction tx) {
+		Iterable<WalletTransaction> it = Satoshis.bapi.wallet.getWalletTransactions();
+		for (WalletTransaction current : it) {
+			// current.getTransaction().
+		}
 	}
 	
 }

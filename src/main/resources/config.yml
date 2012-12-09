@@ -5,7 +5,7 @@ satoshis:
   is-buyer-responsible: true
   # Username of the owner (All taxes go to this player)
   owner: meta1203
-  # Decimal place of Bitcoin (2-8)
+  # Value of single Bitcoin
   multiplier: 4.0
 bitcoin:
   # Where to store all Bitcoin info

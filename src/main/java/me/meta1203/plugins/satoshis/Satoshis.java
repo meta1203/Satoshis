@@ -2,10 +2,12 @@ package me.meta1203.plugins.satoshis;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.persistence.PersistenceException;
 
 import me.meta1203.plugins.satoshis.bitcoin.BitcoinAPI;
+import me.meta1203.plugins.satoshis.bitcoin.CheckThread;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -24,11 +26,14 @@ public class Satoshis extends JavaPlugin implements Listener {
 	public boolean buyerorseller = false;
 	public static double mult = 0;
 	public static BitcoinAPI bapi = null;
+	public static CheckThread checker = null;
+	public static Logger log = null;
 	
     public void onDisable() {
     }
 
     public void onEnable() {
+    	log = getLogger();
     	setupDatabase();
     	FileConfiguration config = getConfig();
     	config.options().copyDefaults(true);
@@ -39,6 +44,7 @@ public class Satoshis extends JavaPlugin implements Listener {
     	buyerorseller = config.getBoolean("satoshis.is-buyer-responsible");
     	mult = config.getDouble("satoshis.multiplier");
     	bapi = new BitcoinAPI();
+    	
         getServer().getPluginManager().registerEvents(this, this);
     }
 
@@ -64,7 +70,7 @@ public class Satoshis extends JavaPlugin implements Listener {
         try {
             getDatabase().find(AccountEntry.class).findRowCount();
         } catch (PersistenceException ex) {
-            System.out.println("Installing database for " + getDescription().getName() + " due to first time usage");
+            log.info("Installing database for " + getDescription().getName() + " due to first time usage");
             installDDL();
         }
     }
