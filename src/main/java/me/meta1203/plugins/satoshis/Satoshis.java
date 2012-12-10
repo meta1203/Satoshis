@@ -22,12 +22,13 @@ public class Satoshis extends JavaPlugin implements Listener {
 	public static String walletFile;
 	// Plugin
 	public String owner = "";
-	public double tax = 0.0;
-	public boolean buyerorseller = false;
+	public static double tax = 0.0;
+	public static boolean buyerorseller = false;
 	public static double mult = 0;
 	public static BitcoinAPI bapi = null;
 	public static CheckThread checker = null;
 	public static Logger log = null;
+	public static EconAPI econ = null;
 	
     public void onDisable() {
     }
@@ -43,8 +44,12 @@ public class Satoshis extends JavaPlugin implements Listener {
     	tax = config.getDouble("satoshis.tax");
     	buyerorseller = config.getBoolean("satoshis.is-buyer-responsible");
     	mult = config.getDouble("satoshis.multiplier");
-    	bapi = new BitcoinAPI();
+    	// Preloading done!
     	
+    	checker = new CheckThread(config.getInt("bitcoin.check-interval"), config.getInt("bitcoin.confirms"));
+    	checker.start();
+    	econ = new EconAPI();
+    	bapi = new BitcoinAPI();
         getServer().getPluginManager().registerEvents(this, this);
     }
 

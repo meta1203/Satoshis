@@ -12,3 +12,7 @@ bitcoin:
   wallet-file: 'plugins/Satoshis/wallet.wallet'
   # How long is a purchase request valid for?
   valid-for: 60
+  # Transaction Confirmations required for insert of funding?
+  confirms: 2
+  # How often (in seconds) to check for pending confirmations?
+  check-interval: 60
