@@ -20,7 +20,7 @@
             <url>http://nexus.bitcoinj.org/content/repositories/releases</url>
         </repository>
     </repositories>
-    <build>
+    <!-- <build>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -32,7 +32,7 @@
                 </configuration>
             </plugin>
         </plugins>
-    </build>
+    </build> -->
     <dependencies>
         <!-- <dependency>
             <groupId>net.milkbowl.vault</groupId>
