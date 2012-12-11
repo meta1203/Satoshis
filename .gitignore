@@ -5,11 +5,12 @@
 *.war
 *.ear
 
-/runtime
-/bin
-/dist
-/lib
-/.idea
-/target
+.settings
+runtime
+bin
+dist
+lib
+.idea
+target
 Satoshis.iml
 
