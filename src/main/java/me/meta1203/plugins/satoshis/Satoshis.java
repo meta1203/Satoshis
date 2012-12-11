@@ -51,6 +51,7 @@ public class Satoshis extends JavaPlugin implements Listener {
     	econ = new EconAPI();
     	bapi = new BitcoinAPI();
         getServer().getPluginManager().registerEvents(this, this);
+        this.getCommand("deposit").setExecutor(new DepositCommand());
     }
 
     @EventHandler

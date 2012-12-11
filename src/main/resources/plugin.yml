@@ -6,7 +6,5 @@ startup: postworld
 url: http://www.metaserve.net/
 version: '0.1'
 commands:
-  sat:
-    description: 'Alias for /satoshis'
-  satoshis:
-    description: 'Command for managing Satoshis'
+  deposit:
+    description: 'Deposit money through Bitcoin address'
