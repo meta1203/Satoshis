@@ -2,6 +2,7 @@ package me.meta1203.plugins.satoshis.bitcoin;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -14,6 +15,7 @@ import com.google.bitcoin.core.BlockChain;
 import com.google.bitcoin.core.ECKey;
 import com.google.bitcoin.core.NetworkParameters;
 import com.google.bitcoin.core.PeerGroup;
+import com.google.bitcoin.core.Transaction;
 import com.google.bitcoin.core.Wallet;
 import com.google.bitcoin.discovery.DnsDiscovery;
 import com.google.bitcoin.store.BlockStore;
@@ -85,6 +87,20 @@ public class BitcoinAPI {
 	public void deallocate(Address a) {
 		allocatedAddresses.remove(a);
 		unallocatedAddresses.add(a);
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+		wallet.saveToFile(new File(Satoshis.walletFile));
+	}
+	
+	public boolean sendCoins(Address a, double value) {
+		Transaction tx = wallet.sendCoins(peerGroup, a, BigInteger.valueOf((long)(value * Math.pow(10, 8)/Satoshis.mult)));
+		if (tx != null) {
+			return true;
+		} else {
+			return false;
+		}
 	}
 	
 }

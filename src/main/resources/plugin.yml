@@ -8,3 +8,7 @@ version: '0.1'
 commands:
   deposit:
     description: 'Deposit money through Bitcoin address'
+  money:
+    description: 'List money in possession'
+  withdraw:
+    description: 'Withdraw money into Bitcoin address'

@@ -6,11 +6,11 @@
 *.ear
 
 .settings
-runtime
-bin
-dist
-lib
-.idea
-target
+/runtime
+/bin
+/dist
+/lib
+/.idea
+/target
+/dependency-reduced-pom.xml
 Satoshis.iml
-

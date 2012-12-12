@@ -1,4 +1,6 @@
-package me.meta1203.plugins.satoshis;
+package me.meta1203.plugins.satoshis.commands;
+
+import me.meta1203.plugins.satoshis.Satoshis;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

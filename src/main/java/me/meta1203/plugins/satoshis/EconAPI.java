@@ -1,6 +1,12 @@
 package me.meta1203.plugins.satoshis;
 
 public class EconAPI {
+	public void setFunds(String accName, double value) {
+		AccountEntry e = Util.loadAccount(accName);
+		e.setAmount(value);
+		Util.saveAccount(e);
+	}
+	
 	public void addFunds(String accName, double value) {
 		AccountEntry e = Util.loadAccount(accName);
 		e.setAmount(e.getAmount() + value);
@@ -35,6 +41,14 @@ public class EconAPI {
 	
 	public String formatValue(double value) {
 		value = Util.roundTo(value, 2);
-		return "$" + value;
+		return "$ " + value;
+	}
+	
+	public String listMoney(String player) {
+		return formatValue(Util.loadAccount(player).getAmount());
+	}
+	
+	public double getMoney(String player) {
+		return Util.loadAccount(player).getAmount();
 	}
 }

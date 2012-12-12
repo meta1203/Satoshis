@@ -8,6 +8,9 @@ import javax.persistence.PersistenceException;
 
 import me.meta1203.plugins.satoshis.bitcoin.BitcoinAPI;
 import me.meta1203.plugins.satoshis.bitcoin.CheckThread;
+import me.meta1203.plugins.satoshis.commands.DepositCommand;
+import me.meta1203.plugins.satoshis.commands.MoneyCommand;
+import me.meta1203.plugins.satoshis.commands.WithdrawCommand;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -52,6 +55,8 @@ public class Satoshis extends JavaPlugin implements Listener {
     	bapi = new BitcoinAPI();
         getServer().getPluginManager().registerEvents(this, this);
         this.getCommand("deposit").setExecutor(new DepositCommand());
+        this.getCommand("withdraw").setExecutor(new WithdrawCommand());
+        this.getCommand("money").setExecutor(new MoneyCommand());
     }
 
     @EventHandler

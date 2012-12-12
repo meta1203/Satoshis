@@ -6,6 +6,30 @@
 	<version>0.1</version>
 	<name>Satoshis</name>
 	<url>http://www.metaserve.net/</url>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-shade-plugin</artifactId>
+				<version>2.0</version>
+				<executions>
+					<execution>
+						<phase>package</phase>
+						<goals>
+							<goal>shade</goal>
+						</goals>
+						<configuration>
+							<artifactSet>
+								<excludes>
+									<exclude>*:bukkit</exclude>
+								</excludes>
+							</artifactSet>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 	<repositories>
 		<repository>
 			<id>bukkit-repo</id>
@@ -21,18 +45,6 @@
 			<url>http://nexus.bitcoinj.org/content/repositories/releases</url>
 		</repository>
 	</repositories>
-	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-assembly-plugin</artifactId>
-				<configuration>
-					<descriptorRefs>
-						<descriptorRef>jar-with-dependencies</descriptorRef>
-					</descriptorRefs>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 	<dependencies>
 		<!-- <dependency> <groupId>net.milkbowl.vault</groupId> <artifactId>Vault</artifactId> 
 			<version>1.2.9-SNAPSHOT</version> <type>jar</type> <scope>compile</scope> 

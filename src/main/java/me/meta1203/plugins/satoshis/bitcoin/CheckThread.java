@@ -26,11 +26,11 @@ public class CheckThread extends Thread {
 			for (Transaction current : toCheck) {
 				int conf = current.getConfidence().getDepthInBlocks(Satoshis.bapi.chain);
 				if (conf >= confirmations) {
-					double value = current.getValueSentToMe(Satoshis.bapi.wallet).doubleValue();
+					double value = current.getValueSentToMe(Satoshis.bapi.wallet).longValue();
 					try {
 						String pName = Satoshis.bapi.allocatedAddresses.get(current.getOutputs().get(0).getScriptPubKey().getToAddress());
 						Address reciver = current.getOutputs().get(0).getScriptPubKey().getToAddress();
-						Satoshis.econ.addFunds(pName, value*Satoshis.mult);
+						Satoshis.econ.addFunds(pName, (value/Math.pow(10, 8))*Satoshis.mult);
 						
 						// Remove allocations
 						Satoshis.bapi.unallocatedAddresses.add(reciver);
@@ -42,7 +42,9 @@ public class CheckThread extends Thread {
 				}
 			}
 			try {
-				this.wait(waitTime*1000);
+				synchronized (this) {
+					this.wait(waitTime*1000);
+				}
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
@@ -51,6 +53,7 @@ public class CheckThread extends Thread {
 	
 	public void addTransaction(Transaction tx) {
 		toCheck.add(tx);
+		System.out.println("Added transaction " + tx.getHashAsString() + " to check pool!");
 	}
 
 }
