@@ -28,17 +28,22 @@ public class CheckThread extends Thread {
 				if (conf >= confirmations) {
 					double value = current.getValueSentToMe(Satoshis.bapi.wallet).longValue();
 					try {
-						String pName = Satoshis.bapi.allocatedAddresses.get(current.getOutputs().get(0).getScriptPubKey().getToAddress());
-						Address reciver = current.getOutputs().get(0).getScriptPubKey().getToAddress();
-						Satoshis.econ.addFunds(pName, (value/Math.pow(10, 8))*Satoshis.mult);
-						
-						// Remove allocations
-						Satoshis.bapi.unallocatedAddresses.add(reciver);
-						Satoshis.bapi.allocatedAddresses.remove(reciver);
-						toCheck.remove(current);
+						if (Satoshis.bapi.allocatedAddresses.containsKey(current)) {
+							String pName = Satoshis.bapi.allocatedAddresses.get(current.getOutputs().get(0).getScriptPubKey().getToAddress());
+							Address reciver = current.getOutputs().get(0).getScriptPubKey().getToAddress();
+							Satoshis.econ.addFunds(pName, (value/Math.pow(10, 8))*Satoshis.mult);
+							
+							// Remove allocations
+							Satoshis.bapi.unallocatedAddresses.add(reciver);
+							Satoshis.bapi.allocatedAddresses.remove(reciver);
+						} else {
+							if (Satoshis.bapi.sendCoins(current.getInputs().get(0).getFromAddress(), value/Math.pow(10, 8)))
+								Satoshis.log.warning("Sent " + value + " Bitcoin back for unallocated address!");
+						}
 					} catch (ScriptException e) {
 						e.printStackTrace();
 					}
+					toCheck.remove(current);
 				}
 			}
 			try {

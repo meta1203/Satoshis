@@ -53,6 +53,7 @@ public class BitcoinAPI {
 		} catch (BlockStoreException e) {
 			e.printStackTrace();
 		}
+		wallet.addEventListener(new CoinListener());
 		peerGroup = new PeerGroup(NetworkParameters.prodNet(), chain);
 		peerGroup.setUserAgent("SatoshisBukkit", "0.1");
 		peerGroup.addWallet(wallet);
@@ -75,12 +76,22 @@ public class BitcoinAPI {
 	}
 	
 	public Address allocate(String name) {
+		Address ret = null;
 		if (unallocatedAddresses.size() < 1) {
-			
+			addAddressesToWallet(1);
 		}
-		allocatedAddresses.put(unallocatedAddresses.get(0), name);
-		Address ret = unallocatedAddresses.get(0);
-		unallocatedAddresses.remove(0);
+		if (testAllocated(name)) {
+			for (Map.Entry<Address, String> current : allocatedAddresses.entrySet()) {
+				if (current.getValue().equals(name)) {
+					ret = current.getKey();
+					break;
+				}
+			}
+		} else {
+			ret = unallocatedAddresses.get(0);
+			allocatedAddresses.put(unallocatedAddresses.get(0), name);
+			unallocatedAddresses.remove(0);
+		}
 		return ret;
 	}
 	
@@ -101,6 +112,10 @@ public class BitcoinAPI {
 		} else {
 			return false;
 		}
+	}
+	
+	private boolean testAllocated(String name) {
+		return allocatedAddresses.containsValue(name);
 	}
 	
 }
