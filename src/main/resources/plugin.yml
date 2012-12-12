@@ -12,3 +12,5 @@ commands:
     description: 'List money in possession'
   withdraw:
     description: 'Withdraw money into Bitcoin address'
+  transact:
+    description: 'Send in-game money to player!'

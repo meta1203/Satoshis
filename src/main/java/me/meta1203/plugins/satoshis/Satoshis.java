@@ -8,9 +8,7 @@ import javax.persistence.PersistenceException;
 
 import me.meta1203.plugins.satoshis.bitcoin.BitcoinAPI;
 import me.meta1203.plugins.satoshis.bitcoin.CheckThread;
-import me.meta1203.plugins.satoshis.commands.DepositCommand;
-import me.meta1203.plugins.satoshis.commands.MoneyCommand;
-import me.meta1203.plugins.satoshis.commands.WithdrawCommand;
+import me.meta1203.plugins.satoshis.commands.*;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -24,7 +22,7 @@ public class Satoshis extends JavaPlugin implements Listener {
 	// Database
 	public static String walletFile;
 	// Plugin
-	public String owner = "";
+	public static String owner = "";
 	public static double tax = 0.0;
 	public static boolean buyerorseller = false;
 	public static double mult = 0;
@@ -57,6 +55,7 @@ public class Satoshis extends JavaPlugin implements Listener {
         this.getCommand("deposit").setExecutor(new DepositCommand());
         this.getCommand("withdraw").setExecutor(new WithdrawCommand());
         this.getCommand("money").setExecutor(new MoneyCommand());
+        this.getCommand("transact").setExecutor(new SendCommand());
     }
 
     @EventHandler

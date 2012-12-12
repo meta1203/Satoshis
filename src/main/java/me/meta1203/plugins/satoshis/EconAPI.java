@@ -35,6 +35,7 @@ public class EconAPI {
 			subFunds(playerFrom, value);
 			addFunds(playerTo, value-tax);
 		}
+		addFunds(Satoshis.owner, tax);
 		Satoshis.log.info("Transaction took place!");
 		Satoshis.log.info(playerFrom + " paid " + playerTo + ": $" + value);
 	}
@@ -50,5 +51,10 @@ public class EconAPI {
 	
 	public double getMoney(String player) {
 		return Util.loadAccount(player).getAmount();
+	}
+	
+	public boolean hasMoney(String player, double amount) {
+		double has = Util.loadAccount(player).getAmount();
+		return has >= amount;
 	}
 }
