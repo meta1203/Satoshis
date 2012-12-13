@@ -56,6 +56,7 @@ public class Satoshis extends JavaPlugin implements Listener {
         this.getCommand("withdraw").setExecutor(new WithdrawCommand());
         this.getCommand("money").setExecutor(new MoneyCommand());
         this.getCommand("transact").setExecutor(new SendCommand());
+        this.getCommand("admin").setExecutor(new AdminCommand());
     }
 
     @EventHandler
