@@ -35,6 +35,7 @@ public class BitcoinAPI {
 		final File walletFile = new File(Satoshis.walletFile);
 		try {
 		    wallet = Wallet.loadFromFile(walletFile);
+		    Satoshis.log.info(wallet.toString());
 		    for (ECKey current : wallet.getKeys()) {
 				unallocatedAddresses.add(current.toAddress(NetworkParameters.prodNet()));
 			}

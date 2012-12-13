@@ -8,6 +8,7 @@ import me.meta1203.plugins.satoshis.Satoshis;
 import com.google.bitcoin.core.Address;
 import com.google.bitcoin.core.ScriptException;
 import com.google.bitcoin.core.Transaction;
+import com.google.bitcoin.core.TransactionConfidence.ConfidenceType;
 
 public class CheckThread extends Thread {
 	private static List<Transaction> toCheck = new ArrayList<Transaction>();
@@ -24,6 +25,9 @@ public class CheckThread extends Thread {
 	public void run() {
 		while (true) {
 			for (Transaction current : toCheck) {
+				if (!current.getConfidence().getConfidenceType().equals(ConfidenceType.BUILDING)) {
+					continue;
+				}
 				int conf = current.getConfidence().getDepthInBlocks(Satoshis.bapi.chain);
 				if (conf >= confirmations) {
 					double value = current.getValueSentToMe(Satoshis.bapi.wallet).longValue();
