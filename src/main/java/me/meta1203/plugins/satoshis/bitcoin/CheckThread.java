@@ -39,12 +39,9 @@ public class CheckThread extends Thread {
 							Address reciver = current.getOutputs().get(0).getScriptPubKey().getToAddress();
 							Satoshis.econ.addFunds(pName, value*Satoshis.mult);
 							Satoshis.log.warning("Added $" + value*Satoshis.mult + " to " + pName + "!");
+							Satoshis.bapi.saveWallet();
 							// Remove allocations
-							Satoshis.bapi.unallocatedAddresses.add(reciver);
-							Satoshis.bapi.allocatedAddresses.remove(reciver);
-						} else {
-							if (Satoshis.bapi.sendCoins(current.getInputs().get(0).getFromAddress(), value))
-								Satoshis.log.warning("Sent " + value + " Bitcoin back for unallocated address!");
+							Satoshis.bapi.deallocate(reciver);
 						}
 					} catch (ScriptException e) {
 						e.printStackTrace();
@@ -68,10 +65,8 @@ public class CheckThread extends Thread {
 		System.out.println("Added transaction " + tx.getHashAsString() + " to check pool!");
 	}
 
-	@Override
-	protected void finalize() throws Throwable {
+	protected void serialize() {
 		Util.serializeChecking(toCheck);
-		super.finalize();
 	}
 
 }

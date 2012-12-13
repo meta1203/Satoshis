@@ -14,7 +14,6 @@ public class CoinListener extends AbstractWalletEventListener {
 	public void onCoinsReceived(Wallet wallet, Transaction tx,
 			BigInteger prevBalance, BigInteger newBalance) {
 		Satoshis.checker.addTransaction(tx);
-		Satoshis.log.info("Added transaction " + tx.getHashAsString() + "!");
 	}
 
 }

@@ -16,6 +16,7 @@ import com.google.bitcoin.core.ECKey;
 import com.google.bitcoin.core.NetworkParameters;
 import com.google.bitcoin.core.PeerGroup;
 import com.google.bitcoin.core.Transaction;
+import com.google.bitcoin.core.VerificationException;
 import com.google.bitcoin.core.Wallet;
 import com.google.bitcoin.discovery.DnsDiscovery;
 import com.google.bitcoin.store.BlockStore;
@@ -27,12 +28,13 @@ public class BitcoinAPI {
 	public Wallet wallet;
 	public BlockStore block;
 	BlockChain chain;
+	private final File walletFile;
 	final PeerGroup peerGroup;
 	public static Map<Address, String> allocatedAddresses = new HashMap<Address, String>();
 	public static List<Address> unallocatedAddresses = new ArrayList<Address>();
 	
 	public BitcoinAPI() {
-		final File walletFile = new File(Satoshis.walletFile);
+		walletFile = new File(Satoshis.walletFile);
 		try {
 		    wallet = Wallet.loadFromFile(walletFile);
 		    Satoshis.log.info(wallet.toString());
@@ -90,7 +92,7 @@ public class BitcoinAPI {
 			}
 		} else {
 			ret = unallocatedAddresses.get(0);
-			allocatedAddresses.put(unallocatedAddresses.get(0), name);
+			allocatedAddresses.put(ret, name);
 			unallocatedAddresses.remove(0);
 		}
 		return ret;
@@ -110,6 +112,11 @@ public class BitcoinAPI {
 		Transaction tx = wallet.sendCoins(peerGroup, a, BigInteger.valueOf((long)(value * Math.pow(10, 8)/Satoshis.mult)));
 		if (tx != null) {
 			Satoshis.log.warning("Sent " + (value * Math.pow(10, 8)/Satoshis.mult) + " BTC in transaction: " + tx.getHashAsString());
+			try {
+				wallet.commitTx(tx);
+			} catch (VerificationException e) {
+				e.printStackTrace();
+			}
 			return true;
 		} else {
 			return false;
@@ -118,6 +125,14 @@ public class BitcoinAPI {
 	
 	private boolean testAllocated(String name) {
 		return allocatedAddresses.containsValue(name);
+	}
+	
+	public void saveWallet() {
+		try {
+			wallet.saveToFile(walletFile);
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
 	}
 	
 }
