@@ -65,7 +65,7 @@ public class CheckThread extends Thread {
 		System.out.println("Added transaction " + tx.getHashAsString() + " to check pool!");
 	}
 
-	protected void serialize() {
+	public void serialize() {
 		Util.serializeChecking(toCheck);
 	}
 

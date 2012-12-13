@@ -32,6 +32,8 @@ public class Satoshis extends JavaPlugin implements Listener {
 	public static EconAPI econ = null;
 	
     public void onDisable() {
+    	checker.serialize();
+    	bapi.saveWallet();
     }
 
     public void onEnable() {
@@ -48,9 +50,9 @@ public class Satoshis extends JavaPlugin implements Listener {
     	// Preloading done!
     	
     	checker = new CheckThread(config.getInt("bitcoin.check-interval"), config.getInt("bitcoin.confirms"));
-    	checker.start();
     	econ = new EconAPI();
     	bapi = new BitcoinAPI();
+    	checker.start();
         getServer().getPluginManager().registerEvents(this, this);
         this.getCommand("deposit").setExecutor(new DepositCommand());
         this.getCommand("withdraw").setExecutor(new WithdrawCommand());
