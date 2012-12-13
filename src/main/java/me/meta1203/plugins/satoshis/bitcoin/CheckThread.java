@@ -34,7 +34,7 @@ public class CheckThread extends Thread {
 				if (conf >= confirmations) {
 					double value = current.getValueSentToMe(Satoshis.bapi.wallet).longValue()/Math.pow(10, 8);
 					try {
-						if (Satoshis.bapi.allocatedAddresses.containsKey(current)) {
+						if (Satoshis.bapi.allocatedAddresses.containsKey(current.getOutputs().get(0).getScriptPubKey().getToAddress())) {
 							String pName = Satoshis.bapi.allocatedAddresses.get(current.getOutputs().get(0).getScriptPubKey().getToAddress());
 							Address reciver = current.getOutputs().get(0).getScriptPubKey().getToAddress();
 							Satoshis.econ.addFunds(pName, value*Satoshis.mult);
