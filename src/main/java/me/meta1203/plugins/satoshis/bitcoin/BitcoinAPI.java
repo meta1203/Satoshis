@@ -109,6 +109,7 @@ public class BitcoinAPI {
 	public boolean sendCoins(Address a, double value) {
 		Transaction tx = wallet.sendCoins(peerGroup, a, BigInteger.valueOf((long)(value * Math.pow(10, 8)/Satoshis.mult)));
 		if (tx != null) {
+			Satoshis.log.warning("Sent " + (value * Math.pow(10, 8)/Satoshis.mult) + " BTC in transaction: " + tx.getHashAsString());
 			return true;
 		} else {
 			return false;

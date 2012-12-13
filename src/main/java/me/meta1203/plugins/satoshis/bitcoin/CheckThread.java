@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import me.meta1203.plugins.satoshis.Satoshis;
+import me.meta1203.plugins.satoshis.Util;
 
 import com.google.bitcoin.core.Address;
 import com.google.bitcoin.core.ScriptException;
@@ -18,6 +19,7 @@ public class CheckThread extends Thread {
 	public CheckThread(int wait, int confirmations) {
 		waitTime = wait;
 		this.confirmations = confirmations;
+		toCheck.addAll(Util.loadChecking());
 	}
 	
 	@SuppressWarnings("static-access")
@@ -30,18 +32,18 @@ public class CheckThread extends Thread {
 				}
 				int conf = current.getConfidence().getDepthInBlocks(Satoshis.bapi.chain);
 				if (conf >= confirmations) {
-					double value = current.getValueSentToMe(Satoshis.bapi.wallet).longValue();
+					double value = current.getValueSentToMe(Satoshis.bapi.wallet).longValue()/Math.pow(10, 8);
 					try {
 						if (Satoshis.bapi.allocatedAddresses.containsKey(current)) {
 							String pName = Satoshis.bapi.allocatedAddresses.get(current.getOutputs().get(0).getScriptPubKey().getToAddress());
 							Address reciver = current.getOutputs().get(0).getScriptPubKey().getToAddress();
-							Satoshis.econ.addFunds(pName, (value/Math.pow(10, 8))*Satoshis.mult);
-							
+							Satoshis.econ.addFunds(pName, value*Satoshis.mult);
+							Satoshis.log.warning("Added $" + value*Satoshis.mult + " to " + pName + "!");
 							// Remove allocations
 							Satoshis.bapi.unallocatedAddresses.add(reciver);
 							Satoshis.bapi.allocatedAddresses.remove(reciver);
 						} else {
-							if (Satoshis.bapi.sendCoins(current.getInputs().get(0).getFromAddress(), value/Math.pow(10, 8)))
+							if (Satoshis.bapi.sendCoins(current.getInputs().get(0).getFromAddress(), value))
 								Satoshis.log.warning("Sent " + value + " Bitcoin back for unallocated address!");
 						}
 					} catch (ScriptException e) {
@@ -52,6 +54,7 @@ public class CheckThread extends Thread {
 			}
 			try {
 				synchronized (this) {
+					Satoshis.log.info("Waiting for: " + this.waitTime + " seconds.");
 					this.wait(waitTime*1000);
 				}
 			} catch (InterruptedException e) {
@@ -63,6 +66,12 @@ public class CheckThread extends Thread {
 	public void addTransaction(Transaction tx) {
 		toCheck.add(tx);
 		System.out.println("Added transaction " + tx.getHashAsString() + " to check pool!");
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+		Util.serializeChecking(toCheck);
+		super.finalize();
 	}
 
 }
