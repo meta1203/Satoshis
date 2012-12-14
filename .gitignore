@@ -5,7 +5,8 @@
 *.war
 *.ear
 
-.settings
+/.classpath
+/.settings
 /runtime
 /bin
 /dist

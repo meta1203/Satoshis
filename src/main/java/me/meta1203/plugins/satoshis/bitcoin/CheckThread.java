@@ -26,27 +26,31 @@ public class CheckThread extends Thread {
 	@Override
 	public void run() {
 		while (true) {
-			for (Transaction current : toCheck) {
-				if (!current.getConfidence().getConfidenceType().equals(ConfidenceType.BUILDING)) {
-					continue;
-				}
-				int conf = current.getConfidence().getDepthInBlocks(Satoshis.bapi.chain);
-				if (conf >= confirmations) {
-					double value = current.getValueSentToMe(Satoshis.bapi.wallet).longValue()/Math.pow(10, 8);
-					try {
-						if (Satoshis.bapi.allocatedAddresses.containsKey(current.getOutputs().get(0).getScriptPubKey().getToAddress())) {
-							String pName = Satoshis.bapi.allocatedAddresses.get(current.getOutputs().get(0).getScriptPubKey().getToAddress());
-							Address reciver = current.getOutputs().get(0).getScriptPubKey().getToAddress();
-							Satoshis.econ.addFunds(pName, value*Satoshis.mult);
-							Satoshis.log.warning("Added $" + value*Satoshis.mult + " to " + pName + "!");
-							Satoshis.bapi.saveWallet();
-							// Remove allocations
-							Satoshis.bapi.deallocate(reciver);
-						}
-					} catch (ScriptException e) {
-						e.printStackTrace();
+			synchronized (toCheck) {
+				for (Transaction current : toCheck) {
+					if (!current.getConfidence().getConfidenceType().equals(ConfidenceType.BUILDING)) {
+						continue;
 					}
-					toCheck.remove(current);
+					int conf = current.getConfidence().getDepthInBlocks(Satoshis.bapi.chain);
+					if (conf >= confirmations) {
+						double value = current.getValueSentToMe(Satoshis.bapi.wallet).longValue()/Math.pow(10, 8);
+						try {
+							if (Satoshis.bapi.allocatedAddresses.containsKey(current.getOutputs().get(0).getScriptPubKey().getToAddress())) {
+								String pName = Satoshis.bapi.allocatedAddresses.get(current.getOutputs().get(0).getScriptPubKey().getToAddress());
+								Address reciver = current.getOutputs().get(0).getScriptPubKey().getToAddress();
+								Satoshis.econ.addFunds(pName, value*Satoshis.mult);
+								Satoshis.log.warning("Added $" + value*Satoshis.mult + " to " + pName + "!");
+								Satoshis.bapi.saveWallet();
+								// Remove allocations
+								synchronized (Satoshis.bapi) {
+									Satoshis.bapi.deallocate(reciver);
+								}
+							}
+						} catch (ScriptException e) {
+							e.printStackTrace();
+						}
+						toCheck.remove(current);
+					}
 				}
 			}
 			try {
