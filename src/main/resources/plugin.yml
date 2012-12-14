@@ -16,3 +16,14 @@ commands:
     description: 'Send in-game money to player!'
   admin:
     description: 'Print testing info'
+permissions:
+  satoshis.admin:
+    description: 'Permission for Satoshis /admin'
+  satoshis.withdraw:
+    description: 'Permission for Satoshis /withdraw'
+  satoshis.deposit:
+    description: 'Permission for Satoshis /deposit'
+  satoshis.transact:
+    description: 'Permission for Satoshis /transact'
+  satoshis.money:
+    description: 'Permission for Satoshis /money'

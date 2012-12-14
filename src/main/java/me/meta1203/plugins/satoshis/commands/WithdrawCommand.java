@@ -17,6 +17,11 @@ public class WithdrawCommand implements CommandExecutor {
 
 	public boolean onCommand(CommandSender arg0, Command arg1, String arg2,
 			String[] arg3) {
+		if (!arg0.hasPermission("satoshis.withdraw")) {
+			error("You do not have permission for this command!", arg0);
+			return true;
+		}
+		
 		if (arg0 instanceof Player) {
 			Player player = (Player)arg0;
 			

@@ -14,6 +14,11 @@ public class SendCommand implements CommandExecutor {
 
 	public boolean onCommand(CommandSender arg0, Command arg1, String arg2,
 			String[] arg3) {
+		if (!arg0.hasPermission("satoshis.send")) {
+			error("You do not have permission for this command!", arg0);
+			return true;
+		}
+		
 		if (!(arg0 instanceof Player)) {
 			error("You must be a player to execute this command!", arg0);
 			return true;

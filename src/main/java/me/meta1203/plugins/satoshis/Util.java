@@ -103,4 +103,12 @@ public class Util {
 		}
 		return ret;
 	}
+	
+	public static Satoshis retrieveInstance() {
+		if (plugin == null) {
+			Plugin p = Bukkit.getPluginManager().getPlugin("Satoshis");
+			plugin = (Satoshis) p;
+		}
+		return plugin;
+	}
 }

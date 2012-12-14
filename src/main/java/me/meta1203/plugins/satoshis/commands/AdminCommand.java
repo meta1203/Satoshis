@@ -19,6 +19,11 @@ public class AdminCommand implements CommandExecutor {
 	@SuppressWarnings("static-access")
 	public boolean onCommand(CommandSender arg0, Command arg1, String arg2,
 			String[] arg3) {
+		if (!arg0.hasPermission("satoshis.admin")) {
+			error("You do not have permission for this command!", arg0);
+			return true;
+		}
+		
 		info("INFO:", arg0);
 		info("Wallet:", arg0);
 		
