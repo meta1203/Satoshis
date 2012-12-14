@@ -15,11 +15,16 @@ The design is simple:
 4) Trade takes place as usual, as the plugin links into vault. Any shop/purchase plugin supporting vault is supported here!  
 5) Tax system allows for a "Sales Tax" on each money transfer. The settings on whether the buyer or the seller is held responsible for tax, and tax rates will be available in the config.  
 
-Probable Commands:  
+Commands:  
 
-Base: /sat, /satoshis Usage:  
+/money - List current amount of Bitcoin in your minecraft account.  
+/transact <player> <amount> - Transfer's money from your account to the selected player's account.  
+/withdraw <address> [amount] - Transfers money from your account to your Bitcoin wallet. Must have at least the amount specified in the config. If the amount is left off, it will transfer all of your funds.  
+/admin - Basic debuging  
 
-/sat - List current amount of Bitcoin in your minecraft account.  
-/sat give <player> <amount> - Transfer's money from your account to the selected player's account  
-/sat req <player> <amount> - Requests money from another player. Does not guarantee that you will receive the money.  
-/sat withdraw <address> [amount] - Transfers money from your account to your Bitcoin wallet. Must have at least the amount specified in the config. If the amount is left off, it will transfer all of your funds.  
+Permissions:
+satoshis.* - All commands  
+satoshis.money - /money  
+satoshis.transact - /transact  
+satoshis.withdraw - /withdraw  
+satoshis.admin - /admin  
