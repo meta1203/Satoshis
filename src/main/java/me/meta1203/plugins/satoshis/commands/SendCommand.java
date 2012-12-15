@@ -41,7 +41,7 @@ public class SendCommand implements CommandExecutor {
 		}
 		if (Satoshis.econ.hasMoney(player.getName(), amount) && amount > 0) {
 			Satoshis.econ.transact(player.getName(), arg3[1], amount);
-			action("Sucessfully sent " + Satoshis.econ.formatValue(amount) + " to " +
+			action("Sucessfully sent " + Satoshis.econ.formatValue(amount, true) + " to " +
 					arg3[1] + "!", arg0);
 		} else {
 			error("Invalid amount to send!", arg0);

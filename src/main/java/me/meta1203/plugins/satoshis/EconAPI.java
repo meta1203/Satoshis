@@ -40,13 +40,14 @@ public class EconAPI {
 		Satoshis.log.info(playerFrom + " paid " + playerTo + ": $" + value);
 	}
 	
-	public String formatValue(double value) {
-		value = Util.roundTo(value, 2);
+	public String formatValue(double value, boolean exact) {
+		if (exact)
+			value = Util.roundTo(value, 2);
 		return value + " " + Satoshis.currencyName;
 	}
 	
 	public String listMoney(String player) {
-		return formatValue(Util.loadAccount(player).getAmount());
+		return formatValue(Util.loadAccount(player).getAmount(), false);
 	}
 	
 	public double getMoney(String player) {
