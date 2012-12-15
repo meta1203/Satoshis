@@ -27,8 +27,8 @@ public class CheckThread extends Thread {
 	public void run() {
 		while (true) {
 			synchronized (this) {
-				List<Transaction> copy = toCheck;
-				for (Transaction current : copy) {
+				List<Transaction> toRemove = new ArrayList<Transaction>();
+				for (Transaction current : toCheck) {
 					if (!current.getConfidence().getConfidenceType().equals(ConfidenceType.BUILDING)) {
 						continue;
 					}
@@ -48,9 +48,10 @@ public class CheckThread extends Thread {
 						} catch (ScriptException e) {
 							e.printStackTrace();
 						}
-						toCheck.remove(current);
+						toRemove.add(current);
 					}
 				}
+				toCheck.removeAll(toRemove);
 			}
 			try {
 				synchronized (this) {
