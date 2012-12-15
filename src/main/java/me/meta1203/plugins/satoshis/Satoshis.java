@@ -19,10 +19,9 @@ import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Satoshis extends JavaPlugin implements Listener {
-	// Database
-	public static String walletFile;
 	// Plugin
 	public static String owner = "";
+	public static String currencyName = "";
 	public static double tax = 0.0;
 	public static boolean buyerorseller = false;
 	public static double mult = 0;
@@ -42,8 +41,8 @@ public class Satoshis extends JavaPlugin implements Listener {
     	FileConfiguration config = getConfig();
     	config.options().copyDefaults(true);
     	saveConfig();
-    	walletFile = config.getString("bitcoin.wallet-file");
     	owner = config.getString("satoshis.owner");
+    	currencyName = config.getString("satoshis.currency-name");
     	tax = config.getDouble("satoshis.tax");
     	buyerorseller = config.getBoolean("satoshis.is-buyer-responsible");
     	mult = config.getDouble("satoshis.multiplier");

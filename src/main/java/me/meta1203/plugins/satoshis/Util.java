@@ -23,7 +23,7 @@ public class Util {
 	public static final Logger log = Logger.getLogger("Minecraft");
 
 	public static double roundTo(double input, int place) {
-		return Math.round(input / Math.pow(10, place)) / Math.pow(10, place);
+		return Math.round(input * Math.pow(10, place)) / Math.pow(10, place);
 	}
 
 	public static boolean testAccount(String name) {

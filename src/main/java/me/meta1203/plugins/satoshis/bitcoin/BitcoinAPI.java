@@ -34,7 +34,7 @@ public class BitcoinAPI {
 	public static List<Address> unallocatedAddresses = new ArrayList<Address>();
 	
 	public BitcoinAPI() {
-		walletFile = new File(Satoshis.walletFile);
+		walletFile = new File("plugins/Satoshis/wallet.wallet");
 		try {
 		    wallet = Wallet.loadFromFile(walletFile);
 		    Satoshis.log.info(wallet.toString());
@@ -105,7 +105,7 @@ public class BitcoinAPI {
 
 	@Override
 	protected void finalize() throws Throwable {
-		wallet.saveToFile(new File(Satoshis.walletFile));
+		wallet.saveToFile(new File("plugins/Satoshis/wallet.wallet"));
 	}
 	
 	public boolean sendCoins(Address a, double value) {

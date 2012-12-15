@@ -9,7 +9,7 @@ satoshis:
   multiplier: 4.0
 bitcoin:
   # Where to store all Bitcoin info
-  wallet-file: 'plugins/Satoshis/wallet.wallet'
+  currency-name: 'MTC'
   # How long is a purchase request valid for?
   valid-for: 60
   # Transaction Confirmations required for insert of funding?

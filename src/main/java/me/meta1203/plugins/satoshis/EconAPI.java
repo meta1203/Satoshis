@@ -42,7 +42,7 @@ public class EconAPI {
 	
 	public String formatValue(double value) {
 		value = Util.roundTo(value, 2);
-		return "$ " + value;
+		return value + " " + Satoshis.currencyName;
 	}
 	
 	public String listMoney(String player) {
