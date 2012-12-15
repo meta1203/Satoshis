@@ -7,11 +7,9 @@ satoshis:
   owner: meta1203
   # Value of single Bitcoin
   multiplier: 4.0
-bitcoin:
-  # Where to store all Bitcoin info
+  # Name of the in-game currency
   currency-name: 'MTC'
-  # How long is a purchase request valid for?
-  valid-for: 60
+bitcoin:
   # Transaction Confirmations required for insert of funding?
   confirms: 2
   # How often (in seconds) to check for pending confirmations?

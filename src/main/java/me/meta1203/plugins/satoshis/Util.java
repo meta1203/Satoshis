@@ -46,7 +46,7 @@ public class Util {
 		AccountEntry ae = plugin.getAccount(accName);
 		if (ae == null) {
 			ae = new AccountEntry();
-			ae.setPlayerName("accName");
+			ae.setPlayerName(accName);
 			ae.setAmount(0.0);
 		}
 		return ae;
