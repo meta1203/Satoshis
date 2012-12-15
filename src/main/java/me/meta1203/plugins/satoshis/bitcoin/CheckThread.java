@@ -27,7 +27,8 @@ public class CheckThread extends Thread {
 	public void run() {
 		while (true) {
 			synchronized (this) {
-				for (Transaction current : toCheck) {
+				List<Transaction> copy = toCheck;
+				for (Transaction current : copy) {
 					if (!current.getConfidence().getConfidenceType().equals(ConfidenceType.BUILDING)) {
 						continue;
 					}
@@ -62,12 +63,12 @@ public class CheckThread extends Thread {
 		}
 	}
 	
-	public void addTransaction(Transaction tx) {
+	public synchronized void addTransaction(Transaction tx) {
 		toCheck.add(tx);
 		System.out.println("Added transaction " + tx.getHashAsString() + " to check pool!");
 	}
 
-	public void serialize() {
+	public synchronized void serialize() {
 		Util.serializeChecking(toCheck);
 	}
 
