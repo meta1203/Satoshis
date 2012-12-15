@@ -34,7 +34,7 @@ public class WithdrawCommand implements CommandExecutor {
 						error("Oops! You cannot withdraw more money than you have!", arg0);
 						return true;
 					}
-					boolean sent = Satoshis.bapi.sendCoins(withdrawTo, withdraw);
+					boolean sent = Satoshis.bapi.localSendCoins(withdrawTo, withdraw);
 					if (sent) {
 						action("Sent " + withdraw + " to address " + withdrawTo.toString() + " sucessfully!", arg0);
 						Satoshis.econ.subFunds(player.getName(), withdraw);
@@ -57,7 +57,7 @@ public class WithdrawCommand implements CommandExecutor {
 						error("Oops! You have no money in your account!", arg0);
 						return true;
 					}
-					boolean sent = Satoshis.bapi.sendCoins(withdrawTo, withdraw);
+					boolean sent = Satoshis.bapi.localSendCoins(withdrawTo, withdraw);
 					if (sent) {
 						action("Sent " + withdraw + " to address " + withdrawTo.toString() + " sucessfully!", arg0);
 						Satoshis.econ.subFunds(player.getName(), withdraw);

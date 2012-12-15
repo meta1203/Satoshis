@@ -62,17 +62,17 @@ public class Util {
 
 	public static void serializeChecking(List<Transaction> toSerialize) {
 		File save = new File("plugins/Satoshis/tx.temp");
-		PrintWriter out = null;
+		PrintWriter pw = null;
 		try {
-			out = new PrintWriter(save);
-		} catch (FileNotFoundException e) {
-			e.printStackTrace();
+            pw = new PrintWriter(save);
+            for (Transaction current : toSerialize) {
+                pw.println(new String(current.bitcoinSerialize()));
+            }
+            pw.flush();
+            pw.close();
+        } catch (Exception ex) {
+			ex.printStackTrace();
 		}
-		for (Transaction current : toSerialize) {
-			out.println(String.valueOf(current.bitcoinSerialize()));
-		}
-		out.flush();
-		out.close();
 	}
 
 	public static List<Transaction> loadChecking() {

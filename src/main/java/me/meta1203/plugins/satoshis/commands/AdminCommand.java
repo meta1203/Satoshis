@@ -27,7 +27,7 @@ public class AdminCommand implements CommandExecutor {
 		info("INFO:", arg0);
 		info("Wallet:", arg0);
 		
-		Wallet tmp = Satoshis.bapi.wallet;
+		Wallet tmp = Satoshis.bapi.getWallet();
 		info("Total balance: " + tmp.getBalance().longValue() + " Satoshi", arg0);
 		info("Recent transactions:", arg0);
 		for (Transaction t : tmp.getRecentTransactions(5, false)) {

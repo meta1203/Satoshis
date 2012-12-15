@@ -13,7 +13,7 @@ import me.meta1203.plugins.satoshis.commands.*;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.event.EventHandler;
+//import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -60,19 +60,19 @@ public class Satoshis extends JavaPlugin implements Listener {
         this.getCommand("admin").setExecutor(new AdminCommand());
     }
 
-    @EventHandler
+    //@EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
         event.getPlayer().sendMessage("Welcome, " + event.getPlayer().getDisplayName() + "!");
     }
 
-	@Override
+	//@Override
 	public List<Class<?>> getDatabaseClasses() {
 		List<Class<?>> list = new ArrayList<Class<?>>();
 		list.add(AccountEntry.class);
 		return list;
 	}
 
-	@Override
+	//@Override
 	public boolean onCommand(CommandSender sender, Command command,
 			String label, String[] args) {
 		return true;
