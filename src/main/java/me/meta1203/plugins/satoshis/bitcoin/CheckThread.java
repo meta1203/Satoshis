@@ -26,7 +26,7 @@ public class CheckThread extends Thread {
 	@Override
 	public void run() {
 		while (true) {
-			synchronized (toCheck) {
+			synchronized (this) {
 				for (Transaction current : toCheck) {
 					if (!current.getConfidence().getConfidenceType().equals(ConfidenceType.BUILDING)) {
 						continue;
@@ -42,9 +42,7 @@ public class CheckThread extends Thread {
 								Satoshis.log.warning("Added $" + value*Satoshis.mult + " to " + pName + "!");
 								Satoshis.bapi.saveWallet();
 								// Remove allocations
-								synchronized (Satoshis.bapi) {
-									Satoshis.bapi.deallocate(reciver);
-								}
+								Satoshis.bapi.deallocate(reciver);
 							}
 						} catch (ScriptException e) {
 							e.printStackTrace();
