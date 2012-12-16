@@ -40,9 +40,9 @@
 			<url>http://ci.herocraftonline.com/plugin/repository/everything</url>
 		</repository>
 		<repository>
-			<id>bitcoinj-release</id>
-			<releases />
-			<url>http://nexus.bitcoinj.org/content/repositories/releases</url>
+			<id>bitcoinj-snapshot</id>
+			<snapshots />
+			<url>http://nexus.bitcoinj.org/content/repositories/snapshots</url>
 		</repository>
 	</repositories>
 	<dependencies>
@@ -57,17 +57,17 @@
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.google</groupId>
-			<artifactId>bitcoinj</artifactId>
-			<version>0.5.2</version>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
 			<groupId>org.avaje</groupId>
 			<artifactId>ebean</artifactId>
 			<version>2.7.3</version>
 			<type>jar</type>
 			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google</groupId>
+			<artifactId>bitcoinj</artifactId>
+			<version>0.6-SNAPSHOT</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 </project>
