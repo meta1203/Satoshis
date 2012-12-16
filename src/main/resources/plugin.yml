@@ -4,7 +4,7 @@ main: me.meta1203.plugins.satoshis.Satoshis
 name: Satoshis
 startup: postworld
 url: http://www.metaserve.net/
-version: '0.1'
+version: '0.3'
 commands:
   deposit:
     description: 'Deposit money through Bitcoin address'

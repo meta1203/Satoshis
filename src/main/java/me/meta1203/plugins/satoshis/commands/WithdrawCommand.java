@@ -52,7 +52,7 @@ public class WithdrawCommand implements CommandExecutor {
 				try {
 					Address withdrawTo = new Address(NetworkParameters.prodNet(), arg3[0]);
 					double withdraw = Satoshis.econ.getMoney(player.getName());
-					if (withdraw == 0 + withdraw+(Satoshis.fee ? Satoshis.econ.minCurrFee : 0.0)) {
+					if (withdraw == 0 + (Satoshis.fee ? Satoshis.econ.minCurrFee : 0.0)) {
 						error("Oops! You have no money in your account!", arg0);
 						return true;
 					}

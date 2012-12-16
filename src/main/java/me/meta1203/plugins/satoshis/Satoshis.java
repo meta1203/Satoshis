@@ -48,10 +48,11 @@ public class Satoshis extends JavaPlugin implements Listener {
     	buyerorseller = config.getBoolean("satoshis.is-buyer-responsible");
     	fee = config.getBoolean("bitcoin.fees");
     	mult = config.getDouble("satoshis.multiplier");
-    	// Preloading done!
+    	// Config loading done!
     	
     	checker = new CheckThread(config.getInt("bitcoin.check-interval"), config.getInt("bitcoin.confirms"));
     	econ = new SatoshisEconAPI();
+    	econ.buyerorseller = buyerorseller;
     	bapi = new BitcoinAPI();
     	checker.start();
         getServer().getPluginManager().registerEvents(this, this);

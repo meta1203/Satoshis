@@ -4,6 +4,7 @@ import java.math.BigInteger;
 
 public class SatoshisEconAPI {
 	public final double minCurrFee = 0.0005 * Satoshis.mult;
+	public boolean buyerorseller = true;
 	
 	public void setFunds(String accName, double value) {
 		AccountEntry e = Util.loadAccount(accName);
@@ -27,7 +28,7 @@ public class SatoshisEconAPI {
 		Util.saveAccount(e);
 	}
 	
-	private double priceOfTax(double traded) {
+	public double priceOfTax(double traded) {
 		return traded * (Satoshis.tax/100);
 	}
 	
@@ -42,7 +43,7 @@ public class SatoshisEconAPI {
 		}
 		addFunds(Satoshis.owner, tax);
 		Satoshis.log.info("Transaction took place!");
-		Satoshis.log.info(playerFrom + " paid " + playerTo + ": $" + value);
+		Satoshis.log.info(playerFrom + " paid " + playerTo + ": " + formatValue(value, true));
 	}
 	
 	public String formatValue(double value, boolean exact) {

@@ -8,6 +8,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 import com.google.bitcoin.core.*;
 import com.google.bitcoin.discovery.DnsDiscovery;
@@ -28,6 +31,9 @@ public class BitcoinAPI {
     public final BigInteger minBitFee = BigInteger.valueOf((long)(0.0005*Math.pow(10, 8)));
 	
 	public BitcoinAPI() {
+		Logger logger = LogManager.getLogManager().getLogger("");
+		logger.setLevel(Level.WARNING);
+		
 		walletFile = new File("plugins/Satoshis/wallet.wallet");
 		try {
 		    localWallet = Wallet.loadFromFile(walletFile);
