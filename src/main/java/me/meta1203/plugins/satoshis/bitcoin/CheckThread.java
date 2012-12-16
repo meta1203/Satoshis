@@ -20,8 +20,6 @@ public class CheckThread extends Thread {
 		toCheck.addAll(Util.loadChecking());
 	}
 	
-	//@SuppressWarnings("static-access")
-	//@Override
 	public void run() {
 		while (true) {
 			synchronized (this) {
@@ -31,7 +29,6 @@ public class CheckThread extends Thread {
 						continue;
 					}
                     int conf = current.getConfidence().getDepthInBlocks();
-                    //int conf = current.getConfidence().getDepthInBlocks(Satoshis.bapi.getChain());
 					if (conf >= confirmations) {
 						double value = current.getValueSentToMe(Satoshis.bapi.getWallet()).longValue()/Math.pow(10, 8);
 						try {

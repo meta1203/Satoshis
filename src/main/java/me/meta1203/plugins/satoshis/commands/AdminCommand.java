@@ -16,7 +16,6 @@ import static me.meta1203.plugins.satoshis.commands.CommandUtil.*;
 
 public class AdminCommand implements CommandExecutor {
 
-	@SuppressWarnings("static-access")
 	public boolean onCommand(CommandSender arg0, Command arg1, String arg2,
 			String[] arg3) {
 		if (!arg0.hasPermission("satoshis.admin")) {

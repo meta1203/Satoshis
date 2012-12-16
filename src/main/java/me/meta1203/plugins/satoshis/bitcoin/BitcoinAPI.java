@@ -15,20 +15,6 @@ import com.google.bitcoin.store.BlockStoreException;
 import com.google.bitcoin.store.BoundedOverheadBlockStore;
 import me.meta1203.plugins.satoshis.Satoshis;
 
-//import com.google.bitcoin.*;
-//import com.google.bitcoin.core.Address;
-//import com.google.bitcoin.core.BlockChain;
-//import com.google.bitcoin.core.ECKey;
-//import com.google.bitcoin.core.NetworkParameters;
-//import com.google.bitcoin.core.PeerGroup;
-//import com.google.bitcoin.core.Transaction;
-//import com.google.bitcoin.core.VerificationException;
-//import com.google.bitcoin.core.Wallet;
-//import com.google.bitcoin.discovery.DnsDiscovery;
-//import com.google.bitcoin.store.BlockStore;
-//import com.google.bitcoin.store.BlockStoreException;
-//import com.google.bitcoin.store.BoundedOverheadBlockStore;
-
 public class BitcoinAPI {
 
 	private Wallet localWallet;
@@ -36,8 +22,8 @@ public class BitcoinAPI {
     private BlockChain localChain;
 	private final File walletFile;
     private PeerGroup localPeerGroup = null;
-    public static Map<Address, String> allocatedAddresses = new HashMap<Address, String>();
-    public static List<Address> unallocatedAddresses = new ArrayList<Address>();
+    public Map<Address, String> allocatedAddresses = new HashMap<Address, String>();
+    public List<Address> unallocatedAddresses = new ArrayList<Address>();
 	
 	public BitcoinAPI() {
 		walletFile = new File("plugins/Satoshis/wallet.wallet");
@@ -122,27 +108,7 @@ public class BitcoinAPI {
         if (sr == null)
             return false;
         else
-            return  true;
-
-
-        // FROM Wallet.java:
-        //     * <p>If you just want to send money quickly, you probably want
-        //     * {@link Wallet#sendCoins(PeerGroup, Address, java.math.BigInteger)} instead. That will create the sending
-        //     * transaction, commit to the wallet and broadcast it to the network all in one go. This method is lower level
-        //    * and lets you see the proposed transaction before anything is done with it.</p>
-        /*
-        if (tx != null) {
-			Satoshis.log.warning("Sent " + (value * Math.pow(10, 8)/Satoshis.mult) + " BTC in transaction: " + tx.getHashAsString());
-			try {
-                localWallet.commitTx(tx);
-			} catch (VerificationException e) {
-				e.printStackTrace();
-			}
-			return true;
-		} else {
-			return false;
-		}
-		*/
+            return true;
 	}
 	
 	private boolean testAllocated(String name) {

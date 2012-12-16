@@ -1,6 +1,6 @@
 package me.meta1203.plugins.satoshis;
 
-public class EconAPI {
+public class SatoshisEconAPI {
 	public void setFunds(String accName, double value) {
 		AccountEntry e = Util.loadAccount(accName);
 		e.setAmount(value);
@@ -47,7 +47,7 @@ public class EconAPI {
 	}
 	
 	public String listMoney(String player) {
-		return formatValue(Util.loadAccount(player).getAmount(), false);
+		return formatValue(Util.loadAccount(player).getAmount(), true);
 	}
 	
 	public double getMoney(String player) {

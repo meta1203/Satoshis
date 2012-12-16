@@ -28,7 +28,7 @@ public class Satoshis extends JavaPlugin implements Listener {
 	public static BitcoinAPI bapi = null;
 	public static CheckThread checker = null;
 	public static Logger log = null;
-	public static EconAPI econ = null;
+	public static SatoshisEconAPI econ = null;
 	
     public void onDisable() {
     	checker.serialize();
@@ -49,7 +49,7 @@ public class Satoshis extends JavaPlugin implements Listener {
     	// Preloading done!
     	
     	checker = new CheckThread(config.getInt("bitcoin.check-interval"), config.getInt("bitcoin.confirms"));
-    	econ = new EconAPI();
+    	econ = new SatoshisEconAPI();
     	bapi = new BitcoinAPI();
     	checker.start();
         getServer().getPluginManager().registerEvents(this, this);
