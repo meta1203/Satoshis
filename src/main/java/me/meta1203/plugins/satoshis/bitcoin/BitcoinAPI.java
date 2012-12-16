@@ -31,8 +31,8 @@ public class BitcoinAPI {
     public final BigInteger minBitFee = BigInteger.valueOf((long)(0.0005*Math.pow(10, 8)));
 	
 	public BitcoinAPI() {
-		Logger logger = LogManager.getLogManager().getLogger("");
-		logger.setLevel(Level.WARNING);
+		/* Logger logger = LogManager.getLogManager().getLogger("");
+		logger.setLevel(Level.WARNING); */
 		
 		walletFile = new File("plugins/Satoshis/wallet.wallet");
 		try {
