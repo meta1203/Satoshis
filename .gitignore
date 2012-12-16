@@ -1,7 +1,7 @@
 *.class
 
 # Package Files #
-*.jar
+#*.jar
 *.war
 *.ear
 
@@ -11,7 +11,6 @@
 /runtime
 /bin
 /dist
-/lib
 /.idea
 /target
 /dependency-reduced-pom.xml

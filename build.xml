@@ -6,13 +6,14 @@
     <property name="bin" location="bin"/>
     <property name="dist" location="dist"/>
     <property name="lib" location="lib"/>
+    <property name="lib-runtime" location="lib-runtime"/>
     <property name="ci_env" location="runtime"/>
 
     <property name="bukkit.jar" location="${lib}/bukkit-1.4.5-R0.2.jar"/>
     <property name="vault.jar" location="${lib}/Vault.jar"/>
     <property name="bitcoinj.jar" location="${lib}/bitcoinj-0.6.jar"/>
-    <property name="persistence.jar" location="${lib}/hibernate-release-4.1.8.Final/hibernate-release-4.1.8.Final/lib/required/hibernate-jpa-2.0-api-1.0.1.Final.jar"/>
-    <property name="ebean.jar" location="${lib}/ebean-2.7.7/ebean-2.7.7/ebean-2.7.7.jar"/>
+    <property name="persistence.jar" location="${lib}/hibernate-jpa-2.0-api-1.0.1.Final.jar"/>
+    <property name="ebean.jar" location="${lib}/ebean-2.7.7.jar"/>
 
     <target name="init" depends="clean">
         <mkdir dir="${bin}"/>
@@ -53,6 +54,7 @@
              basedir="${bin}"
              includes="me/meta1203/plugins/satoshis/**/*.class">
             <fileset file="${src}/main/resources/plugin.yml" />
+            <zipgroupfileset dir="${lib-runtime}" includes="**/*.jar" />
         </jar>
     </target>
 
