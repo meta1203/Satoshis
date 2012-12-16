@@ -60,19 +60,16 @@ public class Satoshis extends JavaPlugin implements Listener {
         this.getCommand("admin").setExecutor(new AdminCommand());
     }
 
-    //@EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
-        event.getPlayer().sendMessage("Welcome, " + event.getPlayer().getDisplayName() + "!");
+        Util.saveAccount(Util.loadAccount(event.getPlayer().getName()));
     }
 
-	//@Override
 	public List<Class<?>> getDatabaseClasses() {
 		List<Class<?>> list = new ArrayList<Class<?>>();
 		list.add(AccountEntry.class);
 		return list;
 	}
 
-	//@Override
 	public boolean onCommand(CommandSender sender, Command command,
 			String label, String[] args) {
 		return true;
