@@ -110,6 +110,7 @@ public class BitcoinAPI {
         
         if (!localWallet.completeTx(request))
         	return false;
+        localPeerGroup.broadcastTransaction(request.tx);
         
         try {
 			localWallet.commitTx(request.tx);
@@ -173,6 +174,7 @@ public class BitcoinAPI {
     public void reloadWallet() {
     	localPeerGroup.stop();
     	localWallet.clearTransactions(0);
+    	new File("plugins/Satoshis/store.blockchain").delete();
     	localPeerGroup.start();
     	localPeerGroup.downloadBlockChain();
     }

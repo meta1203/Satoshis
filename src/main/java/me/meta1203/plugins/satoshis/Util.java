@@ -14,7 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
 import com.google.bitcoin.core.NetworkParameters;
-import com.google.bitcoin.core.ProtocolException;
+import com.google.bitcoin.core.Sha256Hash;
 import com.google.bitcoin.core.Transaction;
 
 public class Util {
@@ -66,7 +66,7 @@ public class Util {
 		try {
             pw = new PrintWriter(save);
             for (Transaction current : toSerialize) {
-                pw.println(new String(current.bitcoinSerialize()));
+                pw.println(current.getHash().toString());
             }
             pw.flush();
             pw.close();
@@ -87,11 +87,7 @@ public class Util {
 		String strLine;
 		try {
 			while ((strLine = in.readLine()) != null) {
-				try {
-					ret.add(new Transaction(NetworkParameters.prodNet(), strLine.getBytes()));
-				} catch (ProtocolException e) {
-					Satoshis.log.severe("Failed to parse Transaction!");
-				}
+				ret.add(new Transaction(NetworkParameters.prodNet(), 0, new Sha256Hash(strLine)));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

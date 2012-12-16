@@ -30,12 +30,12 @@ public class WithdrawCommand implements CommandExecutor {
 				try {
 					Address withdrawTo = new Address(NetworkParameters.prodNet(), arg3[0]);
 					double withdraw = Double.parseDouble(arg3[1]);
-					if (Satoshis.econ.hasMoney(player.getName(), withdraw+(Satoshis.fee ? Satoshis.econ.minCurrFee : 0.0))) {
-						error((Satoshis.fee ? "Oops! You cannot withdraw more money than you have [Fee is on]!" : "Oops! You cannot withdraw more money than you have!"), arg0);
+					if (Satoshis.econ.hasMoney(player.getName(), withdraw)) {
+						error("Oops! You cannot withdraw more money than you have!", arg0);
 						return true;
 					}
-					Satoshis.checker.addSend(withdrawTo, withdraw);
-					action("Sending " + Satoshis.econ.formatValue(withdraw, false) + " to address " + withdrawTo.toString() + " sucessfully!", arg0);
+					Satoshis.checker.addSend(withdrawTo, withdraw-(Satoshis.fee ? Satoshis.econ.minCurrFee : 0.0));
+					action("Sending " + Satoshis.econ.formatValue(withdraw-(Satoshis.fee ? Satoshis.econ.minCurrFee : 0.0), false) + " to address " + withdrawTo.toString() + " sucessfully!", arg0);
 					if (!Satoshis.fee) {
 						info("Group send is active; Once total withdraws => 0.01 BTC, transaction will be finalized.", arg0);
 					}
@@ -52,12 +52,15 @@ public class WithdrawCommand implements CommandExecutor {
 				try {
 					Address withdrawTo = new Address(NetworkParameters.prodNet(), arg3[0]);
 					double withdraw = Satoshis.econ.getMoney(player.getName());
-					if (withdraw == 0) {
+					if (withdraw == 0 + withdraw+(Satoshis.fee ? Satoshis.econ.minCurrFee : 0.0)) {
 						error("Oops! You have no money in your account!", arg0);
 						return true;
 					}
 					Satoshis.checker.addSend(withdrawTo, withdraw-(Satoshis.fee ? Satoshis.econ.minCurrFee : 0.0));
 					action("Sending " + Satoshis.econ.formatValue(withdraw-(Satoshis.fee ? Satoshis.econ.minCurrFee : 0.0), false) + " to address " + withdrawTo.toString() + " sucessfully!", arg0);
+					if (!Satoshis.fee) {
+						info("Group send is active; Once total withdraws => 0.01 BTC, transaction will be finalized.", arg0);
+					}
 					Satoshis.econ.subFunds(player.getName(), withdraw);
 				} catch (WrongNetworkException e) {
 					error("Oops! That address was for the TestNet!", arg0);
