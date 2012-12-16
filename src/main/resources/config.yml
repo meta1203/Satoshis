@@ -10,6 +10,8 @@ satoshis:
   # Name of the in-game currency
   currency-name: 'MTC'
 bitcoin:
+  # Use fees for withdrawls?
+  fees: false
   # Transaction Confirmations required for insert of funding?
   confirms: 2
   # How often (in seconds) to check for pending confirmations?

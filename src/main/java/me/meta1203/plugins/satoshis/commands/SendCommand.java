@@ -34,15 +34,15 @@ public class SendCommand implements CommandExecutor {
 		}
 		double amount = 0.0;
 		try {
-			amount = Double.parseDouble("");
+			amount = Double.parseDouble(arg3[1]);
 		} catch (NumberFormatException e) {
 			error("Amount must be a number!", arg0);
 			return true;
 		}
 		if (Satoshis.econ.hasMoney(player.getName(), amount) && amount > 0) {
-			Satoshis.econ.transact(player.getName(), arg3[1], amount);
+			Satoshis.econ.transact(player.getName(), arg3[0], amount);
 			action("Sucessfully sent " + Satoshis.econ.formatValue(amount, true) + " to " +
-					arg3[1] + "!", arg0);
+					arg3[0] + "!", arg0);
 		} else {
 			error("Invalid amount to send!", arg0);
 		}

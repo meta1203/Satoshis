@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import com.google.bitcoin.core.*;
 import com.google.bitcoin.discovery.DnsDiscovery;
@@ -24,6 +25,7 @@ public class BitcoinAPI {
     private PeerGroup localPeerGroup = null;
     public Map<Address, String> allocatedAddresses = new HashMap<Address, String>();
     public List<Address> unallocatedAddresses = new ArrayList<Address>();
+    public final BigInteger minBitFee = BigInteger.valueOf((long)(0.0005*Math.pow(10, 8)));
 	
 	public BitcoinAPI() {
 		walletFile = new File("plugins/Satoshis/wallet.wallet");
@@ -101,14 +103,51 @@ public class BitcoinAPI {
 	}
 	
 	public boolean localSendCoins(Address a, double value) {
-        BigInteger sendAmount = BigInteger.valueOf((long)(value * Math.pow(10, 8)/Satoshis.mult));
-
-        Wallet.SendResult sr = null;
-        sr = localWallet.sendCoins(localPeerGroup, a, sendAmount);
-        if (sr == null)
-            return false;
-        else
-            return true;
+        BigInteger sendAmount = Satoshis.econ.inGameToBitcoin(value);
+        
+        Wallet.SendRequest request = Wallet.SendRequest.to(a, sendAmount);
+        request.fee = minBitFee;
+        
+        if (!localWallet.completeTx(request))
+        	return false;
+        
+        try {
+			localWallet.commitTx(request.tx);
+		} catch (VerificationException e) {
+			e.printStackTrace();
+		}
+        saveWallet();
+        
+        Satoshis.log.warning("Sent transaction: " + request.tx.getHash());
+        return true;
+	}
+	
+	public boolean sendCoinsMulti(Map<Address, Double> toSend) {
+		Transaction tx = new Transaction(NetworkParameters.prodNet());
+		double totalSend = 0.0;
+		
+		for (Entry<Address, Double> current : toSend.entrySet()) {
+			totalSend += current.getValue() / Satoshis.mult;
+			tx.addOutput(Satoshis.econ.inGameToBitcoin(current.getValue()), current.getKey());
+		}
+		
+		if (totalSend < 0.01) {
+			return false;
+		}
+		
+		Wallet.SendRequest request = Wallet.SendRequest.forTx(tx);
+		
+		if (!localWallet.completeTx(request)) {
+			return false;
+		} else {
+			localPeerGroup.broadcastTransaction(request.tx);
+			try {
+				localWallet.commitTx(request.tx);
+			} catch (VerificationException e) {
+				e.printStackTrace();
+			}
+			return true;
+		}
 	}
 	
 	private boolean testAllocated(String name) {

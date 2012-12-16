@@ -1,6 +1,10 @@
 package me.meta1203.plugins.satoshis;
 
+import java.math.BigInteger;
+
 public class SatoshisEconAPI {
+	public final double minCurrFee = 0.0005 * Satoshis.mult;
+	
 	public void setFunds(String accName, double value) {
 		AccountEntry e = Util.loadAccount(accName);
 		e.setAmount(value);
@@ -19,6 +23,7 @@ public class SatoshisEconAPI {
 		if (fVal < 0) {
 			fVal = 0;
 		}
+		e.setAmount(fVal);
 		Util.saveAccount(e);
 	}
 	
@@ -47,6 +52,7 @@ public class SatoshisEconAPI {
 	}
 	
 	public String listMoney(String player) {
+		Util.saveAccount(Util.loadAccount(player));
 		return formatValue(Util.loadAccount(player).getAmount(), true);
 	}
 	
@@ -57,5 +63,13 @@ public class SatoshisEconAPI {
 	public boolean hasMoney(String player, double amount) {
 		double has = Util.loadAccount(player).getAmount();
 		return has >= amount;
+	}
+	
+	public BigInteger inGameToBitcoin(double amount) {
+		return BigInteger.valueOf((long)(amount * Math.pow(10, 8)/Satoshis.mult));
+	}
+	
+	public double bitcoinToInGame(BigInteger amount) {
+		return (amount.longValue() / Math.pow(10, 8)) * Satoshis.mult;
 	}
 }
