@@ -171,7 +171,9 @@ public class BitcoinAPI {
     }
     
     public void reloadWallet() {
+    	localPeerGroup.stop();
     	localWallet.clearTransactions(0);
+    	localPeerGroup.start();
     	localPeerGroup.downloadBlockChain();
     }
 }
