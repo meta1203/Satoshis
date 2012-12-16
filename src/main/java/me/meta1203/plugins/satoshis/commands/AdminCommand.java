@@ -3,6 +3,7 @@ package me.meta1203.plugins.satoshis.commands;
 import java.util.Map;
 
 import me.meta1203.plugins.satoshis.Satoshis;
+import static me.meta1203.plugins.satoshis.commands.CommandUtil.*;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -11,8 +12,6 @@ import org.bukkit.command.CommandSender;
 import com.google.bitcoin.core.Address;
 import com.google.bitcoin.core.Transaction;
 import com.google.bitcoin.core.Wallet;
-
-import static me.meta1203.plugins.satoshis.commands.CommandUtil.*;
 
 public class AdminCommand implements CommandExecutor {
 
@@ -23,6 +22,21 @@ public class AdminCommand implements CommandExecutor {
 			return true;
 		}
 		
+		if (arg3.length != 1) {
+			error("Syntax: /admin <info>|<reset>");
+			return true;
+		}
+		if (arg3[0].equalsIgnoreCase("info"))
+			printInfo(arg0);
+		else if (arg3[0].equalsIgnoreCase("reset"))
+			Satoshis.bapi.reloadWallet();
+		else
+			error("Syntax: /admin <info>|<reset>");
+		
+		return true;
+	}
+	
+	private void printInfo(CommandSender arg0) {
 		info("INFO:", arg0);
 		info("Wallet:", arg0);
 		
@@ -41,6 +55,5 @@ public class AdminCommand implements CommandExecutor {
 		for (Address current : Satoshis.bapi.unallocatedAddresses) {
 			info(current.toString(), arg0);
 		}
-		return true;
 	}
 }

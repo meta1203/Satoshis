@@ -162,11 +162,16 @@ public class BitcoinAPI {
 		}
 	}
 
-    public Wallet getWallet(){
+    public Wallet getWallet() {
         return localWallet;
     }
 
-    public BlockChain getChain(){
+    public BlockChain getChain() {
         return localChain;
+    }
+    
+    public void reloadWallet() {
+    	localWallet.clearTransactions(0);
+    	localPeerGroup.downloadBlockChain();
     }
 }
