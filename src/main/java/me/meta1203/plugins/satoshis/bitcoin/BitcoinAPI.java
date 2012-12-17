@@ -37,7 +37,7 @@ public class BitcoinAPI {
 		walletFile = new File("plugins/Satoshis/wallet.wallet");
 		try {
 		    localWallet = Wallet.loadFromFile(walletFile);
-		    Satoshis.log.info(localWallet.toString());
+		    // Satoshis.log.info(localWallet.toString());
 		    for (ECKey current : localWallet.getKeys()) {
 				unallocatedAddresses.add(current.toAddress(NetworkParameters.prodNet()));
 			}
