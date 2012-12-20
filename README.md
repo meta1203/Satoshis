@@ -22,6 +22,8 @@ Commands:
 /withdraw <address> [amount] - Transfers money from your account to your Bitcoin wallet. Must have at least the amount specified in the config. If the amount is left off, it will transfer all of your funds.  
 /admin - Basic debuging  
 
+Jenkins: http://play.metaserve.net:8080/
+
 Permissions:
 satoshis.* - All commands  
 satoshis.money - /money  
