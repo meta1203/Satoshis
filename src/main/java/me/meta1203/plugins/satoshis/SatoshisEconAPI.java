@@ -46,6 +46,10 @@ public class SatoshisEconAPI {
 		Satoshis.log.info(playerFrom + " paid " + playerTo + ": " + formatValue(value, true));
 	}
 	
+	public void transferTax(double value) {
+		addFunds(Satoshis.owner, priceOfTax(value));
+	}
+	
 	public String formatValue(double value, boolean exact) {
 		if (exact)
 			value = Util.roundTo(value, 2);

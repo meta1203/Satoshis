@@ -100,10 +100,13 @@ public class VaultEconAPI implements Economy {
 	}
 
 	public EconomyResponse depositPlayer(String arg0, double arg1) {
-		AccountEntry e = Util.loadAccount(arg0);
-		e.setAmount(e.getAmount() + arg1);
-		Util.saveAccount(e);
-		return new EconomyResponse(arg1, e.getAmount(), ResponseType.SUCCESS, "");
+		if (!Satoshis.buyerorseller) {
+			double tax = economy.priceOfTax(arg1);
+			economy.addFunds(arg0, arg1-tax);
+			economy.transferTax(arg1);
+			return new EconomyResponse(arg1-tax, economy.getMoney(arg0), ResponseType.SUCCESS, "");
+		}
+		return new EconomyResponse(arg1, economy.getMoney(arg0), ResponseType.SUCCESS, "");
 	}
 
 	public String format(double arg0) {
@@ -153,14 +156,19 @@ public class VaultEconAPI implements Economy {
 	public EconomyResponse withdrawPlayer(String arg0, double arg1) {
 		AccountEntry e = Util.loadAccount(arg0);
 		double fVal = e.getAmount() - arg1;
+		if (Satoshis.buyerorseller) {
+			fVal -= economy.priceOfTax(arg1);
+		}
 		if (arg1 < 0) {
 			return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw a negative amount");
 		}
 		if (fVal < 0) {
-			return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw that much");
+			return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw that much" + (Satoshis.buyerorseller ? " [Tax is " + economy.formatValue(economy.priceOfTax(arg1), false) + "]" : ""));
 		}
 		e.setAmount(fVal);
 		Util.saveAccount(e);
+		if (Satoshis.buyerorseller)
+			economy.transferTax(arg1);
 		return new EconomyResponse(arg1, fVal, ResponseType.SUCCESS, "");
 	}
 
