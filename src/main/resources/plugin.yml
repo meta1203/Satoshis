@@ -4,6 +4,7 @@ main: me.meta1203.plugins.satoshis.Satoshis
 name: Satoshis
 startup: postworld
 url: http://www.metaserve.net/
+softdepend: [Vault]
 version: '0.3'
 commands:
   deposit:

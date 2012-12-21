@@ -9,14 +9,17 @@ import javax.persistence.PersistenceException;
 import me.meta1203.plugins.satoshis.bitcoin.BitcoinAPI;
 import me.meta1203.plugins.satoshis.bitcoin.CheckThread;
 import me.meta1203.plugins.satoshis.commands.*;
+import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.economy.Economy;
 
+import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 //import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -65,7 +68,7 @@ public class Satoshis extends JavaPlugin implements Listener {
         this.getCommand("money").setExecutor(new MoneyCommand());
         this.getCommand("transact").setExecutor(new SendCommand());
         this.getCommand("admin").setExecutor(new AdminCommand());
-        getServer().getServicesManager().register(Economy.class, vecon, this, ServicePriority.Highest);
+        activateVault();
     }
 
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -98,6 +101,17 @@ public class Satoshis extends JavaPlugin implements Listener {
 	
 	public void saveAccount(AccountEntry ae) {
 		getDatabase().save(ae);
+	}
+	
+	private boolean activateVault() {
+		Plugin vault = Bukkit.getServer().getPluginManager().getPlugin("Vault");
+		if (vault == null || !(vault instanceof Vault)) {
+			log.warning("Vault support disabled.");
+			return false;
+		}
+		getServer().getServicesManager().register(Economy.class, vecon, this, ServicePriority.Highest);
+		log.warning("Vault support enabled.");
+		return true;
 	}
 }
 

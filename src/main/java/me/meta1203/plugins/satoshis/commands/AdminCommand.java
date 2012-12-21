@@ -10,6 +10,7 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 import com.google.bitcoin.core.Address;
+import com.google.bitcoin.core.ScriptException;
 import com.google.bitcoin.core.Transaction;
 import com.google.bitcoin.core.Wallet;
 
@@ -43,8 +44,12 @@ public class AdminCommand implements CommandExecutor {
 		Wallet tmp = Satoshis.bapi.getWallet();
 		info("Total balance: " + tmp.getBalance().longValue() + " Satoshi", arg0);
 		info("Recent transactions:", arg0);
-		for (Transaction t : tmp.getRecentTransactions(5, false)) {
-			info(t.getHashAsString() + " value: " + t.getValueSentToMe(tmp), arg0);
+		for (Transaction t : tmp.getRecentTransactions(3, false)) {
+			try {
+				info(t.getHashAsString() + " value: +" + t.getValueSentToMe(tmp) + ", -" + t.getValueSentFromMe(tmp), arg0);
+			} catch (ScriptException e) {
+				error("Transaction " + t.getHashAsString() + " errored out!", arg0);
+			}
 		}
 		
 		info("Allocated:",arg0);
