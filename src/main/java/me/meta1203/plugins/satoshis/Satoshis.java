@@ -9,6 +9,7 @@ import javax.persistence.PersistenceException;
 import me.meta1203.plugins.satoshis.bitcoin.BitcoinAPI;
 import me.meta1203.plugins.satoshis.bitcoin.CheckThread;
 import me.meta1203.plugins.satoshis.commands.*;
+import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
@@ -16,6 +17,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 //import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public class Satoshis extends JavaPlugin implements Listener {
@@ -30,6 +32,7 @@ public class Satoshis extends JavaPlugin implements Listener {
 	public static CheckThread checker = null;
 	public static Logger log = null;
 	public static SatoshisEconAPI econ = null;
+	public static VaultEconAPI vecon = null;
 	
     public void onDisable() {
     	checker.serialize();
@@ -55,12 +58,14 @@ public class Satoshis extends JavaPlugin implements Listener {
     	econ.buyerorseller = buyerorseller;
     	bapi = new BitcoinAPI();
     	checker.start();
+    	vecon = new VaultEconAPI(this);
         getServer().getPluginManager().registerEvents(this, this);
         this.getCommand("deposit").setExecutor(new DepositCommand());
         this.getCommand("withdraw").setExecutor(new WithdrawCommand());
         this.getCommand("money").setExecutor(new MoneyCommand());
         this.getCommand("transact").setExecutor(new SendCommand());
         this.getCommand("admin").setExecutor(new AdminCommand());
+        getServer().getServicesManager().register(Economy.class, vecon, this, ServicePriority.Highest);
     }
 
     public void onPlayerJoin(PlayerJoinEvent event) {

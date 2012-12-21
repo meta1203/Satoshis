@@ -57,6 +57,15 @@ public class SatoshisEconAPI {
 		return formatValue(Util.loadAccount(player).getAmount(), true);
 	}
 	
+	public boolean addAccount(String player) {
+		if (Util.testAccount(player)) {
+			return false;
+		} else {
+			Util.saveAccount(Util.loadAccount(player));
+			return true;
+		}
+	}
+	
 	public double getMoney(String player) {
 		return Util.loadAccount(player).getAmount();
 	}

@@ -6,8 +6,8 @@ import java.util.logging.Logger;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
-import net.milkbowl.vault.economy.plugins.Economy_McMoney;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -23,6 +23,14 @@ public class VaultEconAPI implements Economy {
 	
 	public VaultEconAPI(Plugin p) {
 		plugin = p;
+		Bukkit.getServer().getPluginManager().registerEvents(new EconomyServerListener(this), plugin);
+		if (economy == null) {
+            Plugin satoshis = plugin.getServer().getPluginManager().getPlugin("Satoshis");
+            if (satoshis != null && satoshis.isEnabled()) {
+                economy = Satoshis.econ;
+                log.info(String.format("[%s][Economy] %s hooked.", plugin.getDescription().getName(), "Satoshis"));
+            }
+        }
 	}
 	
     public class EconomyServerListener implements Listener {
@@ -35,7 +43,7 @@ public class VaultEconAPI implements Economy {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginEnable(PluginEnableEvent event) {
             if (economy.economy == null) {
-                Plugin eco = plugin.getServer().getPluginManager().getPlugin("McMoney");
+                Plugin eco = plugin.getServer().getPluginManager().getPlugin("Satoshis");
 
                 if (eco != null && eco.isEnabled()) {
                     economy.economy = Satoshis.econ;
@@ -47,7 +55,7 @@ public class VaultEconAPI implements Economy {
         @EventHandler(priority = EventPriority.MONITOR)
         public void onPluginDisable(PluginDisableEvent event) {
             if (economy.economy != null) {
-                if (event.getPlugin().getDescription().getName().equals("McMoney")) {
+                if (event.getPlugin().getDescription().getName().equals("Satoshis")) {
                     economy.economy = null;
                     log.info(String.format("[%s][Economy] %s unhooked.", plugin.getDescription().getName(), "Satoshis"));
                 }
@@ -76,88 +84,84 @@ public class VaultEconAPI implements Economy {
 	}
 
 	public boolean createPlayerAccount(String arg0) {
-		// TODO Auto-generated method stub
-		return false;
+		return economy.addAccount(arg0);
 	}
 
 	public String currencyNamePlural() {
-		// TODO Auto-generated method stub
-		return null;
+		return Satoshis.currencyName;
 	}
 
 	public String currencyNameSingular() {
-		// TODO Auto-generated method stub
-		return null;
+		return Satoshis.currencyName;
 	}
 
 	public EconomyResponse deleteBank(String arg0) {
-		// TODO Auto-generated method stub
-		return null;
+		return noBank;
 	}
 
 	public EconomyResponse depositPlayer(String arg0, double arg1) {
-		// TODO Auto-generated method stub
-		return null;
+		AccountEntry e = Util.loadAccount(arg0);
+		e.setAmount(e.getAmount() + arg1);
+		Util.saveAccount(e);
+		return new EconomyResponse(arg1, e.getAmount(), ResponseType.SUCCESS, "");
 	}
 
 	public String format(double arg0) {
-		// TODO Auto-generated method stub
-		return null;
+		return economy.formatValue(arg0, false);
 	}
 
 	public int fractionalDigits() {
-		// TODO Auto-generated method stub
-		return 0;
+		return 2;
 	}
 
 	public double getBalance(String arg0) {
-		// TODO Auto-generated method stub
-		return 0;
+		return Util.loadAccount(arg0).getAmount();
 	}
 
 	public List<String> getBanks() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return "Satoshis";
 	}
 
 	public boolean has(String arg0, double arg1) {
-		// TODO Auto-generated method stub
-		return false;
+		return economy.hasMoney(arg0, arg1);
 	}
 
 	public boolean hasAccount(String arg0) {
-		// TODO Auto-generated method stub
-		return false;
+		return Util.testAccount(arg0);
 	}
 
 	public boolean hasBankSupport() {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
 	public EconomyResponse isBankMember(String arg0, String arg1) {
-		// TODO Auto-generated method stub
-		return null;
+		return noBank;
 	}
 
 	public EconomyResponse isBankOwner(String arg0, String arg1) {
-		// TODO Auto-generated method stub
-		return null;
+		return noBank;
 	}
 
 	public boolean isEnabled() {
-		// TODO Auto-generated method stub
-		return false;
+		return economy != null;
 	}
 
 	public EconomyResponse withdrawPlayer(String arg0, double arg1) {
-		// TODO Auto-generated method stub
-		return null;
+		AccountEntry e = Util.loadAccount(arg0);
+		double fVal = e.getAmount() - arg1;
+		if (arg1 < 0) {
+			return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw a negative amount");
+		}
+		if (fVal < 0) {
+			return new EconomyResponse(0, 0, ResponseType.FAILURE, "Cannot withdraw that much");
+		}
+		e.setAmount(fVal);
+		Util.saveAccount(e);
+		return new EconomyResponse(arg1, fVal, ResponseType.SUCCESS, "");
 	}
 
 }
