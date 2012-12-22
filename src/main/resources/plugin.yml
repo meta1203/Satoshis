@@ -5,6 +5,7 @@ name: Satoshis
 startup: postworld
 url: http://www.metaserve.net/
 softdepend: [Vault]
+load: startup
 version: '0.3'
 commands:
   deposit:
