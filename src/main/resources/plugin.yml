@@ -2,11 +2,10 @@ author: meta1203
 database: true
 main: me.meta1203.plugins.satoshis.Satoshis
 name: Satoshis
-startup: postworld
 url: http://www.metaserve.net/
 softdepend: [Vault]
 load: startup
-version: '0.3'
+version: '0.4'
 commands:
   deposit:
     description: 'Deposit money through Bitcoin address'
