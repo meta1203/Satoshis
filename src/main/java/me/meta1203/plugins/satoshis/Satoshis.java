@@ -9,6 +9,8 @@ import javax.persistence.PersistenceException;
 import me.meta1203.plugins.satoshis.bitcoin.BitcoinAPI;
 import me.meta1203.plugins.satoshis.bitcoin.CheckThread;
 import me.meta1203.plugins.satoshis.commands.*;
+import me.meta1203.plugins.satoshis.database.DatabaseScanner;
+import me.meta1203.plugins.satoshis.database.SystemCheckThread;
 import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.economy.Economy;
 
@@ -36,6 +38,8 @@ public class Satoshis extends JavaPlugin implements Listener {
 	public static Logger log = null;
 	public static SatoshisEconAPI econ = null;
 	public static VaultEconAPI vecon = null;
+	public static DatabaseScanner scanner = null;
+	private SystemCheckThread syscheck = null;
 	
     public void onDisable() {
     	checker.serialize();
@@ -57,15 +61,19 @@ public class Satoshis extends JavaPlugin implements Listener {
     	// Config loading done!
     	
     	checker = new CheckThread(config.getInt("bitcoin.check-interval"), config.getInt("bitcoin.confirms"));
+    	syscheck = new SystemCheckThread(config.getInt("self-check.delay"), config.getBoolean("self-check.startup"));
     	econ = new SatoshisEconAPI();
     	econ.buyerorseller = buyerorseller;
     	bapi = new BitcoinAPI();
+    	scanner = new DatabaseScanner(this);
     	checker.start();
+    	syscheck.start();
     	vecon = new VaultEconAPI(this);
         getServer().getPluginManager().registerEvents(this, this);
         this.getCommand("deposit").setExecutor(new DepositCommand());
         this.getCommand("withdraw").setExecutor(new WithdrawCommand());
         this.getCommand("money").setExecutor(new MoneyCommand());
+        this.getCommand("syscheck").setExecutor(new CheckCommand());
         this.getCommand("transact").setExecutor(new SendCommand());
         this.getCommand("admin").setExecutor(new AdminCommand());
         activateVault();
@@ -114,4 +122,3 @@ public class Satoshis extends JavaPlugin implements Listener {
 		return true;
 	}
 }
-

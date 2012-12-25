@@ -16,3 +16,9 @@ bitcoin:
   confirms: 2
   # How often (in seconds) to check for pending confirmations?
   check-interval: 60
+self-check:
+  # How often to do a total system check? (Hours or -1 to disable)
+  delay: -1
+  # Do a total system check on startup?
+  startup: false
+

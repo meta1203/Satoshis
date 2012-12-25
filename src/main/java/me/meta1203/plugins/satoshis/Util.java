@@ -6,6 +6,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -24,6 +25,10 @@ public class Util {
 
 	public static double roundTo(double input, int place) {
 		return Math.round(input * Math.pow(10, place)) / Math.pow(10, place);
+	}
+	
+	public static double getBitcoin(BigInteger raw) {
+		return raw.longValue() / Math.pow(10, 8);
 	}
 
 	public static boolean testAccount(String name) {

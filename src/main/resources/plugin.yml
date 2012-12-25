@@ -14,9 +14,11 @@ commands:
   withdraw:
     description: 'Withdraw money into Bitcoin address'
   transact:
-    description: 'Send in-game money to player!'
+    description: 'Send in-game money to player'
   admin:
     description: 'Print testing info'
+  syscheck:
+    description: 'Check Satoshis system health'
 permissions:
   satoshis.admin:
     description: 'Permission for Satoshis /admin'
@@ -28,3 +30,5 @@ permissions:
     description: 'Permission for Satoshis /transact'
   satoshis.money:
     description: 'Permission for Satoshis /money'
+  satoshis.info:
+    description: 'Permission for Satoshis /syscheck'
