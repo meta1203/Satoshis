@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>me.meta1203.plugins.satoshis</groupId>
 	<artifactId>Satoshis</artifactId>
-	<version>0.4</version>
+	<version>0.5</version>
 	<name>Satoshis</name>
 	<url>http://www.metaserve.net/</url>
 	<build>
@@ -22,6 +22,7 @@
 							<artifactSet>
 								<excludes>
 									<exclude>*:bukkit</exclude>
+									<exclude>*:Vault</exclude>
 								</excludes>
 							</artifactSet>
 						</configuration>
@@ -56,7 +57,7 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.4.5-R1.0</version>
+			<version>1.4.7-R0.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.avaje</groupId>
