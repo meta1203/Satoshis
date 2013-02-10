@@ -41,9 +41,8 @@
 			<url>http://ci.herocraftonline.com/plugin/repository/everything</url>
 		</repository>
 		<repository>
-			<id>bitcoinj-snapshot</id>
-			<snapshots />
-			<url>http://nexus.bitcoinj.org/content/repositories/snapshots</url>
+			<id>bitcoinj</id>
+			<url>http://play.metaserve.net:8081/nexus/content/repositories/releases/</url>
 		</repository>
 	</repositories>
 	<dependencies>
