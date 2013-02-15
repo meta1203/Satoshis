@@ -26,8 +26,8 @@ public class DepositCommand implements CommandExecutor {
 			Address alloc = Satoshis.bapi.allocate(name);
 			info("Send Bitcoin to the following address:", arg0);
 			info(alloc.toString(), arg0);
-			info("Blockchain.info link:", arg0)
-			info("http://blockchain.info/address/" + alloc.toString(), arg0)
+			info("Blockchain.info link:", arg0);
+			info("http://blockchain.info/address/" + alloc.toString(), arg0);
 			info("This address will be valid until you deposit.", arg0);
 		}
 		return true;
