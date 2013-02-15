@@ -58,7 +58,9 @@ public class Satoshis extends JavaPlugin implements Listener {
     	buyerorseller = config.getBoolean("satoshis.is-buyer-responsible");
     	fee = config.getBoolean("bitcoin.fees");
     	mult = config.getDouble("satoshis.multiplier");
+    	
     	// Config loading done!
+    	log.info("Satoshis configuration loaded.");
     	
     	checker = new CheckThread(config.getInt("bitcoin.check-interval"), config.getInt("bitcoin.confirms"));
     	syscheck = new SystemCheckThread(config.getInt("self-check.delay"), config.getBoolean("self-check.startup"));
@@ -75,6 +77,8 @@ public class Satoshis extends JavaPlugin implements Listener {
         this.getCommand("money").setExecutor(new MoneyCommand());
         this.getCommand("syscheck").setExecutor(new CheckCommand());
         this.getCommand("transact").setExecutor(new SendCommand());
+        this.getCommand("credit").setExecutor(new CreditCommand());
+        this.getCommand("debit").setExecutor(new DebitCommand());
         this.getCommand("admin").setExecutor(new AdminCommand());
         activateVault();
     }
@@ -112,6 +116,7 @@ public class Satoshis extends JavaPlugin implements Listener {
 	}
 	
 	private boolean activateVault() {
+	    log.info("Attempting to activate Satoshis Vault support...");
 		Plugin vault = Bukkit.getServer().getPluginManager().getPlugin("Vault");
 		if (vault == null || !(vault instanceof Vault)) {
 			log.warning("Vault support disabled.");

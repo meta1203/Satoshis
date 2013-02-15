@@ -1,6 +1,7 @@
 package me.meta1203.plugins.satoshis.commands;
 
 import java.util.Map;
+import java.math.BigInteger;
 
 import me.meta1203.plugins.satoshis.Satoshis;
 import static me.meta1203.plugins.satoshis.commands.CommandUtil.*;
@@ -42,7 +43,9 @@ public class AdminCommand implements CommandExecutor {
 		info("Wallet:", arg0);
 		
 		Wallet tmp = Satoshis.bapi.getWallet();
-		info("Total balance: " + tmp.getBalance().longValue() + " Satoshi", arg0);
+		BigInteger bitcoinBalance = tmp.getBalance();
+		double inGameValue = Satoshis.econ.bitcoinToInGame(bitcoinBalance);
+		info("Total balance: " + bitcoinBalance.longValue() + " Satoshi = " + Satoshis.econ.formatValue(inGameValue, true), arg0);
 		info("Recent transactions:", arg0);
 		for (Transaction t : tmp.getRecentTransactions(3, false)) {
 			try {

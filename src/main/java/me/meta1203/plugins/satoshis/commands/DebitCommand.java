@@ -10,22 +10,20 @@ import org.bukkit.entity.Player;
 
 import static me.meta1203.plugins.satoshis.commands.CommandUtil.*;
 
-public class SendCommand implements CommandExecutor {
+/**
+ * A command that lets admins remove in-game currency from circulation.
+ */
+public class DebitCommand implements CommandExecutor {
 
 	public boolean onCommand(CommandSender arg0, Command arg1, String arg2,
 			String[] arg3) {
-		if (!arg0.hasPermission("satoshis.transact")) {
+		if (!arg0.hasPermission("satoshis.debit")) {
 			error("You do not have permission for this command!", arg0);
 			return true;
 		}
 		
-		if (!(arg0 instanceof Player)) {
-			error("You must be a player to execute this command!", arg0);
-			return true;
-		}
-		Player player = (Player)arg0;
 		if (arg3.length != 2) {
-			error("Usage: /transact <player> <amount>", arg0);
+			error("Usage: /debit <player> <amount>", arg0);
 			return true;
 		}
 		if (!Util.testAccount(arg3[0])) {
@@ -39,12 +37,12 @@ public class SendCommand implements CommandExecutor {
 			error("Amount must be a number!", arg0);
 			return true;
 		}
-		if (Satoshis.econ.hasMoney(player.getName(), amount) && amount > 0) {
-			Satoshis.econ.transact(player.getName(), arg3[0], amount);
-			action("Sucessfully sent " + Satoshis.econ.formatValue(amount, true) + " to " +
+		if (amount > 0) {
+			Satoshis.econ.subFunds(arg3[0], amount);
+			action("Sucessfully debited " + Satoshis.econ.formatValue(amount, true) + " from " +
 					arg3[0] + "!", arg0);
 		} else {
-			error("Invalid amount to send!", arg0);
+			error("Invalid amount to debit!", arg0);
 		}
 		return true;
 	}

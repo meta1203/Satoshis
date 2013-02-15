@@ -4,6 +4,8 @@ import me.meta1203.plugins.satoshis.AccountEntry;
 import me.meta1203.plugins.satoshis.Satoshis;
 import me.meta1203.plugins.satoshis.Util;
 
+import org.bukkit.ChatColor;
+
 public class DatabaseScanner {
 	private Satoshis plugin;
 	
@@ -64,6 +66,10 @@ public class DatabaseScanner {
 		default:
 			break;
 		}
+		
+		// Don't forget to turn the color off
+		info += ChatColor.RESET;
+		
 		return info;
 	}
 }
