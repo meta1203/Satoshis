@@ -36,5 +36,5 @@ satoshis.transact - /transact
 satoshis.withdraw - /withdraw  
 satoshis.admin - /admin  
 satoshis.info - /syscheck  
-satoshis.credit - /credit
+satoshis.credit - /credit  
 satoshis.debit - /debit
