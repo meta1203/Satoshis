@@ -40,10 +40,6 @@
 			<id>vault-repo</id>
 			<url>http://ci.herocraftonline.com/plugin/repository/everything</url>
 		</repository>
-		<repository>
-			<id>bitcoinj</id>
-			<url>http://play.metaserve.net:8081/nexus/content/repositories/releases/</url>
-		</repository>
 	</repositories>
 	<dependencies>
 		<dependency>
@@ -68,8 +64,7 @@
 		<dependency>
 			<groupId>com.google</groupId>
 			<artifactId>bitcoinj</artifactId>
-			<version>0.6.1</version>
-			<scope>compile</scope>
+			<version>0.7.1</version>
 		</dependency>
 	</dependencies>
 </project>
