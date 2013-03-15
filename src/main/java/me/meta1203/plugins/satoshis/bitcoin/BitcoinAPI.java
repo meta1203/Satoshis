@@ -158,6 +158,7 @@ public class BitcoinAPI {
 	public void saveWallet() {
 		try {
             localWallet.saveToFile(walletFile);
+            localPeerGroup.stop();
 		} catch (IOException e1) {
 			e1.printStackTrace();
 		}
