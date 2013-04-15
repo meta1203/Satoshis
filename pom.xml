@@ -23,6 +23,9 @@
 								<excludes>
 									<exclude>*:bukkit</exclude>
 									<exclude>*:Vault</exclude>
+									<exclude>META-INF/*.SF</exclude>
+                                    <exclude>META-INF/*.DSA</exclude>
+                                    <exclude>META-INF/*.RSA</exclude>
 								</excludes>
 							</artifactSet>
 						</configuration>

@@ -100,7 +100,7 @@ public class VaultEconAPI implements Economy {
 	}
 
 	public EconomyResponse depositPlayer(String arg0, double arg1) {
-		if (!Satoshis.buyerorseller) {
+		if (!Satoshis.buyerorseller && Satoshis.salesTax) {
 			double tax = economy.priceOfTax(arg1);
 			economy.addFunds(arg0, arg1-tax);
 			economy.transferTax(arg1);
@@ -156,7 +156,7 @@ public class VaultEconAPI implements Economy {
 	public EconomyResponse withdrawPlayer(String arg0, double arg1) {
 		AccountEntry e = Util.loadAccount(arg0);
 		double fVal = e.getAmount() - arg1;
-		if (Satoshis.buyerorseller) {
+		if (Satoshis.buyerorseller && Satoshis.salesTax) {
 			fVal -= economy.priceOfTax(arg1);
 		}
 		if (arg1 < 0) {
@@ -170,6 +170,30 @@ public class VaultEconAPI implements Economy {
 		if (Satoshis.buyerorseller)
 			economy.transferTax(arg1);
 		return new EconomyResponse(arg1, fVal, ResponseType.SUCCESS, "");
+	}
+	
+	public boolean createPlayerAccount(String playerName, String worldName) {
+		return createPlayerAccount(playerName);
+	}
+
+	public EconomyResponse depositPlayer(String arg0, String arg1, double arg2) {
+		return depositPlayer(arg0, arg2);
+	}
+
+	public double getBalance(String arg0, String arg1) {
+		return Util.loadAccount(arg0).getAmount();
+	}
+
+	public boolean has(String arg0, String arg1, double arg2) {
+		return economy.hasMoney(arg0, arg2);
+	}
+
+	public boolean hasAccount(String arg0, String arg1) {
+		return Util.testAccount(arg0);
+	}
+
+	public EconomyResponse withdrawPlayer(String arg0, String arg1, double arg2) {
+		return withdrawPlayer(arg0, arg2);
 	}
 
 }
