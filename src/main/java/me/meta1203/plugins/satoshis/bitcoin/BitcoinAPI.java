@@ -11,15 +11,15 @@ import java.util.Map.Entry;
 
 import com.google.bitcoin.core.*;
 import com.google.bitcoin.discovery.DnsDiscovery;
-import com.google.bitcoin.store.BlockStore;
 import com.google.bitcoin.store.BlockStoreException;
-import com.google.bitcoin.store.BoundedOverheadBlockStore;
+import com.google.bitcoin.store.SPVBlockStore;
+
 import me.meta1203.plugins.satoshis.Satoshis;
 
 public class BitcoinAPI {
 
 	private Wallet localWallet;
-    private BlockStore localBlock;
+    private SPVBlockStore localBlock;
     private BlockChain localChain;
 	private final File walletFile;
     private PeerGroup localPeerGroup = null;
@@ -45,14 +45,14 @@ public class BitcoinAPI {
 			}
 		}
 		try {
-            localBlock = new BoundedOverheadBlockStore(NetworkParameters.prodNet(), new File("plugins/Satoshis/store.blockchain"));
+            localBlock = new SPVBlockStore(NetworkParameters.prodNet(), new File("plugins/Satoshis/spv.blockchain"));
             localChain = new BlockChain(NetworkParameters.prodNet(), localWallet, localBlock);
 		} catch (BlockStoreException ex) {
 			ex.printStackTrace();
 		}
         localWallet.addEventListener(new CoinListener());
         localPeerGroup = new PeerGroup(NetworkParameters.prodNet(), localChain);
-        localPeerGroup.setUserAgent("SatoshisBukkit", "0.1");
+        localPeerGroup.setUserAgent("SatoshisBukkit", "0.2");
         localPeerGroup.addWallet(localWallet);
         localPeerGroup.addPeerDiscovery(new DnsDiscovery(NetworkParameters.prodNet()));
         localPeerGroup.start();

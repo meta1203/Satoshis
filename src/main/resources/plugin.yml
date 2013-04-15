@@ -5,7 +5,7 @@ name: Satoshis
 url: http://www.metaserve.net/
 softdepend: [Vault]
 load: startup
-version: '0.5'
+version: '0.7'
 commands:
   deposit:
     description: 'Deposit money through Bitcoin address'

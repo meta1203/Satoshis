@@ -33,15 +33,21 @@ public class SatoshisEconAPI {
 	}
 	
 	public void transact(String playerFrom, String playerTo, double value) {
-		double tax = priceOfTax(value);
-		if (Satoshis.buyerorseller) {
-			subFunds(playerFrom, value+tax);
-			addFunds(playerTo, value);
+		if (Satoshis.salesTax) {
+			double tax = priceOfTax(value);
+			if (Satoshis.buyerorseller) {
+				subFunds(playerFrom, value+tax);
+				addFunds(playerTo, value);
+			} else {
+				subFunds(playerFrom, value);
+				addFunds(playerTo, value-tax);
+			}
+			addFunds(Satoshis.owner, tax);
 		} else {
 			subFunds(playerFrom, value);
-			addFunds(playerTo, value-tax);
+			addFunds(playerTo, value);
 		}
-		addFunds(Satoshis.owner, tax);
+		
 		Satoshis.log.info("Transaction took place!");
 		Satoshis.log.info(playerFrom + " paid " + playerTo + ": " + formatValue(value, true));
 	}
@@ -57,7 +63,9 @@ public class SatoshisEconAPI {
 	}
 	
 	public String listMoney(String player) {
-		Util.saveAccount(Util.loadAccount(player));
+		if (Util.loadAccount(player) == null) {
+			return null;
+		}
 		return formatValue(Util.loadAccount(player).getAmount(), true);
 	}
 	

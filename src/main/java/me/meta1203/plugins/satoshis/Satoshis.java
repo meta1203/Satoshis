@@ -32,6 +32,7 @@ public class Satoshis extends JavaPlugin implements Listener {
 	public static double tax = 0.0;
 	public static boolean buyerorseller = false;
 	public static boolean fee = false;
+	public static boolean salesTax = false;
 	public static double mult = 0;
 	public static BitcoinAPI bapi = null;
 	public static CheckThread checker = null;
@@ -55,9 +56,12 @@ public class Satoshis extends JavaPlugin implements Listener {
     	owner = config.getString("satoshis.owner");
     	currencyName = config.getString("satoshis.currency-name");
     	tax = config.getDouble("satoshis.tax");
+    	
     	buyerorseller = config.getBoolean("satoshis.is-buyer-responsible");
+    	salesTax = config.getBoolean("satoshis.sales-tax");
     	fee = config.getBoolean("bitcoin.fees");
     	mult = config.getDouble("satoshis.multiplier");
+    	
     	
     	// Config loading done!
     	log.info("Satoshis configuration loaded.");

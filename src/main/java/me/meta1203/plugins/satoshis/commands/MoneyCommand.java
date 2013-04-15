@@ -19,10 +19,29 @@ public class MoneyCommand implements CommandExecutor {
 		}
 		
 		if (arg0 instanceof Player) {
-			String amount = Satoshis.econ.listMoney(((Player)arg0).getName());
-			info("You have " + amount, arg0);
+			if (arg3.length == 1) {
+				String amount = Satoshis.econ.listMoney(arg3[0]);
+				if (amount == null) {
+					error("Player not found!", arg0);
+					return true;
+				}
+				info(arg3[0] + " has " + amount, arg0);
+			} else {
+				String amount = Satoshis.econ.listMoney(((Player)arg0).getName());
+				info("You have " + amount, arg0);
+				return true;
+			}
 		} else {
-			error("You must be a player to execute this command!", arg0);
+			if (arg3.length == 1) {
+				String amount = Satoshis.econ.listMoney(arg3[0]);
+				if (amount == null) {
+					error("Player not found!", arg0);
+					return true;
+				}
+				info(arg3[0] + " has " + amount, arg0);
+			} else {
+				error("Syntax: money <player>", arg0);
+			}
 		}
 		return true;
 	}
