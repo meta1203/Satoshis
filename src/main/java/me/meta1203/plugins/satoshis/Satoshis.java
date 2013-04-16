@@ -18,7 +18,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-//import org.bukkit.event.EventHandler;
+import org.mcstats.Metrics;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.plugin.Plugin;
@@ -84,6 +84,12 @@ public class Satoshis extends JavaPlugin implements Listener {
         this.getCommand("credit").setExecutor(new CreditCommand());
         this.getCommand("debit").setExecutor(new DebitCommand());
         this.getCommand("admin").setExecutor(new AdminCommand());
+        try {
+            Metrics metrics = new Metrics(this);
+            metrics.start();
+        } catch (IOException e) {
+            // Failed to submit the stats :-(
+        }
         activateVault();
     }
 
