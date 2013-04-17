@@ -20,8 +20,10 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.mcstats.Metrics;
+import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -136,5 +138,10 @@ public class Satoshis extends JavaPlugin implements Listener {
 		getServer().getServicesManager().register(Economy.class, vecon, this, ServicePriority.Highest);
 		log.warning("Vault support enabled.");
 		return true;
+	}
+	
+	@EventHandler
+	public void playerLogin(PlayerLoginEvent e) {
+		Util.loadAccount(e.getPlayer().getName());
 	}
 }

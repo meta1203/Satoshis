@@ -67,17 +67,11 @@ public class CheckThread extends Thread {
 					try {
 						double value = Satoshis.econ.bitcoinToInGame(current.getValueSentToMe(Satoshis.bapi.getWallet()));
 						Address receiver = current.getOutputs().get(0).getScriptPubKey().getToAddress();
-						if (Satoshis.bapi.allocatedAddresses.containsKey(receiver)) {
-							String pName = Satoshis.bapi.allocatedAddresses.get(receiver);
-							
-							Satoshis.econ.addFunds(pName, value);
-							Satoshis.log.warning("Added " + Satoshis.econ.formatValue(value, true) + " to " + pName + "!");
-							Satoshis.bapi.saveWallet();
-							// Remove allocations
-							Satoshis.bapi.deallocate(receiver);
-						} else {
-							Satoshis.log.warning("Received transaction to unreserved address " + receiver.toString() + " of " + Satoshis.econ.formatValue(value, true));
-						}
+						String pName = Util.searchAddress(receiver);
+						
+						Satoshis.econ.addFunds(pName, value);
+						Satoshis.log.warning("Added " + Satoshis.econ.formatValue(value, true) + " to " + pName + "!");
+						Satoshis.bapi.saveWallet();
 					} catch (ScriptException e) {
 						Satoshis.log.warning("Missed transaction due to ScriptException!");
 						e.printStackTrace();

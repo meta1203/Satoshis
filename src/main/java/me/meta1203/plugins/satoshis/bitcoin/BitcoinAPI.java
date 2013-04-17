@@ -3,9 +3,6 @@ package me.meta1203.plugins.satoshis.bitcoin;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -23,8 +20,6 @@ public class BitcoinAPI {
     private BlockChain localChain;
 	private final File walletFile;
     private PeerGroup localPeerGroup = null;
-    public Map<Address, String> allocatedAddresses = new HashMap<Address, String>();
-    public List<Address> unallocatedAddresses = new ArrayList<Address>();
     public final BigInteger minBitFee = BigInteger.valueOf((long)(0.0005*Math.pow(10, 8)));
 	
 	public BitcoinAPI() {
@@ -32,17 +27,8 @@ public class BitcoinAPI {
 		try {
 		    localWallet = Wallet.loadFromFile(walletFile);
 		    // Satoshis.log.info(localWallet.toString());
-		    for (ECKey current : localWallet.getKeys()) {
-				unallocatedAddresses.add(current.toAddress(NetworkParameters.prodNet()));
-			}
 		} catch (IOException e) {
             localWallet = new Wallet(NetworkParameters.prodNet());
-		    addAddressesToWallet(5);
-		    try {
-                localWallet.saveToFile(walletFile);
-			} catch (IOException e1) {
-				e1.printStackTrace();
-			}
 		}
 		try {
             localBlock = new SPVBlockStore(NetworkParameters.prodNet(), new File("plugins/Satoshis/spv.blockchain"));
@@ -59,42 +45,10 @@ public class BitcoinAPI {
         localPeerGroup.downloadBlockChain();
 	}
 
-	private void addAddressesToWallet(int num) {
-		for (int x = 0; x < num; x++) {
-			ECKey key = new ECKey();
-            localWallet.addKey(key);
-			unallocatedAddresses.add(key.toAddress(NetworkParameters.prodNet()));
-		}
-	}
-	
-	public void allocate(Address a, String name) {
-		allocatedAddresses.put(a, name);
-		unallocatedAddresses.remove(a);
-	}
-	
-	public Address allocate(String name) {
-		Address ret = null;
-		if (unallocatedAddresses.size() < 1) {
-			addAddressesToWallet(1);
-		}
-		if (testAllocated(name)) {
-			for (Map.Entry<Address, String> current : allocatedAddresses.entrySet()) {
-				if (current.getValue().equals(name)) {
-					ret = current.getKey();
-					break;
-				}
-			}
-		} else {
-			ret = unallocatedAddresses.get(0);
-			allocatedAddresses.put(ret, name);
-			unallocatedAddresses.remove(0);
-		}
-		return ret;
-	}
-	
-	public void deallocate(Address a) {
-		allocatedAddresses.remove(a);
-		unallocatedAddresses.add(a);
+	public Address genAddress() {
+		ECKey key = new ECKey();
+		localWallet.addKey(key);
+		return key.toAddress(NetworkParameters.prodNet());
 	}
 
 	@Override
@@ -151,9 +105,6 @@ public class BitcoinAPI {
 		}
 	}
 	
-	private boolean testAllocated(String name) {
-		return allocatedAddresses.containsValue(name);
-	}
 	
 	public void saveWallet() {
 		try {

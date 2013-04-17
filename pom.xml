@@ -47,6 +47,10 @@
 			<url>http://repo.bukkit.org/content/groups/public</url>
 		</repository>
 		<repository>
+			<id>BitcoinJ</id>
+			<url>http://play.metaserve.net:8080/plugin/repository/everything</url>
+		</repository>
+		<repository>
 			<id>vault-repo</id>
 			<url>http://ci.herocraftonline.com/plugin/repository/everything</url>
 		</repository>

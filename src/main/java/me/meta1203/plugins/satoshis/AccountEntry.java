@@ -6,6 +6,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 import com.avaje.ebean.validation.NotNull;
+import com.google.bitcoin.core.Address;
 
 @Entity()
 @Table(name = "ss_accounts")
@@ -16,6 +17,8 @@ public class AccountEntry {
     private String playerName;
 	@Column
 	private double amount; 
+	@Column
+	private Address addr;
 	
 	// ID
 	
@@ -42,5 +45,14 @@ public class AccountEntry {
 	}
 	public double getAmount() {
 		return this.amount;
+	}
+	
+	// Bitcoin Address
+	
+	public Address getAddr() {
+		return addr;
+	}
+	public void setAddr(Address addr) {
+		this.addr = addr;
 	}
 }

@@ -1,6 +1,5 @@
 package me.meta1203.plugins.satoshis.commands;
 
-import java.util.Map;
 import java.math.BigInteger;
 
 import me.meta1203.plugins.satoshis.Satoshis;
@@ -10,7 +9,6 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import com.google.bitcoin.core.Address;
 import com.google.bitcoin.core.ScriptException;
 import com.google.bitcoin.core.Transaction;
 import com.google.bitcoin.core.Wallet;
@@ -53,15 +51,6 @@ public class AdminCommand implements CommandExecutor {
 			} catch (ScriptException e) {
 				error("Transaction " + t.getHashAsString() + " errored out!", arg0);
 			}
-		}
-		
-		info("Allocated:",arg0);
-		for (Map.Entry<Address, String> current : Satoshis.bapi.allocatedAddresses.entrySet()) {
-			info(current.getKey().toString() + " -> " + current.getValue(), arg0);
-		}
-		info("Unallocated:", arg0);
-		for (Address current : Satoshis.bapi.unallocatedAddresses) {
-			info(current.toString(), arg0);
 		}
 	}
 }

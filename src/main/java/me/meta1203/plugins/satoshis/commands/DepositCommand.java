@@ -1,6 +1,6 @@
 package me.meta1203.plugins.satoshis.commands;
 
-import me.meta1203.plugins.satoshis.Satoshis;
+import me.meta1203.plugins.satoshis.Util;
 import static me.meta1203.plugins.satoshis.commands.CommandUtil.*;
 
 import org.bukkit.command.Command;
@@ -23,12 +23,10 @@ public class DepositCommand implements CommandExecutor {
 		if (arg0 instanceof Player) {
 			Player player = (Player)arg0;
 			String name = player.getName();
-			Address alloc = Satoshis.bapi.allocate(name);
+			Address alloc = Util.loadAccount(name).getAddr();
 			info("Send Bitcoin to the following address:", arg0);
 			info(alloc.toString(), arg0);
-			info("Blockchain.info link:", arg0);
-			info("http://blockchain.info/address/" + alloc.toString(), arg0);
-			info("This address will be valid until you deposit.", arg0);
+			info("This address is yours forever. \nAdd it to your address book if need-be.", arg0);
 		}
 		return true;
 	}
