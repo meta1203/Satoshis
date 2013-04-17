@@ -142,6 +142,6 @@ public class Satoshis extends JavaPlugin implements Listener {
 	
 	@EventHandler
 	public void playerLogin(PlayerLoginEvent e) {
-		Util.loadAccount(e.getPlayer().getName());
+		saveAccount(Util.loadAccount(e.getPlayer().getName()));
 	}
 }
