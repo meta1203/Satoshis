@@ -16,8 +16,10 @@ import org.bukkit.plugin.Plugin;
 
 import com.google.bitcoin.core.Address;
 import com.google.bitcoin.core.NetworkParameters;
+import com.google.bitcoin.core.ScriptException;
 import com.google.bitcoin.core.Sha256Hash;
 import com.google.bitcoin.core.Transaction;
+import com.google.bitcoin.core.TransactionOutput;
 
 public class Util {
 
@@ -125,5 +127,14 @@ public class Util {
 			plugin = (Satoshis) p;
 		}
 		return plugin;
+	}
+	
+	public static Address getContainedAddress(List<TransactionOutput> tx) throws ScriptException {
+		for (TransactionOutput current : tx) {
+			if (Satoshis.bapi.getWallet().isPubKeyMine(current.getScriptPubKey().getPubKey())) {
+				return current.getScriptPubKey().getToAddress();
+			}
+		}
+		return null;
 	}
 }

@@ -66,7 +66,7 @@ public class CheckThread extends Thread {
 				if (conf >= confirmations) {
 					try {
 						double value = Satoshis.econ.bitcoinToInGame(current.getValueSentToMe(Satoshis.bapi.getWallet()));
-						Address receiver = current.getOutputs().get(0).getScriptPubKey().getToAddress();
+						Address receiver = Util.getContainedAddress(current.getOutputs());
 						String pName = Util.searchAddress(receiver);
 						
 						Satoshis.econ.addFunds(pName, value);
