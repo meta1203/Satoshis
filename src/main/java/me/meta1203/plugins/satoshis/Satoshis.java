@@ -77,7 +77,6 @@ public class Satoshis extends JavaPlugin implements Listener {
     	scanner = new DatabaseScanner(this);
     	checker.start();
     	syscheck.start();
-    	vecon = new VaultEconAPI(this);
         getServer().getPluginManager().registerEvents(this, this);
         this.getCommand("deposit").setExecutor(new DepositCommand());
         this.getCommand("withdraw").setExecutor(new WithdrawCommand());
@@ -135,6 +134,7 @@ public class Satoshis extends JavaPlugin implements Listener {
 			log.warning("Vault support disabled.");
 			return false;
 		}
+		vecon = new VaultEconAPI(this);
 		getServer().getServicesManager().register(Economy.class, vecon, this, ServicePriority.Highest);
 		log.warning("Vault support enabled.");
 		return true;
