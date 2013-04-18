@@ -23,7 +23,7 @@ public class DepositCommand implements CommandExecutor {
 		if (arg0 instanceof Player) {
 			Player player = (Player)arg0;
 			String name = player.getName();
-			Address alloc = Util.loadAccount(name).getAddr();
+			Address alloc = Util.parseAddress(Util.loadAccount(name).getAddr());
 			info("Send Bitcoin to the following address:", arg0);
 			info(alloc.toString(), arg0);
 			info("This address is yours forever. \nAdd it to your address book if need-be.", arg0);

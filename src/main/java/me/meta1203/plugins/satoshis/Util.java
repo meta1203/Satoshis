@@ -15,11 +15,13 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
 import com.google.bitcoin.core.Address;
+import com.google.bitcoin.core.AddressFormatException;
 import com.google.bitcoin.core.NetworkParameters;
 import com.google.bitcoin.core.ScriptException;
 import com.google.bitcoin.core.Sha256Hash;
 import com.google.bitcoin.core.Transaction;
 import com.google.bitcoin.core.TransactionOutput;
+import com.google.bitcoin.core.WrongNetworkException;
 
 public class Util {
 
@@ -56,7 +58,7 @@ public class Util {
 			ae = new AccountEntry();
 			ae.setPlayerName(accName);
 			ae.setAmount(0.0);
-			ae.setAddr(Satoshis.bapi.genAddress());
+			ae.setAddr(Satoshis.bapi.genAddress().toString());
 		}
 		return ae;
 	}
@@ -74,7 +76,7 @@ public class Util {
 			Plugin p = Bukkit.getPluginManager().getPlugin("Satoshis");
 			plugin = (Satoshis) p;
 		}
-		AccountEntry ae = plugin.getDatabase().find(AccountEntry.class).where().eq("addr", addr).findUnique();
+		AccountEntry ae = plugin.getDatabase().find(AccountEntry.class).where().eq("addr", addr.toString()).findUnique();
 		if (ae == null) {
 			return null;
 		}
@@ -93,6 +95,18 @@ public class Util {
             pw.close();
         } catch (Exception ex) {
 			ex.printStackTrace();
+		}
+	}
+	
+	public static Address parseAddress(String addr) {
+		try {
+			return new Address(NetworkParameters.prodNet(), addr);
+		} catch (WrongNetworkException e) {
+			e.printStackTrace();
+			return null;
+		} catch (AddressFormatException e) {
+			e.printStackTrace();
+			return null;
 		}
 	}
 
