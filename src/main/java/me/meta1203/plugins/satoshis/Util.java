@@ -59,6 +59,9 @@ public class Util {
 			ae.setPlayerName(accName);
 			ae.setAmount(0.0);
 			ae.setAddr(Satoshis.bapi.genAddress().toString());
+		} else if (ae.getAddr() == null) {
+			ae.setAddr(Satoshis.bapi.genAddress().toString());
+			saveAccount(ae);
 		}
 		return ae;
 	}
