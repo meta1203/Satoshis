@@ -2,6 +2,7 @@ package me.meta1203.plugins.satoshis.commands;
 
 import static me.meta1203.plugins.satoshis.commands.CommandUtil.*;
 import me.meta1203.plugins.satoshis.Satoshis;
+import me.meta1203.plugins.satoshis.Util;
 
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -20,11 +21,11 @@ public class MoneyCommand implements CommandExecutor {
 		
 		if (arg0 instanceof Player) {
 			if (arg3.length == 1) {
-				String amount = Satoshis.econ.listMoney(arg3[0]);
-				if (amount == null) {
+				if (Util.testAccount(arg0.getName())) {
 					error("Player not found!", arg0);
 					return true;
 				}
+				String amount = Satoshis.econ.formatValue(Util.loadAccount(arg0.getName()).getAmount(), true);
 				info(arg3[0] + " has " + amount, arg0);
 			} else {
 				String amount = Satoshis.econ.listMoney(((Player)arg0).getName());
