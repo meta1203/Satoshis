@@ -23,7 +23,11 @@ public class CheckThread extends Thread {
 		Satoshis.log.info("Checking for " + Integer.toString(confirmations) + " confirmations every " + Integer.toString(wait) + " seconds.");
 		waitTime = wait;
 		this.confirmations = confirmations;
-		toCheck.addAll(Util.loadChecking());
+		List<Transaction> toAdd = Util.loadChecking();
+		Satoshis.log.info("Adding " + toAdd.size() + " old transactions to the check pool!");
+		for (Transaction current : toAdd) {
+			Satoshis.log.info("Added: " + current.getHashAsString());
+		}
 	}
 	
 	public void run() {

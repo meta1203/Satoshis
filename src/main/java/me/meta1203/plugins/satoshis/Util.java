@@ -131,6 +131,7 @@ public class Util {
 		}
 		try {
 			in.close();
+			open.delete();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

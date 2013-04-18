@@ -48,6 +48,7 @@ public class AdminCommand implements CommandExecutor {
 		for (Transaction t : tmp.getRecentTransactions(3, false)) {
 			try {
 				info(t.getHashAsString() + " value: +" + t.getValueSentToMe(tmp) + ", -" + t.getValueSentFromMe(tmp), arg0);
+				info("Confirmations: " + t.getConfidence().getDepthInBlocks(), arg0);
 			} catch (ScriptException e) {
 				error("Transaction " + t.getHashAsString() + " errored out!", arg0);
 			}
