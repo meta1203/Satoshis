@@ -51,6 +51,8 @@ public class AdminCommand implements CommandExecutor {
 				info("Confirmations: " + t.getConfidence().getDepthInBlocks(), arg0);
 			} catch (ScriptException e) {
 				error("Transaction " + t.getHashAsString() + " errored out!", arg0);
+			} catch (IllegalStateException e) {
+				continue;
 			}
 		}
 	}
