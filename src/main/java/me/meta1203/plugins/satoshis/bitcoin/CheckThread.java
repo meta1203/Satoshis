@@ -27,6 +27,7 @@ public class CheckThread extends Thread {
 		Satoshis.log.info("Adding " + toAdd.size() + " old transactions to the check pool!");
 		for (Transaction current : toAdd) {
 			Satoshis.log.info("Added: " + current.getHashAsString());
+			toCheck.add(current);
 		}
 	}
 	
