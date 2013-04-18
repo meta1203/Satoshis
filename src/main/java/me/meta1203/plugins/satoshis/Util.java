@@ -16,7 +16,6 @@ import org.bukkit.plugin.Plugin;
 
 import com.google.bitcoin.core.Address;
 import com.google.bitcoin.core.AddressFormatException;
-import com.google.bitcoin.core.NetworkParameters;
 import com.google.bitcoin.core.ScriptException;
 import com.google.bitcoin.core.Sha256Hash;
 import com.google.bitcoin.core.Transaction;
@@ -103,7 +102,7 @@ public class Util {
 	
 	public static Address parseAddress(String addr) {
 		try {
-			return new Address(NetworkParameters.prodNet(), addr);
+			return new Address(Satoshis.network, addr);
 		} catch (WrongNetworkException e) {
 			e.printStackTrace();
 			return null;
@@ -125,7 +124,7 @@ public class Util {
 		String strLine;
 		try {
 			while ((strLine = in.readLine()) != null) {
-				ret.add(new Transaction(NetworkParameters.prodNet(), 0, new Sha256Hash(strLine)));
+				ret.add(new Transaction(Satoshis.network, 0, new Sha256Hash(strLine)));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

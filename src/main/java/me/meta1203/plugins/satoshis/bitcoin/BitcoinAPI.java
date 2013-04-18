@@ -28,19 +28,19 @@ public class BitcoinAPI {
 		    localWallet = Wallet.loadFromFile(walletFile);
 		    // Satoshis.log.info(localWallet.toString());
 		} catch (IOException e) {
-            localWallet = new Wallet(NetworkParameters.prodNet());
+            localWallet = new Wallet(Satoshis.network);
 		}
 		try {
-            localBlock = new SPVBlockStore(NetworkParameters.prodNet(), new File("plugins/Satoshis/spv.blockchain"));
-            localChain = new BlockChain(NetworkParameters.prodNet(), localWallet, localBlock);
+            localBlock = new SPVBlockStore(Satoshis.network, new File("plugins/Satoshis/spv.blockchain"));
+            localChain = new BlockChain(Satoshis.network, localWallet, localBlock);
 		} catch (BlockStoreException ex) {
 			ex.printStackTrace();
 		}
         localWallet.addEventListener(new CoinListener());
-        localPeerGroup = new PeerGroup(NetworkParameters.prodNet(), localChain);
+        localPeerGroup = new PeerGroup(Satoshis.network, localChain);
         localPeerGroup.setUserAgent("SatoshisBukkit", "0.2");
         localPeerGroup.addWallet(localWallet);
-        localPeerGroup.addPeerDiscovery(new DnsDiscovery(NetworkParameters.prodNet()));
+        localPeerGroup.addPeerDiscovery(new DnsDiscovery(Satoshis.network));
         localPeerGroup.start();
         localPeerGroup.downloadBlockChain();
 	}
@@ -48,7 +48,7 @@ public class BitcoinAPI {
 	public Address genAddress() {
 		ECKey key = new ECKey();
 		localWallet.addKey(key);
-		return key.toAddress(NetworkParameters.prodNet());
+		return key.toAddress(Satoshis.network);
 	}
 
 	@Override
@@ -78,7 +78,7 @@ public class BitcoinAPI {
 	}
 	
 	public boolean sendCoinsMulti(Map<Address, Double> toSend) {
-		Transaction tx = new Transaction(NetworkParameters.prodNet());
+		Transaction tx = new Transaction(Satoshis.network);
 		double totalSend = 0.0;
 		
 		for (Entry<Address, Double> current : toSend.entrySet()) {

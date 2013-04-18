@@ -9,7 +9,6 @@ import org.bukkit.entity.Player;
 
 import com.google.bitcoin.core.Address;
 import com.google.bitcoin.core.AddressFormatException;
-import com.google.bitcoin.core.NetworkParameters;
 import com.google.bitcoin.core.WrongNetworkException;
 import static me.meta1203.plugins.satoshis.commands.CommandUtil.*;
 
@@ -28,7 +27,7 @@ public class WithdrawCommand implements CommandExecutor {
 			// Withdraw exact amount
 			if (arg3.length == 2) {
 				try {
-					Address withdrawTo = new Address(NetworkParameters.prodNet(), arg3[0]);
+					Address withdrawTo = new Address(Satoshis.network, arg3[0]);
 					double withdraw = Double.parseDouble(arg3[1]);
 					if (Satoshis.econ.hasMoney(player.getName(), withdraw)) {
 						error("Oops! You cannot withdraw more money than you have!", arg0);
@@ -54,7 +53,7 @@ public class WithdrawCommand implements CommandExecutor {
 				}
 			} else if (arg3.length == 1) {
 				try {
-					Address withdrawTo = new Address(NetworkParameters.prodNet(), arg3[0]);
+					Address withdrawTo = new Address(Satoshis.network, arg3[0]);
 					double withdraw = Satoshis.econ.getMoney(player.getName());
 					if (withdraw == 0 + (Satoshis.fee ? Satoshis.econ.minCurrFee : 0.0)) {
 						error("Oops! You have no money in your account!", arg0);

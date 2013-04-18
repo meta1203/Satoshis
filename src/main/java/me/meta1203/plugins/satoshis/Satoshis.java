@@ -28,6 +28,8 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import com.google.bitcoin.core.NetworkParameters;
+
 public class Satoshis extends JavaPlugin implements Listener {
 	// Plugin
 	public static String owner = "";
@@ -43,6 +45,7 @@ public class Satoshis extends JavaPlugin implements Listener {
 	public static SatoshisEconAPI econ = null;
 	public static VaultEconAPI vecon = null;
 	public static DatabaseScanner scanner = null;
+	public static NetworkParameters network = null;
 	private SystemCheckThread syscheck = null;
 	
     public void onDisable() {
@@ -64,6 +67,7 @@ public class Satoshis extends JavaPlugin implements Listener {
     	salesTax = config.getBoolean("satoshis.sales-tax");
     	fee = config.getBoolean("bitcoin.fees");
     	mult = config.getDouble("satoshis.multiplier");
+    	network = config.getBoolean("bitcoin.testnet") ? NetworkParameters.testNet3() : NetworkParameters.prodNet();
     	
     	
     	// Config loading done!
