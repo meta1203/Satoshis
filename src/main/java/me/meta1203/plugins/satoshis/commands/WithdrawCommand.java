@@ -29,20 +29,17 @@ public class WithdrawCommand implements CommandExecutor {
 				try {
 					Address withdrawTo = new Address(Satoshis.network, arg3[0]);
 					double withdraw = Double.parseDouble(arg3[1]);
-					if (Satoshis.econ.hasMoney(player.getName(), withdraw)) {
+					if (!Satoshis.econ.hasMoney(player.getName(), withdraw)) {
 						error("Oops! You cannot withdraw more money than you have!", arg0);
 						return true;
 					}
 					if (!Satoshis.salesTax && !player.getName().equalsIgnoreCase(Satoshis.owner)) {
-						Satoshis.checker.addSend(withdrawTo, withdraw-Satoshis.econ.priceOfTax(withdraw)-(Satoshis.fee ? Satoshis.econ.minCurrFee : 0.0));
+						Satoshis.bapi.localSendCoins(withdrawTo, withdraw-Satoshis.econ.priceOfTax(withdraw)-Satoshis.econ.minCurrFee);
 					} else {
-						Satoshis.checker.addSend(withdrawTo, withdraw-(Satoshis.fee ? Satoshis.econ.minCurrFee : 0.0));
+						Satoshis.bapi.localSendCoins(withdrawTo, withdraw-Satoshis.econ.minCurrFee);
 					}
-					action("Sending " + Satoshis.econ.formatValue(withdraw-(Satoshis.fee ? Satoshis.econ.minCurrFee : 0.0), false) + " to address " + withdrawTo.toString() + " sucessfully!", arg0);
-					if (!Satoshis.fee) {
-						info("Group send is active; Once total withdraws => 0.01 BTC, transaction will be finalized.", arg0);
-					}
-					Satoshis.econ.subFunds(player.getName(), withdraw + (Satoshis.fee ? Satoshis.econ.minCurrFee : 0.0));
+					action("Sending " + Satoshis.econ.formatValue(withdraw-Satoshis.econ.minCurrFee, false) + " to address " + withdrawTo.toString() + " sucessfully!", arg0);
+					Satoshis.econ.subFunds(player.getName(), withdraw + Satoshis.econ.minCurrFee);
 				} catch (WrongNetworkException e) {
 					error("Oops! That address was for the TestNet!", arg0);
 				} catch (AddressFormatException e) {
@@ -55,19 +52,17 @@ public class WithdrawCommand implements CommandExecutor {
 				try {
 					Address withdrawTo = new Address(Satoshis.network, arg3[0]);
 					double withdraw = Satoshis.econ.getMoney(player.getName());
-					if (withdraw == 0 + (Satoshis.fee ? Satoshis.econ.minCurrFee : 0.0)) {
+					if (withdraw == 0 + Satoshis.econ.minCurrFee) {
 						error("Oops! You have no money in your account!", arg0);
 						return true;
 					}
 					if (!Satoshis.salesTax && !player.getName().equalsIgnoreCase(Satoshis.owner)) {
-						Satoshis.checker.addSend(withdrawTo, withdraw-Satoshis.econ.priceOfTax(withdraw)-(Satoshis.fee ? Satoshis.econ.minCurrFee : 0.0));
+						Satoshis.bapi.localSendCoins(withdrawTo, withdraw-Satoshis.econ.priceOfTax(withdraw)-Satoshis.econ.minCurrFee);
 					} else {
-						Satoshis.checker.addSend(withdrawTo, withdraw-(Satoshis.fee ? Satoshis.econ.minCurrFee : 0.0));
+						Satoshis.bapi.localSendCoins(withdrawTo, withdraw-Satoshis.econ.minCurrFee);
 					}
-					action("Sending " + Satoshis.econ.formatValue(withdraw-(Satoshis.fee ? Satoshis.econ.minCurrFee : 0.0), false) + " to address " + withdrawTo.toString() + " sucessfully!", arg0);
-					if (!Satoshis.fee) {
-						info("Group send is active; Once total withdraws => 0.01 BTC, transaction will be finalized.", arg0);
-					}
+					action("Sending " + Satoshis.econ.formatValue(withdraw-Satoshis.econ.minCurrFee, false) + " to address " + withdrawTo.toString() + " sucessfully!", arg0);
+
 					Satoshis.econ.subFunds(player.getName(), withdraw);
 				} catch (WrongNetworkException e) {
 					error("Oops! That address was for the TestNet!", arg0);

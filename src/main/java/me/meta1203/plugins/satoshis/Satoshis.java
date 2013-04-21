@@ -36,9 +36,9 @@ public class Satoshis extends JavaPlugin implements Listener {
 	public static String currencyName = "";
 	public static double tax = 0.0;
 	public static boolean buyerorseller = false;
-	public static boolean fee = false;
 	public static boolean salesTax = false;
 	public static double mult = 0;
+	public static double minWithdraw = 0;
 	public static BitcoinAPI bapi = null;
 	public static CheckThread checker = null;
 	public static Logger log = null;
@@ -65,7 +65,7 @@ public class Satoshis extends JavaPlugin implements Listener {
     	
     	buyerorseller = config.getBoolean("satoshis.is-buyer-responsible");
     	salesTax = config.getBoolean("satoshis.sales-tax");
-    	fee = config.getBoolean("bitcoin.fees");
+    	minWithdraw = config.getDouble("bitcoin.min-withdraw");
     	mult = config.getDouble("satoshis.multiplier");
     	network = config.getBoolean("bitcoin.testnet") ? NetworkParameters.testNet3() : NetworkParameters.prodNet();
     	
@@ -89,7 +89,7 @@ public class Satoshis extends JavaPlugin implements Listener {
         this.getCommand("transact").setExecutor(new SendCommand());
         this.getCommand("credit").setExecutor(new CreditCommand());
         this.getCommand("debit").setExecutor(new DebitCommand());
-        this.getCommand("admin").setExecutor(new AdminCommand());
+        this.getCommand("satoshis").setExecutor(new AdminCommand());
         try {
             Metrics metrics = new Metrics(this);
             metrics.start();

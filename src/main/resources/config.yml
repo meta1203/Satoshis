@@ -12,8 +12,8 @@ satoshis:
   # Name of the in-game currency
   currency-name: 'MTC'
 bitcoin:
-  # Use fees for withdrawls? (recommended for small servers until a consistant flow of BTC is established)
-  fees: true
+  # How much in-game currency is require to withdraw to Bitcoin.
+  min-withdraw: 0
   # Transaction Confirmations required for crediting player?
   confirms: 2
   # How often (in seconds) to check for pending confirmations?

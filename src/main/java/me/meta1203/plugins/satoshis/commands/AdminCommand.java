@@ -23,7 +23,7 @@ public class AdminCommand implements CommandExecutor {
 		}
 		
 		if (arg3.length != 1) {
-			error("Syntax: /admin <info>|<reset>", arg0);
+			error("Syntax: /satoshis <info>|<reset>", arg0);
 			return true;
 		}
 		if (arg3[0].equalsIgnoreCase("info"))

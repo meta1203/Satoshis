@@ -5,7 +5,7 @@ name: Satoshis
 url: http://www.metaserve.net/
 softdepend: [Vault]
 load: startup
-version: '0.9'
+version: '1.0'
 commands:
   deposit:
     description: 'Deposit money through Bitcoin address'
@@ -15,7 +15,7 @@ commands:
     description: 'Withdraw money to a Bitcoin address'
   transact:
     description: 'Send in-game money to player'
-  admin:
+  satoshis:
     description: 'Print testing info'
   syscheck:
     description: 'Check Satoshis system health'
@@ -25,7 +25,7 @@ commands:
     description: 'Debit in-game money from player'
 permissions:
   satoshis.admin:
-    description: 'Permission for Satoshis /admin'
+    description: 'Permission for Satoshis /satoshis'
   satoshis.withdraw:
     description: 'Permission for Satoshis /withdraw'
   satoshis.deposit:
