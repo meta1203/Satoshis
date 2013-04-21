@@ -55,9 +55,9 @@
 			<url>http://ci.herocraftonline.com/plugin/repository/everything</url>
 		</repository>
 		<repository>
-        		<id>Plugin Metrics</id>
-        		<url>http://repo.mcstats.org/content/repositories/public</url>
-    		</repository>
+			<id>Plugin Metrics</id>
+			<url>http://repo.mcstats.org/content/repositories/public</url>
+		</repository>
 	</repositories>
 	<dependencies>
 		<dependency>
@@ -85,10 +85,10 @@
 			<version>0.8</version>
 		</dependency>
 		<dependency>
-        		<groupId>org.mcstats.bukkit</groupId>
-        		<artifactId>metrics</artifactId>
-		        <version>R6</version>
-        		<scope>compile</scope>
+			<groupId>org.mcstats.bukkit</groupId>
+			<artifactId>metrics</artifactId>
+			<version>R6</version>
+			<scope>compile</scope>
 		</dependency>
 	</dependencies>
 </project>
