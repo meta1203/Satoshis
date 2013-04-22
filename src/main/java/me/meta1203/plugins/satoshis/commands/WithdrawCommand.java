@@ -29,6 +29,10 @@ public class WithdrawCommand implements CommandExecutor {
 				try {
 					Address withdrawTo = new Address(Satoshis.network, arg3[0]);
 					double withdraw = Double.parseDouble(arg3[1]);
+					if (!Satoshis.econ.hasMoney(player.getName(), Satoshis.minWithdraw)) {
+						error("Oops! You must have " + Satoshis.econ.formatValue(Satoshis.minWithdraw, false) + " to withdraw!", arg0);
+						return true;
+					}
 					if (!Satoshis.econ.hasMoney(player.getName(), withdraw)) {
 						error("Oops! You cannot withdraw more money than you have!", arg0);
 						return true;

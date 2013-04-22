@@ -31,7 +31,7 @@ public class AdminCommand implements CommandExecutor {
 		else if (arg3[0].equalsIgnoreCase("reset"))
 			Satoshis.bapi.reloadWallet();
 		else
-			error("Syntax: /admin <info>|<reset>", arg0);
+			error("Syntax: /satoshis <info>|<reset>", arg0);
 		
 		return true;
 	}
