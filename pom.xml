@@ -22,6 +22,7 @@
 							<artifactSet>
 								<excludes>
 									<exclude>*:bukkit</exclude>
+									<exclude>*:slf4j-api</exclude>
 									<exclude>*:Vault</exclude>
 								</excludes>
 							</artifactSet>
@@ -83,6 +84,11 @@
 			<groupId>com.google</groupId>
 			<artifactId>bitcoinj</artifactId>
 			<version>0.8</version>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-nop</artifactId>
+			<version>1.6.4</version>
 		</dependency>
 		<dependency>
 			<groupId>org.mcstats.bukkit</groupId>
