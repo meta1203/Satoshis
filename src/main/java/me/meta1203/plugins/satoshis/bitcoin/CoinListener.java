@@ -13,7 +13,11 @@ public class CoinListener extends AbstractWalletEventListener {
 	@Override
 	public void onCoinsReceived(Wallet wallet, Transaction tx,
 			BigInteger prevBalance, BigInteger newBalance) {
+		if (tx.getValueSentToMe(Satoshis.bapi.getWallet()) == BigInteger.ZERO) {
+			return;
+		}
 		Satoshis.checker.addCheckTransaction(tx);
+		Satoshis.bapi.saveWallet();
 	}
 
 }
