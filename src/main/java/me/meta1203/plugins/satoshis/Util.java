@@ -148,7 +148,7 @@ public class Util {
 	
 	public static Address getContainedAddress(List<TransactionOutput> tx) throws ScriptException {
 		for (TransactionOutput current : tx) {
-			if (Satoshis.bapi.getWallet().isPubKeyHashMine(current.getScriptPubKey().getToAddress().getHash160())) {
+			if (current.isMine(Satoshis.bapi.getWallet())) {
 				return current.getScriptPubKey().getToAddress();
 			}
 		}
