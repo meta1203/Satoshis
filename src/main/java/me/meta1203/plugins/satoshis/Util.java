@@ -146,12 +146,13 @@ public class Util {
 		return plugin;
 	}
 	
-	public static Address getContainedAddress(List<TransactionOutput> tx) throws ScriptException {
+	public static List<Address> getContainedAddress(List<TransactionOutput> tx) throws ScriptException {
+		List<Address> ret = new ArrayList<Address>();
 		for (TransactionOutput current : tx) {
 			if (current.isMine(Satoshis.bapi.getWallet())) {
-				return current.getScriptPubKey().getToAddress();
+				ret.add(current.getScriptPubKey().getToAddress());
 			}
 		}
-		return null;
+		return ret;
 	}
 }

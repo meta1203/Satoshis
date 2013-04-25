@@ -62,11 +62,14 @@ public class CheckThread extends Thread {
 				if (conf >= confirmations) {
 					try {
 						double value = Satoshis.econ.bitcoinToInGame(current.getValueSentToMe(Satoshis.bapi.getWallet()));
-						Address receiver = Util.getContainedAddress(current.getOutputs());
-						String pName = Util.searchAddress(receiver);
-
-						Satoshis.econ.addFunds(pName, value);
-						Satoshis.log.warning("Added " + Satoshis.econ.formatValue(value, true) + " to " + pName + "!");
+						List<Address> receivers = Util.getContainedAddress(current.getOutputs());
+						
+						for (Address x : receivers) {
+							String pName = Util.searchAddress(x);
+							Satoshis.econ.addFunds(pName, value);
+							Satoshis.log.warning("Added " + Satoshis.econ.formatValue(value, true) + " to " + pName + "!");
+						}
+						
 						Satoshis.bapi.saveWallet();
 					} catch (ScriptException e) {
 						Satoshis.log.warning("Missed transaction due to ScriptException!");

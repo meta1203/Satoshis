@@ -126,7 +126,7 @@ public class BitcoinAPI {
     public void reloadWallet() {
     	localPeerGroup.stop();
     	localWallet.clearTransactions(0);
-    	new File("plugins/Satoshis/store.blockchain").delete();
+    	new File("plugins/Satoshis/spv.blockchain").delete();
     	localPeerGroup.start();
     	localPeerGroup.downloadBlockChain();
     }
