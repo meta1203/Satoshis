@@ -19,6 +19,13 @@
 							<goal>shade</goal>
 						</goals>
 						<configuration>
+							<finalName>Satoshis-${project.version}</finalName>
+							<relocations>
+								<relocation>
+									<pattern>com.google.common</pattern>
+									<shadedPattern>guava13.com.google.common</shadedPattern>
+								</relocation>
+							</relocations>
 							<artifactSet>
 								<excludes>
 									<exclude>*:bukkit</exclude>
