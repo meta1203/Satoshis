@@ -22,7 +22,6 @@
 							<artifactSet>
 								<excludes>
 									<exclude>*:bukkit</exclude>
-									<exclude>*:slf4j-api</exclude>
 									<exclude>*:Vault</exclude>
 								</excludes>
 							</artifactSet>

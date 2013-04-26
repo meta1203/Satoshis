@@ -38,6 +38,7 @@ public class Satoshis extends JavaPlugin implements Listener {
 	public static boolean buyerorseller = false;
 	public static boolean salesTax = false;
 	public static double mult = 0;
+	public static int confirms = 2;
 	public static double minWithdraw = 0;
 	public static BitcoinAPI bapi = null;
 	public static CheckThread checker = null;
@@ -68,12 +69,12 @@ public class Satoshis extends JavaPlugin implements Listener {
     	minWithdraw = config.getDouble("bitcoin.min-withdraw");
     	mult = config.getDouble("satoshis.multiplier");
     	network = config.getBoolean("bitcoin.testnet") ? NetworkParameters.testNet3() : NetworkParameters.prodNet();
-    	
+    	confirms = config.getInt("bitcoin.confirms");
     	
     	// Config loading done!
     	log.info("Satoshis configuration loaded.");
     	
-    	checker = new CheckThread(config.getInt("bitcoin.check-interval"), config.getInt("bitcoin.confirms"));
+    	checker = new CheckThread(config.getInt("bitcoin.check-interval"), confirms);
     	syscheck = new SystemCheckThread(config.getInt("self-check.delay"), config.getBoolean("self-check.startup"));
     	econ = new SatoshisEconAPI();
     	econ.buyerorseller = buyerorseller;
@@ -93,8 +94,9 @@ public class Satoshis extends JavaPlugin implements Listener {
         try {
             Metrics metrics = new Metrics(this);
             metrics.start();
+            log.info("Metrics started!");
         } catch (IOException e) {
-            // Failed to submit the stats :-(
+        	log.info("Metrics disabled.");
         }
         activateVault();
     }
