@@ -150,7 +150,7 @@ public class Util {
 		List<Address> ret = new ArrayList<Address>();
 		for (TransactionOutput current : tx) {
 			if (current.isMine(Satoshis.bapi.getWallet())) {
-				ret.add(current.getScriptPubKey().getToAddress());
+				ret.add(current.getScriptPubKey().getToAddress(Satoshis.network));
 			}
 		}
 		return ret;

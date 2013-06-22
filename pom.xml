@@ -3,7 +3,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>me.meta1203.plugins.satoshis</groupId>
 	<artifactId>Satoshis</artifactId>
-	<version>1.0</version>
+	<version>1.1</version>
 	<name>Satoshis</name>
 	<url>http://www.metaserve.net/</url>
 	<build>
@@ -54,10 +54,6 @@
 			<url>http://repo.bukkit.org/content/groups/public</url>
 		</repository>
 		<repository>
-			<id>BitcoinJ</id>
-			<url>http://play.metaserve.net:8080/plugin/repository/everything</url>
-		</repository>
-		<repository>
 			<id>vault-repo</id>
 			<url>http://ci.herocraftonline.com/plugin/repository/everything</url>
 		</repository>
@@ -77,7 +73,7 @@
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.4.7-R1.0</version>
+			<version>1.5.2-R1.1-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.avaje</groupId>
@@ -89,7 +85,7 @@
 		<dependency>
 			<groupId>com.google</groupId>
 			<artifactId>bitcoinj</artifactId>
-			<version>0.8</version>
+			<version>0.9</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
