@@ -78,10 +78,14 @@ public class Util {
 			Plugin p = Bukkit.getPluginManager().getPlugin("Satoshis");
 			plugin = (Satoshis) p;
 		}
-		AccountEntry ae = plugin.getDatabase().find(AccountEntry.class).where().eq("addr", addr.toString()).findUnique();
-		if (ae == null) {
-			return null;
-		}
+
+		AccountEntry ae = null;
+		for (AccountEntry curr : plugin.getDatabase().find(AccountEntry.class).findList())
+			if(curr.getAddr().equals(addr.toString()))
+				{ ae = curr; }//found the account
+		//The account should exist at this point, but we can check. If not, we will send the money to the owner of the system.  
+		if (ae == null)
+			return Satoshis.owner;
 		return ae.getPlayerName();
 	}
 
