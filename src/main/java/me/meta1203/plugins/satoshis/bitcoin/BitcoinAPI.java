@@ -6,12 +6,19 @@ import java.math.BigInteger;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.google.bitcoin.core.*;
+import me.meta1203.plugins.satoshis.Satoshis;
+
+import com.google.bitcoin.core.Address;
+import com.google.bitcoin.core.BlockChain;
+import com.google.bitcoin.core.ECKey;
+import com.google.bitcoin.core.PeerGroup;
+import com.google.bitcoin.core.Transaction;
+import com.google.bitcoin.core.VerificationException;
+import com.google.bitcoin.core.Wallet;
 import com.google.bitcoin.discovery.DnsDiscovery;
 import com.google.bitcoin.store.BlockStoreException;
 import com.google.bitcoin.store.SPVBlockStore;
-
-import me.meta1203.plugins.satoshis.Satoshis;
+import com.google.bitcoin.store.UnreadableWalletException;
 
 public class BitcoinAPI {
 
@@ -20,15 +27,15 @@ public class BitcoinAPI {
     private BlockChain localChain;
 	private final File walletFile;
     private PeerGroup localPeerGroup = null;
-    public final BigInteger minBitFee = BigInteger.valueOf((long)(0.0005*Math.pow(10, 8)));
+    public final BigInteger minBitFee = Transaction.REFERENCE_DEFAULT_MIN_TX_FEE;
 	
 	public BitcoinAPI() {
 		walletFile = new File("plugins/Satoshis/wallet.wallet");
 		try {
 		    localWallet = Wallet.loadFromFile(walletFile);
 		    // Satoshis.log.info(localWallet.toString());
-		} catch (IOException e) {
-            localWallet = new Wallet(Satoshis.network);
+		} catch (UnreadableWalletException e) {
+			localWallet = new Wallet(Satoshis.network);
 		}
 		try {
             localBlock = new SPVBlockStore(Satoshis.network, new File("plugins/Satoshis/spv.blockchain"));

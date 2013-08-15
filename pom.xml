@@ -61,19 +61,23 @@
 			<id>Plugin Metrics</id>
 			<url>http://repo.mcstats.org/content/repositories/public</url>
 		</repository>
+		<repository>
+			<id>BitcoinJ</id>
+			<url>http://distribution.bitcoinj.googlecode.com/git/releases</url>
+		</repository>
 	</repositories>
 	<dependencies>
 		<dependency>
 			<groupId>net.milkbowl.vault</groupId>
 			<artifactId>Vault</artifactId>
-			<version>1.2.25-SNAPSHOT</version>
+			<version>1.2.26-SNAPSHOT</version>
 			<type>jar</type>
 			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.bukkit</groupId>
 			<artifactId>bukkit</artifactId>
-			<version>1.5.2-R1.1-SNAPSHOT</version>
+			<version>1.6.2-R0.2-SNAPSHOT</version>
 		</dependency>
 		<dependency>
 			<groupId>org.avaje</groupId>
@@ -85,7 +89,7 @@
 		<dependency>
 			<groupId>com.google</groupId>
 			<artifactId>bitcoinj</artifactId>
-			<version>0.9</version>
+			<version>0.10</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>

@@ -8,9 +8,11 @@ satoshis:
   # Username of the owner (All taxes go to this player)
   owner: meta1203
   # Value of single Bitcoin
-  multiplier: 4.0
+  multiplier: 1000.0
   # Name of the in-game currency
   currency-name: 'MTC'
+  # Use Vault Integration
+  use-vault: true
 bitcoin:
   # How much in-game currency is require to withdraw to Bitcoin.
   min-withdraw: 0

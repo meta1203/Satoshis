@@ -1,5 +1,6 @@
 package me.meta1203.plugins.satoshis;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.logging.Logger;
@@ -8,18 +9,23 @@ import javax.persistence.PersistenceException;
 
 import me.meta1203.plugins.satoshis.bitcoin.BitcoinAPI;
 import me.meta1203.plugins.satoshis.bitcoin.CheckThread;
-import me.meta1203.plugins.satoshis.commands.*;
+import me.meta1203.plugins.satoshis.commands.AdminCommand;
+import me.meta1203.plugins.satoshis.commands.CheckCommand;
+import me.meta1203.plugins.satoshis.commands.CreditCommand;
+import me.meta1203.plugins.satoshis.commands.DebitCommand;
+import me.meta1203.plugins.satoshis.commands.DepositCommand;
+import me.meta1203.plugins.satoshis.commands.MoneyCommand;
+import me.meta1203.plugins.satoshis.commands.SendCommand;
+import me.meta1203.plugins.satoshis.commands.WithdrawCommand;
 import me.meta1203.plugins.satoshis.database.DatabaseScanner;
 import me.meta1203.plugins.satoshis.database.SystemCheckThread;
 import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.economy.Economy;
 
 import org.bukkit.Bukkit;
-import java.io.IOException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.mcstats.Metrics;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -27,8 +33,11 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.mcstats.Metrics;
 
 import com.google.bitcoin.core.NetworkParameters;
+import com.google.bitcoin.params.MainNetParams;
+import com.google.bitcoin.params.TestNet3Params;
 
 public class Satoshis extends JavaPlugin implements Listener {
 	// Plugin
@@ -68,7 +77,7 @@ public class Satoshis extends JavaPlugin implements Listener {
     	salesTax = config.getBoolean("satoshis.sales-tax");
     	minWithdraw = config.getDouble("bitcoin.min-withdraw");
     	mult = config.getDouble("satoshis.multiplier");
-    	network = config.getBoolean("bitcoin.testnet") ? NetworkParameters.testNet3() : NetworkParameters.prodNet();
+    	network = config.getBoolean("bitcoin.testnet") ? TestNet3Params.get() : MainNetParams.get();;
     	confirms = config.getInt("bitcoin.confirms");
     	
     	// Config loading done!
@@ -98,7 +107,10 @@ public class Satoshis extends JavaPlugin implements Listener {
         } catch (IOException e) {
         	log.info("Metrics disabled.");
         }
-        activateVault();
+        
+        if (config.getBoolean("satoshis.use-vault")) {
+        	activateVault();
+        }
     }
 
     public void onPlayerJoin(PlayerJoinEvent event) {
