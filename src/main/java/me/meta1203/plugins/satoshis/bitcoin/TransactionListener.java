@@ -35,6 +35,7 @@ public class TransactionListener implements FutureCallback<Transaction> {
 			}
 
 			Satoshis.bapi.saveWallet();
+			CoinListener.pending.remove(tx);
 		} catch (ScriptException e) {
 			e.printStackTrace();
 		}

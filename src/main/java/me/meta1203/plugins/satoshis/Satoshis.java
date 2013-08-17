@@ -8,6 +8,7 @@ import java.util.logging.Logger;
 import javax.persistence.PersistenceException;
 
 import me.meta1203.plugins.satoshis.bitcoin.BitcoinAPI;
+import me.meta1203.plugins.satoshis.bitcoin.CoinListener;
 import me.meta1203.plugins.satoshis.bitcoin.TransactionListener;
 import me.meta1203.plugins.satoshis.commands.AdminCommand;
 import me.meta1203.plugins.satoshis.commands.CheckCommand;
@@ -61,6 +62,7 @@ public class Satoshis extends JavaPlugin implements Listener {
 	
     public void onDisable() {
     	bapi.saveWallet();
+    	Util.serializeChecking(CoinListener.pending);
     }
 
     public void onEnable() {
