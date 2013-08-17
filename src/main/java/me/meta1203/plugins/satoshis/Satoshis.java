@@ -8,7 +8,7 @@ import java.util.logging.Logger;
 import javax.persistence.PersistenceException;
 
 import me.meta1203.plugins.satoshis.bitcoin.BitcoinAPI;
-import me.meta1203.plugins.satoshis.bitcoin.CheckThread;
+import me.meta1203.plugins.satoshis.bitcoin.TransactionListener;
 import me.meta1203.plugins.satoshis.commands.AdminCommand;
 import me.meta1203.plugins.satoshis.commands.CheckCommand;
 import me.meta1203.plugins.satoshis.commands.CreditCommand;
@@ -36,8 +36,10 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.mcstats.Metrics;
 
 import com.google.bitcoin.core.NetworkParameters;
+import com.google.bitcoin.core.Transaction;
 import com.google.bitcoin.params.MainNetParams;
 import com.google.bitcoin.params.TestNet3Params;
+import com.google.common.util.concurrent.Futures;
 
 public class Satoshis extends JavaPlugin implements Listener {
 	// Plugin
@@ -50,7 +52,6 @@ public class Satoshis extends JavaPlugin implements Listener {
 	public static int confirms = 2;
 	public static double minWithdraw = 0;
 	public static BitcoinAPI bapi = null;
-	public static CheckThread checker = null;
 	public static Logger log = null;
 	public static SatoshisEconAPI econ = null;
 	public static VaultEconAPI vecon = null;
@@ -59,7 +60,6 @@ public class Satoshis extends JavaPlugin implements Listener {
 	private SystemCheckThread syscheck = null;
 	
     public void onDisable() {
-    	checker.serialize();
     	bapi.saveWallet();
     }
 
@@ -83,13 +83,11 @@ public class Satoshis extends JavaPlugin implements Listener {
     	// Config loading done!
     	log.info("Satoshis configuration loaded.");
     	
-    	checker = new CheckThread(config.getInt("bitcoin.check-interval"), confirms);
     	syscheck = new SystemCheckThread(config.getInt("self-check.delay"), config.getBoolean("self-check.startup"));
     	econ = new SatoshisEconAPI();
     	econ.buyerorseller = buyerorseller;
     	bapi = new BitcoinAPI();
     	scanner = new DatabaseScanner(this);
-    	checker.start();
     	syscheck.start();
         getServer().getPluginManager().registerEvents(this, this);
         this.getCommand("deposit").setExecutor(new DepositCommand());
@@ -161,5 +159,12 @@ public class Satoshis extends JavaPlugin implements Listener {
 	@EventHandler
 	public void playerLogin(PlayerLoginEvent e) {
 		saveAccount(Util.loadAccount(e.getPlayer().getName()));
+	}
+	
+	public void readdTransactions() {
+		List<Transaction> toAdd = Util.loadChecking();
+		for (Transaction tx : toAdd) {
+			Futures.addCallback(tx.getConfidence().getDepthFuture(Satoshis.confirms), new TransactionListener());
+		}
 	}
 }

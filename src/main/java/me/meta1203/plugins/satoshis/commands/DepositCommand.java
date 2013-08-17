@@ -25,7 +25,7 @@ public class DepositCommand implements CommandExecutor {
 			String name = player.getName();
 			Address alloc = Util.parseAddress(Util.loadAccount(name).getAddr());
 			info("The following link contains your address information:", arg0);
-			info("www.blockchain.info/address/" + alloc.toString(), arg0);
+			info("www.btc.to/" + alloc.toString() + "/be", arg0);
 			// info(alloc.toString(), arg0);
 			info("This address is yours forever. \nAdd it to your address book if need-be.", arg0);
 		}
