@@ -3,7 +3,6 @@ package me.meta1203.plugins.satoshis;
 import java.math.BigInteger;
 
 public class SatoshisEconAPI {
-	public final double minCurrFee = 0.0005 * Satoshis.mult;
 	public boolean buyerorseller = true;
 	
 	public void setFunds(String accName, double value) {

@@ -7,6 +7,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import me.meta1203.plugins.satoshis.Satoshis;
+import me.meta1203.plugins.satoshis.Util;
 
 import com.google.bitcoin.core.Address;
 import com.google.bitcoin.core.BlockChain;
@@ -27,7 +28,8 @@ public class BitcoinAPI {
 	private BlockChain localChain;
 	private final File walletFile;
 	private PeerGroup localPeerGroup = null;
-	public final BigInteger minBitFee = Transaction.REFERENCE_DEFAULT_MIN_TX_FEE;
+	public static final BigInteger minBitFeeBI = Transaction.REFERENCE_DEFAULT_MIN_TX_FEE;
+	public static final double minBitFee = Util.getBitcoin(Transaction.REFERENCE_DEFAULT_MIN_TX_FEE);
 
 	public BitcoinAPI() {
 		walletFile = new File("plugins/Satoshis/wallet.wallet");
@@ -69,7 +71,7 @@ public class BitcoinAPI {
 		BigInteger sendAmount = Satoshis.econ.inGameToBitcoin(value);
 
 		Wallet.SendRequest request = Wallet.SendRequest.to(a, sendAmount);
-		request.fee = minBitFee;
+		request.fee = minBitFeeBI;
 
 		if (!localWallet.completeTx(request))
 			return false;

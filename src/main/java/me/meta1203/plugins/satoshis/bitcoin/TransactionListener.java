@@ -21,6 +21,9 @@ public class TransactionListener implements FutureCallback<Transaction> {
 	}
 
 	public void parseTransaction(Transaction tx) {
+		Satoshis.log.warning("Transaction with id " + tx.getHashAsString()
+				+ " has reached " + Satoshis.confirms
+				+ " confirmations. Adding to player...");
 		try {
 			double value = Satoshis.econ.bitcoinToInGame(tx
 					.getValueSentToMe(Satoshis.bapi.getWallet()));

@@ -10,16 +10,14 @@ satoshis:
   # Value of single Bitcoin
   multiplier: 1000.0
   # Name of the in-game currency
-  currency-name: 'MTC'
+  currency-name: 'mBTC'
   # Use Vault Integration
   use-vault: true
 bitcoin:
   # How much in-game currency is require to withdraw to Bitcoin.
   min-withdraw: 0
   # Transaction Confirmations required for crediting player?
-  confirms: 2
-  # How often (in seconds) to check for pending confirmations?
-  check-interval: 60
+  confirms: 1
   # Enable testnet blockchain
   testnet: false
 self-check:
