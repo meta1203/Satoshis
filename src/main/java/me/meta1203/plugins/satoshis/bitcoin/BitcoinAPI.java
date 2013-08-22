@@ -52,7 +52,7 @@ public class BitcoinAPI {
 		localPeerGroup.setUserAgent("SatoshisBukkit", "0.2");
 		localPeerGroup.addWallet(localWallet);
 		localPeerGroup.addPeerDiscovery(new DnsDiscovery(Satoshis.network));
-		localPeerGroup.start();
+		localPeerGroup.startAndWait();
 		localPeerGroup.downloadBlockChain();
 	}
 

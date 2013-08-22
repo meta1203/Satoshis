@@ -79,7 +79,7 @@ public class Satoshis extends JavaPlugin implements Listener {
     	salesTax = config.getBoolean("satoshis.sales-tax");
     	minWithdraw = config.getDouble("bitcoin.min-withdraw");
     	mult = config.getDouble("satoshis.multiplier");
-    	network = config.getBoolean("bitcoin.testnet") ? TestNet3Params.get() : MainNetParams.get();;
+    	network = config.getBoolean("bitcoin.testnet") ? TestNet3Params.get() : MainNetParams.get();
     	confirms = config.getInt("bitcoin.confirms");
     	
     	// Config loading done!
