@@ -82,9 +82,6 @@ public class Satoshis extends JavaPlugin implements Listener {
     	network = config.getBoolean("bitcoin.testnet") ? TestNet3Params.get() : MainNetParams.get();
     	confirms = config.getInt("bitcoin.confirms");
     	
-    	// Config loading done!
-    	log.info("Satoshis configuration loaded.");
-    	
     	syscheck = new SystemCheckThread(config.getInt("self-check.delay"), config.getBoolean("self-check.startup"));
     	econ = new SatoshisEconAPI();
     	econ.buyerorseller = buyerorseller;
@@ -111,6 +108,7 @@ public class Satoshis extends JavaPlugin implements Listener {
         if (config.getBoolean("satoshis.use-vault")) {
         	activateVault();
         }
+        log.info("Satoshis loaded sucessfully!");
     }
 
     public void onPlayerJoin(PlayerJoinEvent event) {

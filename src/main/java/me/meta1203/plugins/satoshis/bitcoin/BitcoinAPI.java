@@ -35,7 +35,6 @@ public class BitcoinAPI {
 		walletFile = new File("plugins/Satoshis/wallet.wallet");
 		try {
 			localWallet = Wallet.loadFromFile(walletFile);
-			// Satoshis.log.info(localWallet.toString());
 		} catch (UnreadableWalletException e) {
 			localWallet = new Wallet(Satoshis.network);
 		}
@@ -52,8 +51,11 @@ public class BitcoinAPI {
 		localPeerGroup.setUserAgent("SatoshisBukkit", "0.2");
 		localPeerGroup.addWallet(localWallet);
 		localPeerGroup.addPeerDiscovery(new DnsDiscovery(Satoshis.network));
+		Satoshis.log.info("Connecting to peers...");
 		localPeerGroup.startAndWait();
+		Satoshis.log.info("Downloading Blockchain...");
 		localPeerGroup.downloadBlockChain();
+		Satoshis.log.info("Done, loading the rest of the plugin...");
 	}
 
 	public Address genAddress() {
