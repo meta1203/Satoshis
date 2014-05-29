@@ -43,51 +43,52 @@ import com.google.bitcoin.params.TestNet3Params;
 import com.google.common.util.concurrent.Futures;
 
 public class Satoshis extends JavaPlugin implements Listener {
-	// Plugin
-	public static String owner = "";
-	public static String currencyName = "";
-	public static double tax = 0.0;
-	public static boolean buyerorseller = false;
-	public static boolean salesTax = false;
-	public static double mult = 0;
-	public static int confirms = 2;
-	public static double minWithdraw = 0;
-	public static BitcoinAPI bapi = null;
-	public static Logger log = null;
-	public static SatoshisEconAPI econ = null;
-	public static VaultEconAPI vecon = null;
-	public static DatabaseScanner scanner = null;
-	public static NetworkParameters network = null;
-	private SystemCheckThread syscheck = null;
-	
+
+    // Plugin
+    public static String owner = "";
+    public static String currencyName = "";
+    public static double tax = 0.0;
+    public static boolean buyerorseller = false;
+    public static boolean salesTax = false;
+    public static double mult = 0;
+    public static int confirms = 2;
+    public static double minWithdraw = 0;
+    public static BitcoinAPI bapi = null;
+    public static Logger log = null;
+    public static SatoshisEconAPI econ = null;
+    public static VaultEconAPI vecon = null;
+    public static DatabaseScanner scanner = null;
+    public static NetworkParameters network = null;
+    private SystemCheckThread syscheck = null;
+
     public void onDisable() {
-    	bapi.saveWallet();
-    	Util.serializeChecking(CoinListener.pending);
+        bapi.saveWallet();
+        Util.serializeChecking(CoinListener.pending);
     }
 
     public void onEnable() {
-    	log = getLogger();
-    	setupDatabase();
-    	FileConfiguration config = getConfig();
-    	config.options().copyDefaults(true);
-    	saveConfig();
-    	owner = config.getString("satoshis.owner");
-    	currencyName = config.getString("satoshis.currency-name");
-    	tax = config.getDouble("satoshis.tax");
-    	
-    	buyerorseller = config.getBoolean("satoshis.is-buyer-responsible");
-    	salesTax = config.getBoolean("satoshis.sales-tax");
-    	minWithdraw = config.getDouble("bitcoin.min-withdraw");
-    	mult = config.getDouble("satoshis.multiplier");
-    	network = config.getBoolean("bitcoin.testnet") ? TestNet3Params.get() : MainNetParams.get();
-    	confirms = config.getInt("bitcoin.confirms");
-    	
-    	syscheck = new SystemCheckThread(config.getInt("self-check.delay"), config.getBoolean("self-check.startup"));
-    	econ = new SatoshisEconAPI();
-    	econ.buyerorseller = buyerorseller;
-    	bapi = new BitcoinAPI();
-    	scanner = new DatabaseScanner(this);
-    	syscheck.start();
+        log = getLogger();
+        setupDatabase();
+        FileConfiguration config = getConfig();
+        config.options().copyDefaults(true);
+        saveConfig();
+        owner = config.getString("satoshis.owner");
+        currencyName = config.getString("satoshis.currency-name");
+        tax = config.getDouble("satoshis.tax");
+
+        buyerorseller = config.getBoolean("satoshis.is-buyer-responsible");
+        salesTax = config.getBoolean("satoshis.sales-tax");
+        minWithdraw = config.getDouble("bitcoin.min-withdraw");
+        mult = config.getDouble("satoshis.multiplier");
+        network = config.getBoolean("bitcoin.testnet") ? TestNet3Params.get() : MainNetParams.get();
+        confirms = config.getInt("bitcoin.confirms");
+
+        syscheck = new SystemCheckThread(config.getInt("self-check.delay"), config.getBoolean("self-check.startup"));
+        econ = new SatoshisEconAPI();
+        econ.buyerorseller = buyerorseller;
+        bapi = new BitcoinAPI();
+        scanner = new DatabaseScanner(this);
+        syscheck.start();
         getServer().getPluginManager().registerEvents(this, this);
         this.getCommand("deposit").setExecutor(new DepositCommand());
         this.getCommand("withdraw").setExecutor(new WithdrawCommand());
@@ -102,11 +103,11 @@ public class Satoshis extends JavaPlugin implements Listener {
             metrics.start();
             log.info("Metrics started!");
         } catch (IOException e) {
-        	log.info("Metrics disabled.");
+            log.info("Metrics disabled.");
         }
-        
+
         if (config.getBoolean("satoshis.use-vault")) {
-        	activateVault();
+            activateVault();
         }
         log.info("Satoshis loaded sucessfully!");
     }
@@ -115,18 +116,18 @@ public class Satoshis extends JavaPlugin implements Listener {
         Util.saveAccount(Util.loadAccount(event.getPlayer().getName()));
     }
 
-	public List<Class<?>> getDatabaseClasses() {
-		List<Class<?>> list = new ArrayList<Class<?>>();
-		list.add(AccountEntry.class);
-		return list;
-	}
+    public List<Class<?>> getDatabaseClasses() {
+        List<Class<?>> list = new ArrayList<Class<?>>();
+        list.add(AccountEntry.class);
+        return list;
+    }
 
-	public boolean onCommand(CommandSender sender, Command command,
-			String label, String[] args) {
-		return true;
-	}
-	
-	private void setupDatabase() {
+    public boolean onCommand(CommandSender sender, Command command,
+            String label, String[] args) {
+        return true;
+    }
+
+    private void setupDatabase() {
         try {
             getDatabase().find(AccountEntry.class).findRowCount();
         } catch (PersistenceException ex) {
@@ -134,37 +135,37 @@ public class Satoshis extends JavaPlugin implements Listener {
             installDDL();
         }
     }
-	
-	public AccountEntry getAccount(String name) {
-		return getDatabase().find(AccountEntry.class).where().ieq("playerName", name).findUnique();
-	}
-	
-	public void saveAccount(AccountEntry ae) {
-		getDatabase().save(ae);
-	}
-	
-	private boolean activateVault() {
-	    log.info("Attempting to activate Satoshis Vault support...");
-		Plugin vault = Bukkit.getServer().getPluginManager().getPlugin("Vault");
-		if (vault == null || !(vault instanceof Vault)) {
-			log.warning("Vault support disabled.");
-			return false;
-		}
-		vecon = new VaultEconAPI(this);
-		getServer().getServicesManager().register(Economy.class, vecon, this, ServicePriority.Highest);
-		log.warning("Vault support enabled.");
-		return true;
-	}
-	
-	@EventHandler
-	public void playerLogin(PlayerLoginEvent e) {
-		saveAccount(Util.loadAccount(e.getPlayer().getName()));
-	}
-	
-	public void readdTransactions() {
-		List<Transaction> toAdd = Util.loadChecking();
-		for (Transaction tx : toAdd) {
-			Futures.addCallback(tx.getConfidence().getDepthFuture(Satoshis.confirms), new TransactionListener());
-		}
-	}
+
+    public AccountEntry getAccount(String name) {
+        return getDatabase().find(AccountEntry.class).where().ieq("playerName", name).findUnique();
+    }
+
+    public void saveAccount(AccountEntry ae) {
+        getDatabase().save(ae);
+    }
+
+    private boolean activateVault() {
+        log.info("Attempting to activate Satoshis Vault support...");
+        Plugin vault = Bukkit.getServer().getPluginManager().getPlugin("Vault");
+        if (vault == null || !(vault instanceof Vault)) {
+            log.warning("Vault support disabled.");
+            return false;
+        }
+        vecon = new VaultEconAPI(this);
+        getServer().getServicesManager().register(Economy.class, vecon, this, ServicePriority.Highest);
+        log.warning("Vault support enabled.");
+        return true;
+    }
+
+    @EventHandler
+    public void playerLogin(PlayerLoginEvent e) {
+        saveAccount(Util.loadAccount(e.getPlayer().getName()));
+    }
+
+    public void readdTransactions() {
+        List<Transaction> toAdd = Util.loadChecking();
+        for (Transaction tx : toAdd) {
+            Futures.addCallback(tx.getConfidence().getDepthFuture(Satoshis.confirms), new TransactionListener());
+        }
+    }
 }
