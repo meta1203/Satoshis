@@ -20,6 +20,7 @@ import com.google.bitcoin.net.discovery.DnsDiscovery;
 import com.google.bitcoin.store.BlockStoreException;
 import com.google.bitcoin.store.SPVBlockStore;
 import com.google.bitcoin.store.UnreadableWalletException;
+import java.util.logging.Level;
 
 public class BitcoinAPI {
 
@@ -84,7 +85,7 @@ public class BitcoinAPI {
         }
         saveWallet();
 
-        Satoshis.log.warning("Sent transaction: " + request.tx.getHash());
+        Satoshis.log.log(Level.WARNING, "Sent transaction: {0}", request.tx.getHash());
         return true;
     }
 

@@ -9,6 +9,7 @@ import com.google.bitcoin.core.Address;
 import com.google.bitcoin.core.ScriptException;
 import com.google.bitcoin.core.Transaction;
 import com.google.common.util.concurrent.FutureCallback;
+import java.util.logging.Level;
 
 public class TransactionListener implements FutureCallback<Transaction> {
 
@@ -21,9 +22,7 @@ public class TransactionListener implements FutureCallback<Transaction> {
 	}
 
 	public void parseTransaction(Transaction tx) {
-		Satoshis.log.warning("Transaction with id " + tx.getHashAsString()
-				+ " has reached " + Satoshis.confirms
-				+ " confirmations. Adding to player...");
+		Satoshis.log.log(Level.WARNING, "Transaction with id {0} has reached {1} confirmations. Adding to player...", new Object[]{tx.getHashAsString(), Satoshis.confirms});
 		try {
 			double value = Satoshis.econ.bitcoinToInGame(tx
 					.getValueSentToMe(Satoshis.bapi.getWallet()));

@@ -41,6 +41,7 @@ import com.google.bitcoin.core.Transaction;
 import com.google.bitcoin.params.MainNetParams;
 import com.google.bitcoin.params.TestNet3Params;
 import com.google.common.util.concurrent.Futures;
+import java.util.logging.Level;
 
 public class Satoshis extends JavaPlugin implements Listener {
 
@@ -61,11 +62,13 @@ public class Satoshis extends JavaPlugin implements Listener {
     public static NetworkParameters network = null;
     private SystemCheckThread syscheck = null;
 
+    @Override
     public void onDisable() {
         bapi.saveWallet();
         Util.serializeChecking(CoinListener.pending);
     }
 
+    @Override
     public void onEnable() {
         log = getLogger();
         setupDatabase();
@@ -116,12 +119,14 @@ public class Satoshis extends JavaPlugin implements Listener {
         Util.saveAccount(Util.loadAccount(event.getPlayer().getName()));
     }
 
+    @Override
     public List<Class<?>> getDatabaseClasses() {
         List<Class<?>> list = new ArrayList<Class<?>>();
         list.add(AccountEntry.class);
         return list;
     }
 
+    @Override
     public boolean onCommand(CommandSender sender, Command command,
             String label, String[] args) {
         return true;
@@ -131,7 +136,7 @@ public class Satoshis extends JavaPlugin implements Listener {
         try {
             getDatabase().find(AccountEntry.class).findRowCount();
         } catch (PersistenceException ex) {
-            log.info("Installing database for " + getDescription().getName() + " due to first time usage");
+            log.log(Level.INFO, "Installing database for {0} due to first time usage", getDescription().getName());
             installDDL();
         }
     }
