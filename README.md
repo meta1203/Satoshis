@@ -21,13 +21,11 @@ Commands:
 /transact <player> <amount> - Transfer's money from your account to the selected player's account.  
 /deposit - Get a Bitcoin address to send a deposit to. The next transaction to that address will fund your account.  
 /withdraw <address> [amount] - Transfers money from your account to your Bitcoin wallet. Must have at least the amount specified in the config. If the amount is left off, it will transfer all of your funds.  
-/admin info - Print basic debuging and economy info.  
+/admin info - Print basic debugging and economy info.  
 /admin reset - Delete and re-download the block chain.  
 /syscheck - Verify that the current Bitcoin holdings tally with the balances of all in-game accounts.  
 /credit <player> <amount> - Add the specified amount to the given player's balance  
 /debit <player> <amount> - Subtract the specified amount from the given player's balance  
-
-Jenkins: http://play.metaserve.net:8080/
 
 Permissions:
 satoshis.* - All commands  
@@ -38,3 +36,17 @@ satoshis.admin - /admin
 satoshis.info - /syscheck  
 satoshis.credit - /credit  
 satoshis.debit - /debit
+
+
+3rd party Jenkins
+-----------------
+
+chamunks has been kind enough to provide us with a build server.
+
+The builds are manual, so changes may not be immediate.
+
+*As this is not my build server, I have no control over the build process itself!*
+
+*Use it at your own risk!*
+
+**http://ci.nixium.com/view/Manual%20Builds/job/Satoshis/**
