@@ -29,12 +29,11 @@ Commands:
 /debit <player> <amount> - Subtract the specified amount from the given player's balance  
 
 Permissions:
-satoshis.* - All commands  
-satoshis.money - /money  
-satoshis.transact - /transact  
-satoshis.withdraw - /withdraw  
-satoshis.admin - /admin  
-satoshis.info - /syscheck  
-satoshis.credit - /credit  
-satoshis.debit - /debit
-
+dogecoins.* - All commands
+dogecoins.money - /money
+dogecoins.transact - /transact
+dogecoins.withdraw - /withdraw
+dogecoins.admin - /admin
+dogecoins.info - /syscheck
+dogecoins.credit - /credit
+dogecoins.debit - /debit
