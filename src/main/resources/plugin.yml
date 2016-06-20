@@ -1,41 +1,46 @@
-author: meta1203
-database: true
-main: me.meta1203.plugins.satoshis.Satoshis
-name: Satoshis
-url: http://www.kruxkraft.com/
-softdepend: [Vault]
-version: '1.3'
+name: Dogecoins
+version: 1.0
+description: Dogecoins plugin for DogeMC server
+
+authors: [Chaten, CreeperzEdge, IncognitoJam]
+website: https://www.reddit.com/r/dogecoin/
+
+main: dogecoin.mc.dogecoins.Dogecoins
+depend: [Vault]
+
 commands:
   deposit:
-    description: 'Deposit money through Bitcoin address'
+    description: 'Deposit money through Dogecoin dogeAddress'
   money:
     description: 'List your in-game money balance'
   withdraw:
-    description: 'Withdraw money to a Bitcoin address'
+    description: 'Withdraw money to a Dogecoin dogeAddress'
   transact:
     description: 'Send in-game money to player'
-  satoshis:
+  dogecoins:
     description: 'Print testing info'
   syscheck:
-    description: 'Check Satoshis system health'
+    description: 'Check Dogecoins system health'
   credit:
     description: 'Credit in-game money to player'
   debit:
     description: 'Debit in-game money from player'
+
+
 permissions:
-  satoshis.admin:
-    description: 'Permission for Satoshis /satoshis'
-  satoshis.withdraw:
-    description: 'Permission for Satoshis /withdraw'
-  satoshis.deposit:
-    description: 'Permission for Satoshis /deposit'
-  satoshis.transact:
-    description: 'Permission for Satoshis /transact'
-  satoshis.money:
-    description: 'Permission for Satoshis /money'
-  satoshis.info:
-    description: 'Permission for Satoshis /syscheck'
-  satoshis.credit:
-    description: 'Permission for Satoshis /credit'
-  satoshis.debit:
-    description: 'Permission for Satoshis /debit'
+  dogecoins.admin:
+    description: 'Permission for Dogecoins /satoshis'
+  dogecoins.withdraw:
+    description: 'Permission for Dogecoins /withdraw'
+  dogecoins.deposit:
+    description: 'Permission for Dogecoins /deposit'
+  dogecoins.transact:
+    description: 'Permission for Dogecoins /transact'
+  dogecoins.money:
+    description: 'Permission for Dogecoins /money'
+  dogecoins.info:
+    description: 'Permission for Dogecoins /syscheck'
+  dogecoins.credit:
+    description: 'Permission for Dogecoins /credit'
+  dogecoins.debit:
+    description: 'Permission for Dogecoins /debit'

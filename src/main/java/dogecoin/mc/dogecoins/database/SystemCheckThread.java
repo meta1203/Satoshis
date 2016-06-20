@@ -1,7 +1,6 @@
-package me.meta1203.plugins.satoshis.database;
+package dogecoin.mc.dogecoins.database;
 
-import me.meta1203.plugins.satoshis.Satoshis;
-
+import dogecoin.mc.dogecoins.Dogecoins;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 
@@ -35,11 +34,11 @@ public class SystemCheckThread extends Thread {
     }
 
     public void test(boolean loaded) {
-        String msg = Satoshis.scanner.getInfo();
+        String msg = Dogecoins.scanner.getInfo();
         if (loaded) {
             broadcastToPerms(msg, "satoshis.info");
         }
-        Satoshis.log.warning(msg);
+        Dogecoins.log.warning(msg);
     }
 
     public void broadcastToPerms(String msg, String perm) {

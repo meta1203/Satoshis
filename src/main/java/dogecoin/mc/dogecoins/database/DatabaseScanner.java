@@ -1,30 +1,28 @@
-package me.meta1203.plugins.satoshis.database;
+package dogecoin.mc.dogecoins.database;
 
-import me.meta1203.plugins.satoshis.AccountEntry;
-import me.meta1203.plugins.satoshis.Satoshis;
-import me.meta1203.plugins.satoshis.Util;
-
+import dogecoin.mc.dogecoins.Dogecoins;
+import dogecoin.mc.dogecoins.Util;
 import org.bukkit.ChatColor;
 
 public class DatabaseScanner {
 
-    private Satoshis plugin;
+    private Dogecoins plugin;
 
-    public DatabaseScanner(Satoshis plugin) {
+    public DatabaseScanner(Dogecoins plugin) {
         this.plugin = plugin;
     }
 
     private double getTotal() {
         double ret = 0;
-        for (AccountEntry curr : plugin.getDatabase().find(AccountEntry.class).findList()) {
-            ret += curr.getAmount();
+        for (AccountEntry curr : AccountDatabase.getAccounts()) {
+            ret += curr.getBalance();
         }
         return ret;
     }
 
-    public DatabaseLevel getLevel(double scanned) {
-        double valueReal = Util.getBitcoin(Satoshis.bapi.getWallet().getBalance());
-        double valueGame = scanned / Satoshis.mult;
+    public DatabaseLevel getLevel(double valueGame) {
+        double valueReal = Util.getDogecoin(Dogecoins.dogecoinAPI.getWallet().getBalance());
+//        valueGame = valueGame / Dogecoins.multiplier;
 
         if (valueReal > valueGame) {
             return DatabaseLevel.UNDER;
@@ -37,9 +35,9 @@ public class DatabaseScanner {
         }
     }
 
-    public double getOffset(double scanned) {
-        double valueReal = Util.getBitcoin(Satoshis.bapi.getWallet().getBalance());
-        double valueGame = scanned / Satoshis.mult;
+    public double getOffset(double valueGame) {
+        double valueReal = Util.getDogecoin(Dogecoins.dogecoinAPI.getWallet().getBalance());
+//        valueGame = valueGame / Dogecoins.multiplier;
         return valueGame - valueReal;
     }
 
@@ -53,16 +51,16 @@ public class DatabaseScanner {
                 break;
             case SEVERE:
                 info += "SYSTEM SEVERELY OVERDRAWN!\n"
-                        + "Over by " + getOffset(scanned) + " BTC!\n"
+                        + "Over by " + getOffset(scanned) + " DOGE!\n"
                         + "Total economy reset is recommended!";
                 break;
             case UNDER:
-                info += "More Bitcoin than " + Satoshis.currencyName + " exists!\n";
+                info += "More Dogecoin than " + Dogecoins.currencyName + " exists!\n";
                 break;
             case WARNING:
                 info += "System overdrawn!\n"
-                        + "Over by " + getOffset(scanned) + " BTC.\n"
-                        + "It is recommended to equalize funding by adding BTC directly.";
+                        + "Over by " + getOffset(scanned) + " DOGE.\n"
+                        + "It is recommended to equalize funding by adding DOGE directly.";
                 break;
             default:
                 break;
