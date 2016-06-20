@@ -1,5 +1,6 @@
 *.class
 *~
+*.gradle
 # Package Files #
 *.war
 *.ear
@@ -13,4 +14,9 @@
 /.idea
 /target
 /dependency-reduced-pom.xml
-Satoshis.iml
+/build
+gradlew
+gradlew.bat
+META-INF
+gradle
+Dogecoins.iml

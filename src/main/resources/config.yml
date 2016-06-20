@@ -1,4 +1,4 @@
-satoshis:
+dogecoins:
   # Tax rate in percent
   tax: 5.0
   # Tax sales or withdrawals?
@@ -6,15 +6,10 @@ satoshis:
   # Whether or not the buyer will pay the sales tax (only used if 'sales-tax' is enabled)
   is-buyer-responsible: true
   # Username of the owner (All taxes go to this player)
-  owner: meta1203
-  # Value of single Bitcoin
-  multiplier: 1000.0
+  owner: IncognitoJam
   # Name of the in-game currency
-  currency-name: 'mBTC'
-  # Use Vault Integration
-  use-vault: true
-bitcoin:
-  # How much in-game currency is require to withdraw to Bitcoin.
+  currency-name: 'DOGE'
+  # How much in-game currency is require to withdraw to Dogecoin.
   min-withdraw: 0
   # Transaction Confirmations required for crediting player?
   confirms: 1
@@ -24,5 +19,5 @@ self-check:
   # How often to do a total system check? (Hours or -1 to disable)
   delay: -1
   # Do a total system check on startup?
-  startup: false
+  startup: true
 
