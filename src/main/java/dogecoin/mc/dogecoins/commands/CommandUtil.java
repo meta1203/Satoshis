@@ -1,4 +1,4 @@
-package me.meta1203.plugins.satoshis.commands;
+package dogecoin.mc.dogecoins.commands;
 
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;

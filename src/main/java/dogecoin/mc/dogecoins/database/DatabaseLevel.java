@@ -1,4 +1,4 @@
-package me.meta1203.plugins.satoshis.database;
+package dogecoin.mc.dogecoins.database;
 
 import org.bukkit.ChatColor;
 
