@@ -1,6 +1,8 @@
 Satoshis
 ========
 
+Current version: 1.3.1
+
 Minecraft with real money!  
 
 Ah, economy plugins... Without them, we would have no in game currency! But what if this in game currency... was also out-of-game currency?  
