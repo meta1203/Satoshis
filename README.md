@@ -1,7 +1,7 @@
 Dogecoins!
 ========
 
-Minecraft with dogecoins!  
+**Minecraft with dogecoins!**
 
 Ah, economy plugins... Without them, we would have no in game currency! But what if this in game currency... was also out-of-game currency? 
 What's more, Dogecoins are family friendly! no buying nasty stuff, it's the internet currency that is safe and funny!
@@ -16,8 +16,7 @@ The design is simple:
 4) Trade takes place as usual, as the plugin links into vault. Any shop/purchase plugin supporting vault is supported here!  
 5) Tax system allows for a "Sales Tax" on each money transfer. The settings for whether the buyer or the seller is held responsible for tax, and for tax rates, are available in the config.  
 
-Commands:  
-
+#Commands:
 /money - List current amount of Dogecoins in your minecraft account.  
 /transact <player> <amount> - Transfer's money from your account to the selected player's account.  
 /deposit - Get a Bitcoin address to send a deposit to. The next transaction to that address will fund your account.  
@@ -28,7 +27,7 @@ Commands:
 /credit <player> <amount> - Add the specified amount to the given player's balance  
 /debit <player> <amount> - Subtract the specified amount from the given player's balance  
 
-Permissions:  
+#Permissions:
 dogecoins.* - All commands  
 dogecoins.money - /money  
 dogecoins.transact - /transact  
