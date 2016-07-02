@@ -8,7 +8,6 @@ import net.milkbowl.vault.economy.EconomyResponse;
 import net.milkbowl.vault.economy.EconomyResponse.ResponseType;
 
 import org.bukkit.Bukkit;
-import org.bukkit.OfflinePlayer;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -199,80 +198,5 @@ public class VaultEconAPI implements Economy {
     public EconomyResponse withdrawPlayer(String arg0, String arg1, double arg2) {
         return withdrawPlayer(arg0, arg2);
     }
-
-	public EconomyResponse createBank(String arg0, OfflinePlayer arg1) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public boolean createPlayerAccount(OfflinePlayer arg0) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean createPlayerAccount(OfflinePlayer arg0, String arg1) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public EconomyResponse depositPlayer(OfflinePlayer arg0, double arg1) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public EconomyResponse depositPlayer(OfflinePlayer arg0, String arg1, double arg2) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public double getBalance(OfflinePlayer arg0) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public double getBalance(OfflinePlayer arg0, String arg1) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	public boolean has(OfflinePlayer arg0, double arg1) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean has(OfflinePlayer arg0, String arg1, double arg2) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean hasAccount(OfflinePlayer arg0) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public boolean hasAccount(OfflinePlayer arg0, String arg1) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	public EconomyResponse isBankMember(String arg0, OfflinePlayer arg1) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public EconomyResponse isBankOwner(String arg0, OfflinePlayer arg1) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public EconomyResponse withdrawPlayer(OfflinePlayer arg0, double arg1) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public EconomyResponse withdrawPlayer(OfflinePlayer arg0, String arg1, double arg2) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
 }
