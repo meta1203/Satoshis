@@ -14,13 +14,14 @@ import java.util.logging.Logger;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 
-import com.google.bitcoin.core.Address;
-import com.google.bitcoin.core.AddressFormatException;
-import com.google.bitcoin.core.ScriptException;
-import com.google.bitcoin.core.Sha256Hash;
-import com.google.bitcoin.core.Transaction;
-import com.google.bitcoin.core.TransactionOutput;
-import com.google.bitcoin.core.WrongNetworkException;
+import org.bitcoinj.core.Address;
+import org.bitcoinj.core.AddressFormatException;
+import org.bitcoinj.core.Coin;
+import org.bitcoinj.core.ScriptException;
+import org.bitcoinj.core.Sha256Hash;
+import org.bitcoinj.core.Transaction;
+import org.bitcoinj.core.TransactionOutput;
+import org.bitcoinj.core.WrongNetworkException;
 
 public class Util {
 
@@ -31,8 +32,8 @@ public class Util {
         return Math.round(input * Math.pow(10, place)) / Math.pow(10, place);
     }
 
-    public static double getBitcoin(BigInteger raw) {
-        return raw.longValue() / Math.pow(10, 8);
+    public static double getBitcoin(Coin referenceDefaultMinTxFee) {
+        return referenceDefaultMinTxFee.longValue() / Math.pow(10, 8);
     }
 
     public static boolean testAccount(String name) {
@@ -130,7 +131,8 @@ public class Util {
         String strLine;
         try {
             while ((strLine = in.readLine()) != null) {
-                ret.add(new Transaction(Satoshis.network, 0, new Sha256Hash(strLine)));
+            	// TODO: Learn how to handle transactions with bitcoinj 0.14.3
+                ret.add(new Transaction(Satoshis.network));
             }
         } catch (IOException e) {
             e.printStackTrace();

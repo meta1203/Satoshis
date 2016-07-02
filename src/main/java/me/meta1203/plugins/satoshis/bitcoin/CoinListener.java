@@ -4,14 +4,15 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-import me.meta1203.plugins.satoshis.Satoshis;
+import org.bitcoinj.core.Transaction;
+import org.bitcoinj.wallet.Wallet;
+import org.bitcoinj.wallet.listeners.AbstractWalletEventListener;
 
-import com.google.bitcoin.core.AbstractWalletEventListener;
-import com.google.bitcoin.core.Transaction;
-import com.google.bitcoin.core.Wallet;
 import com.google.common.util.concurrent.Futures;
 
-public class CoinListener extends AbstractWalletEventListener {
+import me.meta1203.plugins.satoshis.Satoshis;
+
+public class CoinListener extends AbstractWalletEventListener { // TODO: Figure out what AbstractWalletEventListener was changed to in bitcoinj 0.14.3
 	public static List<Transaction> pending = new ArrayList<Transaction>();
 	
 	@Override

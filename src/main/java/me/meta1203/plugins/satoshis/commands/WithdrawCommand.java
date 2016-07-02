@@ -1,18 +1,18 @@
 package me.meta1203.plugins.satoshis.commands;
 
-import me.meta1203.plugins.satoshis.Satoshis;
-import me.meta1203.plugins.satoshis.bitcoin.BitcoinAPI;
+import static me.meta1203.plugins.satoshis.commands.CommandUtil.action;
+import static me.meta1203.plugins.satoshis.commands.CommandUtil.error;
 
+import org.bitcoinj.core.Address;
+import org.bitcoinj.core.AddressFormatException;
+import org.bitcoinj.core.WrongNetworkException;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import com.google.bitcoin.core.Address;
-import com.google.bitcoin.core.AddressFormatException;
-import com.google.bitcoin.core.WrongNetworkException;
-
-import static me.meta1203.plugins.satoshis.commands.CommandUtil.*;
+import me.meta1203.plugins.satoshis.Satoshis;
+import me.meta1203.plugins.satoshis.bitcoin.BitcoinAPI;
 
 public class WithdrawCommand implements CommandExecutor {
 

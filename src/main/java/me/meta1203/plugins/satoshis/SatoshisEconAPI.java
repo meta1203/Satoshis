@@ -2,6 +2,8 @@ package me.meta1203.plugins.satoshis;
 
 import java.math.BigInteger;
 
+import org.bitcoinj.core.Coin;
+
 public class SatoshisEconAPI {
 
     public boolean buyerorseller = true;
@@ -88,11 +90,11 @@ public class SatoshisEconAPI {
         return has >= amount;
     }
 
-    public BigInteger inGameToBitcoin(double amount) {
-        return BigInteger.valueOf((long) (amount * Math.pow(10, 8) / Satoshis.mult));
+    public Coin inGameToBitcoin(double amount) {
+        return Coin.valueOf((long) (amount * Math.pow(10, 8) / Satoshis.mult));
     }
 
-    public double bitcoinToInGame(BigInteger amount) {
+    public double bitcoinToInGame(Coin amount) {
         return (amount.longValue() / Math.pow(10, 8)) * Satoshis.mult;
     }
 }
