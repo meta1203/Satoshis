@@ -1,7 +1,7 @@
 Satoshis
 ========
 
-Current version: 1.3.1
+Current version: 1.3.2-development
 
 Minecraft with real money!  
 
@@ -43,12 +43,5 @@ satoshis.debit - /debit
 3rd party Jenkins
 -----------------
 
-chamunks has been kind enough to provide us with a build server.
+The kind folks at nixium have closed their doors. Thanks for providing us with that CI while it lasted!
 
-The builds are manual, so changes may not be immediate.
-
-*As this is not my build server, I have no control over the build process itself!*
-
-*Use it at your own risk!*
-
-**http://ci.nixium.com/view/Manual%20Builds/job/Satoshis/**
