@@ -23,7 +23,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.ServicePriority;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.mcstats.Metrics;
+import org.mcstats.MetricsLite;
 
 import com.google.common.util.concurrent.Futures;
 
@@ -102,7 +102,7 @@ public class Satoshis extends JavaPlugin implements Listener {
         this.getCommand("debit").setExecutor(new DebitCommand());
         this.getCommand("satoshis").setExecutor(new AdminCommand());
         try {
-            Metrics metrics = new Metrics(this);
+            MetricsLite metrics = new MetricsLite(this);
             metrics.start();
             log.info("Metrics started!");
         } catch (IOException e) {
