@@ -1,17 +1,17 @@
 package me.meta1203.plugins.satoshis.commands;
 
-import static me.meta1203.plugins.satoshis.commands.CommandUtil.error;
-import static me.meta1203.plugins.satoshis.commands.CommandUtil.info;
+import java.math.BigInteger;
 
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.core.ScriptException;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.wallet.Wallet;
+import me.meta1203.plugins.satoshis.Satoshis;
+import static me.meta1203.plugins.satoshis.commands.CommandUtil.*;
+
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
-import me.meta1203.plugins.satoshis.Satoshis;
+import com.google.bitcoin.core.ScriptException;
+import com.google.bitcoin.core.Transaction;
+import com.google.bitcoin.core.Wallet;
 
 public class AdminCommand implements CommandExecutor {
 
@@ -42,7 +42,7 @@ public class AdminCommand implements CommandExecutor {
         info("Wallet:", arg0);
 
         Wallet tmp = Satoshis.bapi.getWallet();
-        Coin bitcoinBalance = tmp.getBalance();
+        BigInteger bitcoinBalance = tmp.getBalance();
         double inGameValue = Satoshis.econ.bitcoinToInGame(bitcoinBalance);
         info("Total balance: " + bitcoinBalance.longValue() + " Satoshi = " + Satoshis.econ.formatValue(inGameValue, true), arg0);
         info("Recent transactions:", arg0);

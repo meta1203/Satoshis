@@ -1,16 +1,15 @@
 package me.meta1203.plugins.satoshis.bitcoin;
 
 import java.util.List;
-import java.util.logging.Level;
-
-import org.bitcoinj.core.Address;
-import org.bitcoinj.core.ScriptException;
-import org.bitcoinj.core.Transaction;
-
-import com.google.common.util.concurrent.FutureCallback;
 
 import me.meta1203.plugins.satoshis.Satoshis;
 import me.meta1203.plugins.satoshis.Util;
+
+import com.google.bitcoin.core.Address;
+import com.google.bitcoin.core.ScriptException;
+import com.google.bitcoin.core.Transaction;
+import com.google.common.util.concurrent.FutureCallback;
+import java.util.logging.Level;
 
 public class TransactionListener implements FutureCallback<Transaction> {
 

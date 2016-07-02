@@ -1,15 +1,14 @@
 package me.meta1203.plugins.satoshis.commands;
 
-import static me.meta1203.plugins.satoshis.commands.CommandUtil.error;
-import static me.meta1203.plugins.satoshis.commands.CommandUtil.info;
+import me.meta1203.plugins.satoshis.Util;
+import static me.meta1203.plugins.satoshis.commands.CommandUtil.*;
 
-import org.bitcoinj.core.Address;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
-import me.meta1203.plugins.satoshis.Util;
+import com.google.bitcoin.core.Address;
 
 public class DepositCommand implements CommandExecutor {
 

@@ -3,29 +3,9 @@ package me.meta1203.plugins.satoshis;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.persistence.PersistenceException;
-
-import org.bitcoinj.core.NetworkParameters;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.params.MainNetParams;
-import org.bitcoinj.params.TestNet3Params;
-import org.bukkit.Bukkit;
-import org.bukkit.command.Command;
-import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.event.EventHandler;
-import org.bukkit.event.Listener;
-import org.bukkit.event.player.PlayerJoinEvent;
-import org.bukkit.event.player.PlayerLoginEvent;
-import org.bukkit.plugin.Plugin;
-import org.bukkit.plugin.ServicePriority;
-import org.bukkit.plugin.java.JavaPlugin;
-import org.mcstats.Metrics;
-
-import com.google.common.util.concurrent.Futures;
 
 import me.meta1203.plugins.satoshis.bitcoin.BitcoinAPI;
 import me.meta1203.plugins.satoshis.bitcoin.CoinListener;
@@ -42,6 +22,26 @@ import me.meta1203.plugins.satoshis.database.DatabaseScanner;
 import me.meta1203.plugins.satoshis.database.SystemCheckThread;
 import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.economy.Economy;
+
+import org.bukkit.Bukkit;
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
+import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerLoginEvent;
+import org.bukkit.plugin.Plugin;
+import org.bukkit.plugin.ServicePriority;
+import org.bukkit.plugin.java.JavaPlugin;
+import org.mcstats.Metrics;
+
+import com.google.bitcoin.core.NetworkParameters;
+import com.google.bitcoin.core.Transaction;
+import com.google.bitcoin.params.MainNetParams;
+import com.google.bitcoin.params.TestNet3Params;
+import com.google.common.util.concurrent.Futures;
+import java.util.logging.Level;
 
 public class Satoshis extends JavaPlugin implements Listener {
 
@@ -170,7 +170,7 @@ public class Satoshis extends JavaPlugin implements Listener {
     public void readdTransactions() {
         List<Transaction> toAdd = Util.loadChecking();
         for (Transaction tx : toAdd) {
-            Futures.addCallback(tx.getConfidence().getDepthFuture(Satoshis.confirms), new TransactionListener()); // TODO: Figure out what Futures.addCallback() was changed to in bitcoinj 0.14.3
+            Futures.addCallback(tx.getConfidence().getDepthFuture(Satoshis.confirms), new TransactionListener());
         }
     }
 }
