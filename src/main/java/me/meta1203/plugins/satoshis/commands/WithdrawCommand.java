@@ -3,7 +3,6 @@ package me.meta1203.plugins.satoshis.commands;
 import static me.meta1203.plugins.satoshis.commands.CommandUtil.action;
 import static me.meta1203.plugins.satoshis.commands.CommandUtil.error;
 
-import org.bitcoinj.core.Address;
 import org.bitcoinj.core.AddressFormatException;
 import org.bitcoinj.core.WrongNetworkException;
 import org.bukkit.command.Command;
@@ -13,6 +12,7 @@ import org.bukkit.entity.Player;
 
 import me.meta1203.plugins.satoshis.Satoshis;
 import me.meta1203.plugins.satoshis.bitcoin.BitcoinAPI;
+import me.meta1203.plugins.satoshis.cryptocoins.GenericAddress;
 
 public class WithdrawCommand implements CommandExecutor {
 
@@ -29,7 +29,9 @@ public class WithdrawCommand implements CommandExecutor {
             // Withdraw exact amount
             if (arg3.length == 2) {
                 try {
-                    Address withdrawTo = Address.fromBase58(Satoshis.network, arg3[0]);
+                    GenericAddress<?> withdrawTo = Satoshis.api.addressContainer();
+                    withdrawTo.setAddress(arg3[0], Satoshis.api.getNetworkType());
+                    
                     double withdraw = Double.parseDouble(arg3[1]);
                     if (!Satoshis.econ.hasMoney(player.getName(), Satoshis.minWithdraw)) {
                         error("Oops! You must have " + Satoshis.econ.formatValue(Satoshis.minWithdraw, false) + " to withdraw!", arg0);
@@ -40,9 +42,9 @@ public class WithdrawCommand implements CommandExecutor {
                         return true;
                     }
                     if (!Satoshis.salesTax && !player.getName().equalsIgnoreCase(Satoshis.owner)) {
-                        Satoshis.bapi.sendCoins(withdrawTo, withdraw - Satoshis.econ.priceOfTax(withdraw) - BitcoinAPI.minBitFee);
+                        Satoshis.api.sendCoins(withdrawTo, withdraw - Satoshis.econ.priceOfTax(withdraw) - BitcoinAPI.minBitFee);
                     } else {
-                        Satoshis.bapi.sendCoins(withdrawTo, withdraw - BitcoinAPI.minBitFee);
+                        Satoshis.api.sendCoins(withdrawTo, withdraw - BitcoinAPI.minBitFee);
                     }
                     action("Sending " + Satoshis.econ.formatValue(withdraw - BitcoinAPI.minBitFee, false) + " to address " + withdrawTo.toString() + " sucessfully!", arg0);
                     Satoshis.econ.subFunds(player.getName(), withdraw + BitcoinAPI.minBitFee);
@@ -56,16 +58,18 @@ public class WithdrawCommand implements CommandExecutor {
                 }
             } else if (arg3.length == 1) {
                 try {
-                    Address withdrawTo = Address.fromBase58(Satoshis.network, arg3[0]);
+                	GenericAddress<?> withdrawTo = Satoshis.api.addressContainer();
+                    withdrawTo.setAddress(arg3[0], Satoshis.api.getNetworkType());
+                    
                     double withdraw = Satoshis.econ.getMoney(player.getName());
                     if (withdraw == 0 + BitcoinAPI.minBitFee) {
                         error("Oops! You have no money in your account!", arg0);
                         return true;
                     }
                     if (!Satoshis.salesTax && !player.getName().equalsIgnoreCase(Satoshis.owner)) {
-                        Satoshis.bapi.sendCoins(withdrawTo, withdraw - Satoshis.econ.priceOfTax(withdraw) - BitcoinAPI.minBitFee);
+                        Satoshis.api.sendCoins(withdrawTo, withdraw - Satoshis.econ.priceOfTax(withdraw) - Satoshis.api.getMinimumFee());
                     } else {
-                        Satoshis.bapi.sendCoins(withdrawTo, withdraw - BitcoinAPI.minBitFee);
+                        Satoshis.api.sendCoins(withdrawTo, withdraw - Satoshis.api.getMinimumFee());
                     }
                     action("Sending " + Satoshis.econ.formatValue(withdraw - BitcoinAPI.minBitFee, false) + " to address " + withdrawTo.toString() + " sucessfully!", arg0);
 

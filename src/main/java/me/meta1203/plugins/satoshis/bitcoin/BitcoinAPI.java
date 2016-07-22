@@ -22,19 +22,51 @@ import org.bitcoinj.wallet.Wallet;
 
 import me.meta1203.plugins.satoshis.Satoshis;
 import me.meta1203.plugins.satoshis.Util;
+import me.meta1203.plugins.satoshis.cryptocoins.CryptocoinAPI;
+import me.meta1203.plugins.satoshis.cryptocoins.GenericAddress;
+import me.meta1203.plugins.satoshis.cryptocoins.NetworkType;
 
-public class BitcoinAPI {
+public class BitcoinAPI implements CryptocoinAPI  {
 
 	private Wallet localWallet;
 	private SPVBlockStore localBlock;
 	private BlockChain localChain;
 	private final File walletFile;
 	private PeerGroup localPeerGroup = null;
-	public static final Coin minBitFeeBI = Transaction.REFERENCE_DEFAULT_MIN_TX_FEE;
-	public static final double minBitFee = Util.getBitcoin(Transaction.REFERENCE_DEFAULT_MIN_TX_FEE);
+	private NetworkType netType = null;
+	private int confirms = 0;
+	public final Coin minBitFeeBI = Transaction.REFERENCE_DEFAULT_MIN_TX_FEE;
+	public final double minBitFee = Util.getCrypto(Transaction.REFERENCE_DEFAULT_MIN_TX_FEE);
 
 	public BitcoinAPI() {
 		walletFile = new File("plugins/Satoshis/wallet.wallet");
+	}
+
+	@Override
+	protected void finalize() throws Throwable {
+		localWallet.saveToFile(new File("plugins/Satoshis/wallet.wallet"));
+	}
+
+	public void saveWallet() {
+		try {
+			localWallet.saveToFile(walletFile);
+			localPeerGroup.stop();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}
+	}
+
+//	public Wallet getWallet() {
+//		return localWallet;
+//	}
+//
+//	public BlockChain getChain() {
+//		return localChain;
+//	}
+
+	public void loadEcon(NetworkType networkType, int confirms) {
+		netType = networkType;
+		this.confirms = confirms;
 		try {
 			localWallet = Wallet.loadFromFile(walletFile);
 		} catch (UnreadableWalletException e) {
@@ -50,31 +82,20 @@ public class BitcoinAPI {
 		}
 		localWallet.addCoinsReceivedEventListener(new CoinListener());
 		localPeerGroup = new PeerGroup(Satoshis.network, localChain);
-		localPeerGroup.setUserAgent("SatoshisBukkit", "0.2");
+		localPeerGroup.setUserAgent("SatoshisBukkit", "0.3");
 		localPeerGroup.addWallet(localWallet);
 		localPeerGroup.addPeerDiscovery(new DnsDiscovery(Satoshis.network));
 		Satoshis.log.info("Connecting to peers...");
-		localPeerGroup.startAsync(); // TODO: Figure out what startAndWait was changed to in bitcoinj 0.14.3
+		localPeerGroup.startAsync();
 		Satoshis.log.info("Downloading Blockchain...");
 		localPeerGroup.downloadBlockChain();
 		Satoshis.log.info("Done, loading the rest of the plugin...");
 	}
 
-	public Address genAddress() {
-		ECKey key = new ECKey();
-		localWallet.importKey(key);
-		return key.toAddress(Satoshis.network);
-	}
+	public boolean sendCoins(GenericAddress<?> tx, double amount) {
+		Coin sendAmount = Satoshis.econ.inGameToBitcoin(amount);
 
-	@Override
-	protected void finalize() throws Throwable {
-		localWallet.saveToFile(new File("plugins/Satoshis/wallet.wallet"));
-	}
-
-	public boolean sendCoins(Address a, double value) {
-		Coin sendAmount = Satoshis.econ.inGameToBitcoin(value);
-
-		SendRequest request = SendRequest.to(a, sendAmount);
+		SendRequest request = SendRequest.to(((BitcoinGenericAddress)tx).getAddress(), sendAmount);
 		request.feePerKb = minBitFeeBI;
 
 		localPeerGroup.broadcastTransaction(request.tx);
@@ -83,21 +104,22 @@ public class BitcoinAPI {
 			localWallet.commitTx(request.tx);
 		} catch (VerificationException e) {
 			e.printStackTrace();
+			return false;
 		}
 		saveWallet();
 
 		Satoshis.log.log(Level.WARNING, "Sent transaction: {0}", request.tx.getHash());
 		return true;
 	}
-
-	public boolean sendCoinsMulti(Map<Address, Double> toSend) {
+	
+	public boolean sendCoinsToMulti(Map<GenericAddress<?>, Double> toSend) {
 		Transaction tx = new Transaction(Satoshis.network);
 		double totalSend = 0.0;
 
-		for (Entry<Address, Double> current : toSend.entrySet()) {
+		for (Entry<GenericAddress<?>, Double> current : toSend.entrySet()) {
 			totalSend += current.getValue() / Satoshis.mult;
 			tx.addOutput(Satoshis.econ.inGameToBitcoin(current.getValue()),
-					current.getKey());
+					((BitcoinGenericAddress)current.getKey()).getAddress());
 		}
 
 		if (totalSend < 0.01) {
@@ -115,28 +137,37 @@ public class BitcoinAPI {
 		return true;
 	}
 
-	public void saveWallet() {
-		try {
-			localWallet.saveToFile(walletFile);
-			localPeerGroup.stop();
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
-	}
-
-	public Wallet getWallet() {
-		return localWallet;
-	}
-
-	public BlockChain getChain() {
-		return localChain;
-	}
-
-	public void reloadWallet() {
+	public void refreshWallet() {
 		localPeerGroup.stop();
 		localWallet.clearTransactions(0);
 		new File("plugins/Satoshis/spv.blockchain").delete();
 		localPeerGroup.start();
 		localPeerGroup.downloadBlockChain();
+	}
+
+	public GenericAddress<Address> generateAddress() {
+		ECKey key = new ECKey();
+		localWallet.importKey(key);
+		return new BitcoinGenericAddress(key.toAddress(Satoshis.network));
+	}
+
+	public GenericAddress<?> addressContainer() {
+		return new BitcoinGenericAddress();
+	}
+
+	public NetworkType getNetworkType() {
+		return netType;
+	}
+
+	public int getConfirms() {
+		return confirms;
+	}
+
+	public double getMinimumFee() {
+		return minBitFee;
+	}
+
+	public double getWalletBalance() {
+		return localWallet.getBalance().getValue();
 	}
 }

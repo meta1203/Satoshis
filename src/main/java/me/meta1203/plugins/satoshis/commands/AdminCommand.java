@@ -3,10 +3,6 @@ package me.meta1203.plugins.satoshis.commands;
 import static me.meta1203.plugins.satoshis.commands.CommandUtil.error;
 import static me.meta1203.plugins.satoshis.commands.CommandUtil.info;
 
-import org.bitcoinj.core.Coin;
-import org.bitcoinj.core.ScriptException;
-import org.bitcoinj.core.Transaction;
-import org.bitcoinj.wallet.Wallet;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -29,7 +25,7 @@ public class AdminCommand implements CommandExecutor {
         if (arg3[0].equalsIgnoreCase("info")) {
             printInfo(arg0);
         } else if (arg3[0].equalsIgnoreCase("reset")) {
-            Satoshis.bapi.reloadWallet();
+            Satoshis.api.refreshWallet();
         } else {
             error("Syntax: /satoshis <info>|<reset>", arg0);
         }
@@ -41,20 +37,19 @@ public class AdminCommand implements CommandExecutor {
         info("INFO:", arg0);
         info("Wallet:", arg0);
 
-        Wallet tmp = Satoshis.bapi.getWallet();
-        Coin bitcoinBalance = tmp.getBalance();
-        double inGameValue = Satoshis.econ.bitcoinToInGame(bitcoinBalance);
-        info("Total balance: " + bitcoinBalance.longValue() + " Satoshi = " + Satoshis.econ.formatValue(inGameValue, true), arg0);
+        double inGameValue = Satoshis.econ.cryptoToIngame(Satoshis.api.getWalletBalance());
+        info("Total balance: " + Satoshis.api.getWalletBalance() + " Satoshi = " + Satoshis.econ.formatValue(inGameValue, true), arg0);
         info("Recent transactions:", arg0);
-        for (Transaction t : tmp.getRecentTransactions(3, false)) {
-            try {
-                info(t.getHashAsString() + " value: +" + t.getValueSentToMe(tmp) + ", -" + t.getValueSentFromMe(tmp), arg0);
-                info("Confirmations: " + t.getConfidence().getDepthInBlocks(), arg0);
-            } catch (ScriptException e) {
-                error("Transaction " + t.getHashAsString() + " errored out!", arg0);
-            } catch (IllegalStateException e) {
-                continue;
-            }
-        }
+        
+//        for (Transaction t : tmp.getRecentTransactions(3, false)) {
+//            try {
+//                info(t.getHashAsString() + " value: +" + t.getValueSentToMe(tmp) + ", -" + t.getValueSentFromMe(tmp), arg0);
+//                info("Confirmations: " + t.getConfidence().getDepthInBlocks(), arg0);
+//            } catch (ScriptException e) {
+//                error("Transaction " + t.getHashAsString() + " errored out!", arg0);
+//            } catch (IllegalStateException e) {
+//                continue;
+//            }
+//        }
     }
 }

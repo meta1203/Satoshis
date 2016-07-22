@@ -92,7 +92,7 @@ public class SatoshisEconAPI {
         return Coin.valueOf((long) (amount * Math.pow(10, 8) / Satoshis.mult));
     }
 
-    public double bitcoinToInGame(Coin amount) {
-        return (amount.longValue() / Math.pow(10, 8)) * Satoshis.mult;
+    public double cryptoToIngame(double amount) {
+        return (amount / ((double)(100000000))) * Satoshis.mult;
     }
 }

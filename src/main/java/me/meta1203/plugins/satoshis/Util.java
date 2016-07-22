@@ -29,11 +29,11 @@ public class Util {
     public static final Logger log = Logger.getLogger("Minecraft");
 
     public static double roundTo(double input, int place) {
-        return Math.round(input * Math.pow(10, place)) / Math.pow(10, place);
+        return Math.round(input * Math.pow(10, place)) / ((double)100000000);
     }
 
-    public static double getBitcoin(Coin referenceDefaultMinTxFee) {
-        return referenceDefaultMinTxFee.longValue() / Math.pow(10, 8);
+    public static double getCrypto(Coin referenceDefaultMinTxFee) {
+        return referenceDefaultMinTxFee.longValue() / ((double)100000000);
     }
 
     public static boolean testAccount(String name) {

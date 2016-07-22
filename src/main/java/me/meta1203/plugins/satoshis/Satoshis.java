@@ -38,6 +38,8 @@ import me.meta1203.plugins.satoshis.commands.DepositCommand;
 import me.meta1203.plugins.satoshis.commands.MoneyCommand;
 import me.meta1203.plugins.satoshis.commands.SendCommand;
 import me.meta1203.plugins.satoshis.commands.WithdrawCommand;
+import me.meta1203.plugins.satoshis.cryptocoins.CryptocoinAPI;
+import me.meta1203.plugins.satoshis.cryptocoins.NetworkType;
 import me.meta1203.plugins.satoshis.database.DatabaseScanner;
 import me.meta1203.plugins.satoshis.database.SystemCheckThread;
 import net.milkbowl.vault.economy.Economy;
@@ -45,6 +47,7 @@ import net.milkbowl.vault.economy.Economy;
 public class Satoshis extends JavaPlugin implements Listener {
 
     // Plugin
+	public static CryptocoinAPI api = null;
     public static String owner = "";
     public static String currencyName = "";
     public static double tax = 0.0;
@@ -53,17 +56,18 @@ public class Satoshis extends JavaPlugin implements Listener {
     public static double mult = 0;
     public static int confirms = 2;
     public static double minWithdraw = 0;
-    public static BitcoinAPI bapi = null;
+    // public static BitcoinAPI bapi = null;
     public static Logger log = null;
     public static SatoshisEconAPI econ = null;
     public static VaultEconAPI vecon = null;
     public static DatabaseScanner scanner = null;
     public static NetworkParameters network = null;
     private SystemCheckThread syscheck = null;
+    public static FileConfiguration config= null;
 
     @Override
     public void onDisable() {
-        bapi.saveWallet();
+        api.saveWallet();
         Util.serializeChecking(CoinListener.pending);
     }
 
@@ -71,7 +75,7 @@ public class Satoshis extends JavaPlugin implements Listener {
     public void onEnable() {
         log = getLogger();
         setupDatabase();
-        FileConfiguration config = getConfig();
+        config = getConfig();
         config.options().copyDefaults(true);
         saveConfig();
         owner = config.getString("satoshis.owner");
@@ -80,15 +84,14 @@ public class Satoshis extends JavaPlugin implements Listener {
 
         buyerorseller = config.getBoolean("satoshis.is-buyer-responsible");
         salesTax = config.getBoolean("satoshis.sales-tax");
-        minWithdraw = config.getDouble("bitcoin.min-withdraw");
+        minWithdraw = config.getDouble("satoshis.min-withdraw");
         mult = config.getDouble("satoshis.multiplier");
-        network = config.getBoolean("bitcoin.testnet") ? TestNet3Params.get() : MainNetParams.get();
-        confirms = config.getInt("bitcoin.confirms");
 
         syscheck = new SystemCheckThread(config.getInt("self-check.delay"), config.getBoolean("self-check.startup"));
         econ = new SatoshisEconAPI();
         econ.buyerorseller = buyerorseller;
-        bapi = new BitcoinAPI();
+        api = new BitcoinAPI();
+        api.loadEcon(config.getBoolean("bitcoin.testnet") ? NetworkType.TEST : NetworkType.PRODUCTION, config.getInt("satoshis.confirms"));
         scanner = new DatabaseScanner(this);
         syscheck.start();
         getServer().getPluginManager().registerEvents(this, this);
