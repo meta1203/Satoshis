@@ -152,7 +152,7 @@ public class Satoshis extends JavaPlugin implements Listener {
     private boolean activateVault() {
         log.info("Attempting to activate Satoshis Vault support...");
         Plugin vault = Bukkit.getServer().getPluginManager().getPlugin("Vault");
-        if (vault == null || !(vault instanceof Vault)) {
+        if (vault == null) {
             log.warning("Vault support disabled.");
             return false;
         }
@@ -170,7 +170,7 @@ public class Satoshis extends JavaPlugin implements Listener {
     public void readdTransactions() {
         List<Transaction> toAdd = Util.loadChecking();
         for (Transaction tx : toAdd) {
-            Futures.addCallback(tx.getConfidence().getDepthFuture(Satoshis.confirms), new TransactionListener()); // TODO: Figure out what Futures.addCallback() was changed to in bitcoinj 0.14.3
+            Futures.addCallback(tx.getConfidence().getDepthFuture(Satoshis.confirms), new TransactionListener()); // TODO: I don't even know what in the hell
         }
     }
 }

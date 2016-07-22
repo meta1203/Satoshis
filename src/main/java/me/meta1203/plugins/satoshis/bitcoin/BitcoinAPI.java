@@ -2,7 +2,6 @@ package me.meta1203.plugins.satoshis.bitcoin;
 
 import java.io.File;
 import java.io.IOException;
-import java.math.BigInteger;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
@@ -17,6 +16,7 @@ import org.bitcoinj.core.VerificationException;
 import org.bitcoinj.net.discovery.DnsDiscovery;
 import org.bitcoinj.store.BlockStoreException;
 import org.bitcoinj.store.SPVBlockStore;
+import org.bitcoinj.wallet.SendRequest;
 import org.bitcoinj.wallet.UnreadableWalletException;
 import org.bitcoinj.wallet.Wallet;
 
@@ -48,13 +48,13 @@ public class BitcoinAPI {
 		} catch (BlockStoreException ex) {
 			ex.printStackTrace();
 		}
-		localWallet.addEventListener(new CoinListener());
+		localWallet.addCoinsReceivedEventListener(new CoinListener());
 		localPeerGroup = new PeerGroup(Satoshis.network, localChain);
 		localPeerGroup.setUserAgent("SatoshisBukkit", "0.2");
 		localPeerGroup.addWallet(localWallet);
 		localPeerGroup.addPeerDiscovery(new DnsDiscovery(Satoshis.network));
 		Satoshis.log.info("Connecting to peers...");
-		localPeerGroup.startAndWait(); // TODO: Figure out what startAndWait was changed to in bitcoinj 0.14.3
+		localPeerGroup.startAsync(); // TODO: Figure out what startAndWait was changed to in bitcoinj 0.14.3
 		Satoshis.log.info("Downloading Blockchain...");
 		localPeerGroup.downloadBlockChain();
 		Satoshis.log.info("Done, loading the rest of the plugin...");
@@ -62,7 +62,7 @@ public class BitcoinAPI {
 
 	public Address genAddress() {
 		ECKey key = new ECKey();
-		localWallet.addKey(key);
+		localWallet.importKey(key);
 		return key.toAddress(Satoshis.network);
 	}
 
@@ -74,8 +74,8 @@ public class BitcoinAPI {
 	public boolean localSendCoins(Address a, double value) {
 		Coin sendAmount = Satoshis.econ.inGameToBitcoin(value);
 
-		Wallet.SendRequest request = Wallet.SendRequest.to(a, sendAmount); // TODO: Figure out what Wallet.SendRequest was changed to in bitcoinj 0.14.3
-		request.fee = minBitFeeBI;
+		SendRequest request = SendRequest.to(a, sendAmount);
+		request.feePerKb = minBitFeeBI;
 
 		localPeerGroup.broadcastTransaction(request.tx);
 
@@ -104,7 +104,7 @@ public class BitcoinAPI {
 			return false;
 		}
 
-		Wallet.SendRequest request = Wallet.SendRequest.forTx(tx); // TODO: Figure out what Wallet.SendRequest was changed to in bitcoinj 0.14.3
+		SendRequest request = SendRequest.forTx(tx);
 
 		localPeerGroup.broadcastTransaction(request.tx);
 		try {
