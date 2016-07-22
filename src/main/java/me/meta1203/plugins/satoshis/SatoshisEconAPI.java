@@ -1,7 +1,5 @@
 package me.meta1203.plugins.satoshis;
 
-import java.math.BigInteger;
-
 import org.bitcoinj.core.Coin;
 
 public class SatoshisEconAPI {

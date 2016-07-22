@@ -40,7 +40,6 @@ import me.meta1203.plugins.satoshis.commands.SendCommand;
 import me.meta1203.plugins.satoshis.commands.WithdrawCommand;
 import me.meta1203.plugins.satoshis.database.DatabaseScanner;
 import me.meta1203.plugins.satoshis.database.SystemCheckThread;
-import net.milkbowl.vault.Vault;
 import net.milkbowl.vault.economy.Economy;
 
 public class Satoshis extends JavaPlugin implements Listener {

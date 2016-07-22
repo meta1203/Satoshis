@@ -71,7 +71,7 @@ public class BitcoinAPI {
 		localWallet.saveToFile(new File("plugins/Satoshis/wallet.wallet"));
 	}
 
-	public boolean localSendCoins(Address a, double value) {
+	public boolean sendCoins(Address a, double value) {
 		Coin sendAmount = Satoshis.econ.inGameToBitcoin(value);
 
 		SendRequest request = SendRequest.to(a, sendAmount);
